@@ -8,4 +8,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_home_fragment">Hello home fragment</string>
+    <string name="diem_danh">Điểm danh</string>
+    <string name="hoac">Hoặc</string>
+    <string name="quan_ly_to_chuc_cua_ban">Quản lý tổ chức của bạn</string>
+    <string name="tao_moi">Tạo mới</string>
 </resources>

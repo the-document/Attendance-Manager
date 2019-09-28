@@ -5,12 +5,77 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textAlignment="center"
-        android:paddingTop="250px"
-        android:text="@string/hello_home_fragment" />
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="380dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/custom_checkin_card"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/diem_danh"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="10dp"
+                android:src="@drawable/icon_checkin"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hoac"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:layout_width="380dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/custom_container_organization">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/quan_ly_to_chuc_cua_ban"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"/>
+
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="@string/tao_moi"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="250dp"
+                android:textColor="@color/white"
+                android:fontFamily="Roboto"
+                android:textAllCaps="false"
+                android:background="@drawable/custom_button_create_organization"/>
+        </LinearLayout>
+    </LinearLayout>
+
 
 </FrameLayout>

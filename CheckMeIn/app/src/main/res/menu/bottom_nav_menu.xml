@@ -7,20 +7,20 @@
     <item
         android:id="@+id/action_home"
         android:icon="@drawable/icon_home"
-        android:title="Trang chủ"
+        android:title="@string/trang_chu"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_scan"
         android:enabled="true"
         android:icon="@drawable/icon_scan"
-        android:title="Quét thẻ"
+        android:title="@string/quet_the"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_info"
         android:enabled="true"
         android:icon="@drawable/icon_user"
-        android:title="Thông tin"
+        android:title="@string/thong_tin"
         app:showAsAction="ifRoom" />
 </menu>

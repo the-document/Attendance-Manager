@@ -62,6 +62,35 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/black"/>
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/organization_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:gravity="center">
+
+                    <!--<ImageButton-->
+                        <!--android:id="@+id/btn1"-->
+                        <!--android:layout_width="130dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:src="@drawable/icon_checkin"-->
+                        <!--android:layout_margin="20dp"-->
+                        <!--android:background="@drawable/custom_button_organization"/>-->
+
+                    <!--<ImageButton-->
+                        <!--android:layout_width="130dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:src="@drawable/icon_checkin"-->
+                        <!--android:layout_margin="20dp"-->
+                        <!--android:layout_toRightOf="@+id/btn1"-->
+                        <!--android:background="@drawable/custom_button_organization"/>-->
+                </RelativeLayout>
+
+            </ScrollView>
 
             <Button
                 android:layout_width="120dp"

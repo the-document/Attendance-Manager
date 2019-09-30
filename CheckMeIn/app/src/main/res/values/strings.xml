@@ -17,4 +17,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hoat_dong">Hoạt động</string>
     <string name="tai_khoan">Tài khoản</string>
+    <string name="tao_hoat_dong">Tạo hoạt động</string>
+    <string name="hoat_dong_da_to_chuc">Hoạt động đã tổ chức</string>
 </resources>

@@ -98,10 +98,11 @@
                 android:text="@string/tao_moi"
                 android:layout_gravity="right"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="250dp"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/white"
                 android:fontFamily="Roboto"
                 android:textAllCaps="false"
+
                 android:background="@drawable/custom_button_create_organization"/>
         </LinearLayout>
     </LinearLayout>

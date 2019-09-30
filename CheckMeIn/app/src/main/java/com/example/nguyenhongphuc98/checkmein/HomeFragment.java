@@ -3,6 +3,7 @@ package com.example.nguyenhongphuc98.checkmein;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+
+    ListActivityFragment lsActivityFragment;
 
     private List<ImageButton> mListOrganization;
     private RelativeLayout mOrganizationContainer;
@@ -34,6 +37,7 @@ public class HomeFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        lsActivityFragment=new ListActivityFragment();
 
         mOrganizationContainer=(RelativeLayout) view.findViewById(R.id.organization_container);
 
@@ -50,6 +54,14 @@ public class HomeFragment extends Fragment {
         btn.setImageResource(R.drawable.icon_home);
         RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(20,20,20,20);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransition.replace(R.id.fragment_container,lsActivityFragment);
+                fragmentTransition.commit();
+            }
+        });
         mOrganizationContainer.addView(btn,params);
 
         return  view;

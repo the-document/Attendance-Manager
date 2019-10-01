@@ -9,9 +9,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:paddingTop="56dp">
 
         <TextView
             android:id="@+id/textView_Title"
@@ -28,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="12dp">
             <EditText android:id="@+id/register_edtUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="12dp">
 
             <EditText
                 android:id="@+id/register_edtPassword"
@@ -56,7 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="12dp">
             <EditText android:id="@+id/register_edtConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +70,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="12dp">
             <EditText android:id="@+id/register_edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,11 +82,13 @@
         <!-- Signup Button -->
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/register_btnRegister"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
             android:layout_marginTop="24dp"
+            android:layout_gravity="center"
             android:layout_marginBottom="24dp"
-            android:padding="12dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/custom_btn_login_selector"
             android:text="Đăng ký"/>
 
         <TextView android:id="@+id/register_linkToLogin"

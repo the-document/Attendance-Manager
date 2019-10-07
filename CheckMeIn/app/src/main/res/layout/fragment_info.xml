@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/backgroundColor"
         >
 
         <LinearLayout
@@ -21,15 +22,33 @@
             android:orientation="vertical"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="Nguyễn Hồng Phúc"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="10dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_centerHorizontal="true"
+                    android:focusable="false"
+                    android:background="@drawable/custom_et_info_account"
+                    android:text="Nguyen Hong Phuc"/>
+
+                <Button
+                    android:id="@+id/btnEditName"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:visibility="invisible"
+                    android:background="@drawable/icon_edit"/>
+            </RelativeLayout>
+
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:layout_width="100dp"
@@ -45,14 +64,19 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/etMSSV"
+            android:layout_width="380dp"
             android:layout_height="wrap_content"
-            android:text="@string/hoac"
+            android:padding="10dp"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center"
+            android:inputType="number"
+            android:hint="@string/nhap_mssv"
             android:textAlignment="center"
-            android:layout_margin="10dp"
-            android:textColor="@color/black"/>
+            android:background="@drawable/custom_et_border_corner"
+            android:drawableEnd="@drawable/icon_x"/>
+
 
         <!--tab view-->
         <android.support.design.widget.TabLayout

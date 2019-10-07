@@ -3,12 +3,14 @@ package com.example.nguyenhongphuc98.checkmein;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
+import com.example.nguyenhongphuc98.checkmein.Adapter.PageAdapterListActivity;
 
 
 /**
@@ -16,12 +18,15 @@ import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
  */
 public class ListActivityFragment extends Fragment {
 
-    ListView listView;
-    EventAdapter adapter;
-    String temp1[]={"a","b","c","d"};
+    ViewPager activityViewPager;
+    PageAdapterListActivity pageAdapterListActivity;
+
+    View vCreateAcivity;
 
     public ListActivityFragment() {
         // Required empty public constructor
+
+
     }
 
 
@@ -31,9 +36,19 @@ public class ListActivityFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_list_activity, container, false);
 
-        listView=view.findViewById(R.id.lvEventOfOrganization);
-        adapter=new EventAdapter(getContext(),temp1);
-        listView.setAdapter(adapter);
+        activityViewPager=view.findViewById(R.id.vpActivity);
+        vCreateAcivity=view.findViewById(R.id.viewCreateACtivity);
+
+        pageAdapterListActivity=new PageAdapterListActivity(getFragmentManager(),4);
+        activityViewPager.setAdapter(pageAdapterListActivity);
+        activityViewPager.setCurrentItem(0);
+
+        vCreateAcivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityViewPager.setCurrentItem(1);
+            }
+        });
 
         return view;
     }

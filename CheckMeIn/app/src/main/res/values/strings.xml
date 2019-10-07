@@ -19,4 +19,15 @@
     <string name="tai_khoan">Tài khoản</string>
     <string name="tao_hoat_dong">Tạo hoạt động</string>
     <string name="hoat_dong_da_to_chuc">Hoạt động đã tổ chức</string>
+    <string name="mssv">ID</string>
+    <string name="email">Email</string>
+    <string name="phone_number">Phone</string>
+    <string name="nhap_mssv">Nhập mã số sinh viên</string>
+    <string name="ten_hoat_dong">Tên hoạt động</string>
+    <string name="dien_ten_hoat_dong_vao_day">Điền tên hoạt động vào đây</string>
+    <string name="tiep_tuc">Tiếp tục</string>
+    <string name="ngay">Ngày</string>
+    <string name="batdau_ketthuc">Bắt đầu - kết thúc</string>
+    <string name="tao">Tạo</string>
+    <string name="noi_dung">Nội dung</string>
 </resources>

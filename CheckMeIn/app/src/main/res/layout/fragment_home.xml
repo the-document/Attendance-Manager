@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/backgroundColor"
         >
 
         <LinearLayout
@@ -102,8 +103,8 @@
                 android:textColor="@color/white"
                 android:fontFamily="Roboto"
                 android:textAllCaps="false"
-
-                android:background="@drawable/custom_button_create_organization"/>
+                android:clickable="true"
+                android:background="@drawable/custom_button_create_organization_selector"/>
         </LinearLayout>
     </LinearLayout>
 

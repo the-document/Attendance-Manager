@@ -32,9 +32,12 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder;
+
         if (convertView == null)
         {
-            convertView = LayoutInflater.from(context).inflate(R.layout.custom_question_row_layout,parent,true);
+//            convertView = LayoutInflater.from(context).inflate(R.layout.custom_question_row_layout,parent,true);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.custom_question_row_layout, null);
             viewHolder = new ViewHolder();
             //LayoutInflater mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             viewHolder.txtQuestion = (TextView)convertView.findViewById(R.id.custom_question_row_question);

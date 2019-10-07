@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="340dp"
+    android:layout_height="70dp"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    android:background="@drawable/custom_row_event">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/avtRowEvent"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ninja_avt"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="2dp"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="10"
+        app:civ_shadow_color="#8BC34A"
+        android:layout_gravity="center"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/nameRowEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Training GK 2 2019 ĐSTT"/>
+
+        <TextView
+            android:id="@+id/dateRowEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="22/11/1998"/>
+    </LinearLayout>
+</LinearLayout>

@@ -30,4 +30,9 @@
     <string name="batdau_ketthuc">Bắt đầu - kết thúc</string>
     <string name="tao">Tạo</string>
     <string name="noi_dung">Nội dung</string>
+    <string name="danh_sach">Danh sách</string>
+    <string name="trac_nghiem">Trắc nghiệm</string>
+    <string name="cau_tra_loi">Câu trả lời</string>
+    <string name="tieu_de">Tiêu đề</string>
+    <string name="len_lich_gui">Lên lịch gửi</string>
 </resources>

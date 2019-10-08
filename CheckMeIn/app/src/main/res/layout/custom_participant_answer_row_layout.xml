@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/custom_container_question_row"
+    android:orientation="horizontal"
+    android:id="@+id/layout_custom_participant_answer_row_layout"
+    android:layout_marginVertical="16dp"
+    android:layout_marginHorizontal="16dp"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nguyễn Văn A"
+        android:textStyle="bold"
+        android:id="@+id/txtView_custom_participant_answer_row_layout_full_name"
+        app:layout_constraintTop_toTopOf="@id/layout_custom_participant_answer_row_layout"
+        app:layout_constraintLeft_toLeftOf="@id/layout_custom_participant_answer_row_layout"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#1/79"
+        android:textStyle="bold"
+        android:id="@+id/txtView_custom_participant_answer_row_layout_ranking"
+        app:layout_constraintRight_toRightOf="@id/layout_custom_participant_answer_row_layout"
+        app:layout_constraintTop_toTopOf="@id/layout_custom_participant_answer_row_layout"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="40/42 câu trả lời đúng"
+        android:gravity="center"
+        android:id="@+id/txtView_custom_participant_answer_row_layout_correctAnswer"
+        android:background="@drawable/custom_container_question_row"
+        app:layout_constraintTop_toBottomOf="@+id/txtView_custom_participant_answer_row_layout_full_name"
+        app:layout_constraintLeft_toLeftOf="@+id/layout_custom_participant_answer_row_layout"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Hoàn thành trong 5 phút"
+        android:gravity="center"
+        android:id="@+id/txtView_custom_participant_answer_row_layout_completed_time"
+        android:background="@drawable/custom_container_question_row"
+        app:layout_constraintTop_toBottomOf="@+id/txtView_custom_participant_answer_row_layout_correctAnswer"
+        app:layout_constraintLeft_toLeftOf="@+id/layout_custom_participant_answer_row_layout"
+        app:layout_constraintBottom_toBottomOf="@id/layout_custom_participant_answer_row_layout"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        />
+
+    
+</android.support.constraint.ConstraintLayout>

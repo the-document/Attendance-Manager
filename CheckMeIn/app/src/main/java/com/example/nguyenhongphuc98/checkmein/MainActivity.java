@@ -15,7 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView mMainNav;
     private FrameLayout mMainFrame;
 
-    private HomeFragment homeFragment;
+    private HomeFragment mHomeFragment;
+    private InfoFragment mInfoFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
         mMainNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         mMainFrame =(FrameLayout) findViewById(R.id.fragment_container);
-        homeFragment=new HomeFragment();
+        mHomeFragment=new HomeFragment();
+        mInfoFragment=new InfoFragment();
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -34,7 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.action_home:
-                        ReplaceFragment(homeFragment);
+                        ReplaceFragment(mHomeFragment);
+                        return true;
+
+                    case R.id.action_info:
+                        ReplaceFragment(mInfoFragment);
                         return true;
                 }
                 return true;

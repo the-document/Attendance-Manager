@@ -2,23 +2,25 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="340dp"
-    android:layout_height="70dp"
+    android:layout_width="300dp"
+    android:layout_height="55dp"
     android:orientation="horizontal"
     android:layout_gravity="center"
     android:background="@drawable/custom_row_event">
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/avtRowEvent"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@drawable/ninja_avt"
         app:civ_border_color="@color/colorPrimary"
         app:civ_border_width="2dp"
-        app:civ_shadow="true"
+        app:civ_shadow="false"
         app:civ_shadow_radius="10"
         app:civ_shadow_color="#8BC34A"
         android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         />
 
     <LinearLayout

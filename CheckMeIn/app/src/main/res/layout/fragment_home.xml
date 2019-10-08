@@ -13,8 +13,9 @@
         >
 
         <LinearLayout
-            android:layout_width="380dp"
-            android:layout_height="180dp"
+            android:id="@+id/ctnCheckIn"
+            android:layout_width="320dp"
+            android:layout_height="160dp"
             android:layout_gravity="center"
             android:layout_marginTop="13dp"
             android:background="@drawable/custom_checkin_card"
@@ -30,12 +31,32 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/black"/>
 
-            <ImageView
-                android:layout_width="50dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingTop="10dp"
-                android:src="@drawable/icon_checkin"/>
+                >
+
+                <ImageView
+                    android:id="@+id/avtCheckIn"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingTop="10dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/icon_checkin"/>
+
+                <EditText
+                    android:id="@+id/etActivityCode"
+                    android:layout_width="80dp"
+                    android:layout_marginStart="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:hint="Code"
+                    android:drawableEnd="@drawable/icon_check24"
+                    android:visibility="invisible"
+                    />
+            </RelativeLayout>
+
         </LinearLayout>
 
         <TextView
@@ -48,8 +69,8 @@
             android:textColor="@color/black"/>
 
         <LinearLayout
-            android:layout_width="380dp"
-            android:layout_height="350dp"
+            android:layout_width="320dp"
+            android:layout_height="280dp"
             android:layout_gravity="center"
             android:orientation="vertical"
             android:background="@drawable/custom_container_organization">

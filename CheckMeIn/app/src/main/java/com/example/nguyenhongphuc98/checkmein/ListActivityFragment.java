@@ -17,7 +17,6 @@ import com.example.nguyenhongphuc98.checkmein.Adapter.PageAdapterListActivity;
  * A simple {@link Fragment} subclass.
  */
 public class ListActivityFragment extends Fragment {
-
     ViewPager activityViewPager;
     PageAdapterListActivity pageAdapterListActivity;
 
@@ -25,8 +24,6 @@ public class ListActivityFragment extends Fragment {
 
     public ListActivityFragment() {
         // Required empty public constructor
-
-
     }
 
 

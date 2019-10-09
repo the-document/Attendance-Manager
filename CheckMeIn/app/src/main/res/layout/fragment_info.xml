@@ -108,9 +108,9 @@
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vpInfor"
-            android:layout_gravity="center"
             android:layout_width="350dp"
-            android:layout_height="280dp">
+            android:layout_height="262dp"
+            android:layout_gravity="center">
 
         </android.support.v4.view.ViewPager>
 

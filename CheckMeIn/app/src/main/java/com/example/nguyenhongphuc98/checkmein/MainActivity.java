@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     private HomeFragment mHomeFragment;
     private InfoFragment mInfoFragment;
+    private SendEmailFragment mSendEmailFragment;
+    private ListParticipantFragment mListParticipant;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         mMainFrame =(FrameLayout) findViewById(R.id.fragment_container);
         mHomeFragment=new HomeFragment();
         mInfoFragment=new InfoFragment();
+        mSendEmailFragment=new SendEmailFragment();
+        mListParticipant=new ListParticipantFragment();
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -36,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.action_home:
-                        ReplaceFragment(mHomeFragment);
+                        ReplaceFragment(mListParticipant);
                         return true;
 
                     case R.id.action_info:
-                        ReplaceFragment(mInfoFragment);
+                        ReplaceFragment(mSendEmailFragment);
                         return true;
                 }
                 return true;

@@ -100,43 +100,55 @@
             android:background="@color/line"/>
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/vpInfor"
-            android:layout_gravity="center"
+            android:id="@+id/vpParticipant"
             android:layout_width="350dp"
-            android:layout_height="280dp">
+            android:layout_height="262dp"
+            android:layout_gravity="center">
 
         </android.support.v4.view.ViewPager>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="62dp">
 
             <View
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/custom_cricle_orange_bg"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/custom_cricle_orange_bg" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:text="Đã đăng ký"
-                android:layout_margin="10dp"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <View
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/custom_cricle_green_bg"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/custom_cricle_green_bg" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" Đã tham gia"
                 android:layout_margin="10dp"
-                android:textAlignment="center"/>
+                android:text=" Đã tham gia"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_checkin_card"
+                android:text="Mở rộng" />
+
+
         </LinearLayout>
 
     </LinearLayout>

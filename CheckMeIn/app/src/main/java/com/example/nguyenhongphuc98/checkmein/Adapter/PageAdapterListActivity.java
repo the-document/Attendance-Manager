@@ -29,7 +29,6 @@ public class PageAdapterListActivity extends FragmentPagerAdapter {
                 return  new ViewSetTimeFragment();
             case 3:
                 return  new ViewSetContentFragment();
-
             default:
                 return null;
         }

@@ -99,7 +99,7 @@
             <EditText
                 android:id="@+id/editText3"
                 android:layout_width="match_parent"
-                android:layout_height="267dp"
+                android:layout_height="182dp"
                 android:ems="10"
                 android:gravity="left"
                 android:inputType="textPersonName"
@@ -117,16 +117,18 @@
                 android:id="@+id/tvDate"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="21/10/2019 23:59"
                 android:textSize="18sp" />
 
             <View
-                android:id="@+id/view4"
-                android:layout_width="5dp"
-                android:layout_height="52dp"
+                android:id="@+id/btnClock"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
                 android:layout_gravity="left"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
@@ -134,9 +136,9 @@
 
             <Button
                 android:id="@+id/btnSend"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="40dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:text="Gửi"

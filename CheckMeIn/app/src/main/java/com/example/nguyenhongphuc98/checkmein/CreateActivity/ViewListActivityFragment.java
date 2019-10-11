@@ -19,7 +19,7 @@ public class ViewListActivityFragment extends Fragment {
 
     ListView listView;
     EventAdapter adapter;
-    String temp1[]={"a","b","c","d"};
+    String temp1[]={"a","b","c","d","e"};
 
     public ViewListActivityFragment() {
         // Required empty public constructor

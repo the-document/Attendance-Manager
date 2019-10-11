@@ -20,8 +20,8 @@
 
         <EditText
             android:id="@+id/etDate"
-            android:layout_width="360dp"
-            android:layout_height="80dp"
+            android:layout_width="320dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:hint="--/--/----"
             android:focusable="false"
@@ -40,8 +40,8 @@
 
         <EditText
             android:id="@+id/etTimeBegin"
-            android:layout_width="360dp"
-            android:layout_height="80dp"
+            android:layout_width="320dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:hint="18 giờ 35 phút"
             android:textAlignment="center"
@@ -54,8 +54,8 @@
 
         <EditText
             android:id="@+id/etTimeEnd"
-            android:layout_width="360dp"
-            android:layout_height="80dp"
+            android:layout_width="320dp"
+            android:layout_height="60dp"
             android:layout_gravity="center"
             android:hint="18 giờ 35 phút"
             android:textAlignment="center"
@@ -66,14 +66,14 @@
 
         <Button
             android:id="@+id/btnNextToContent"
-            android:layout_width="150dp"
-            android:layout_height="60dp"
+            android:layout_width="140dp"
+            android:layout_height="50dp"
             android:text="@string/tiep_tuc"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="@drawable/custom_button_create_organization"/>
+            android:background="@drawable/custom_button_create_organization_selector"/>
     </LinearLayout>
 
 </FrameLayout>

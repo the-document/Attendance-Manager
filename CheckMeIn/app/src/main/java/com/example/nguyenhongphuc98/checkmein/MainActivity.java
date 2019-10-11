@@ -28,11 +28,13 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         mMainNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
         mMainFrame =(FrameLayout) findViewById(R.id.fragment_container);
         mHomeFragment=new HomeFragment();
         mInfoFragment=new InfoFragment();
         mSendEmailFragment=new SendEmailFragment();
         mListParticipant=new ListParticipantFragment();
+
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

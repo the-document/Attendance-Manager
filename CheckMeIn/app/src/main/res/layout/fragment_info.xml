@@ -14,8 +14,8 @@
         >
 
         <LinearLayout
-            android:layout_width="380dp"
-            android:layout_height="180dp"
+            android:layout_width="320dp"
+            android:layout_height="160dp"
             android:layout_gravity="center"
             android:layout_marginTop="13dp"
             android:background="@drawable/custom_checkin_card"
@@ -51,12 +51,12 @@
 
 
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:src="@drawable/ninja_avt"
                 app:civ_border_color="@color/colorPrimary"
                 app:civ_border_width="2dp"
-                app:civ_shadow="true"
+                app:civ_shadow="false"
                 app:civ_shadow_radius="10"
                 app:civ_shadow_color="#8BC34A"
                 android:layout_gravity="center"
@@ -66,7 +66,7 @@
 
         <EditText
             android:id="@+id/etMSSV"
-            android:layout_width="380dp"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_marginTop="5dp"
@@ -81,7 +81,7 @@
         <!--tab view-->
         <android.support.design.widget.TabLayout
             android:id="@+id/tlInfo"
-            android:layout_width="350dp"
+            android:layout_width="310dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:tabSelectedTextColor="@color/colorPrimary"
@@ -108,9 +108,10 @@
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vpInfor"
-            android:layout_width="350dp"
-            android:layout_height="262dp"
-            android:layout_gravity="center">
+
+            android:layout_gravity="center"
+            android:layout_width="320dp"
+            android:layout_height="200dp">
 
         </android.support.v4.view.ViewPager>
 

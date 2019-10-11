@@ -5,6 +5,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android">
             <solid android:color="#98db34"/>
             <corners android:radius="30px"/>
+            <stroke android:color="@color/white" android:width="2dp"/>
         </shape>
     </item>
 
@@ -14,6 +15,7 @@
 
             <corners android:radius="30px"/>
             <solid android:color="@color/colorPrimary" />
+            <stroke android:color="@color/white" android:width="2dp"/>
         </shape>
     </item>
 </selector>

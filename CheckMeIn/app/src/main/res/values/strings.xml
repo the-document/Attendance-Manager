@@ -30,4 +30,8 @@
     <string name="batdau_ketthuc">Bắt đầu - kết thúc</string>
     <string name="tao">Tạo</string>
     <string name="noi_dung">Nội dung</string>
+    <string name="change_photo">Change Photo</string>
+    <string name="organization_name">Organization Name</string>
+    <string name="description">Description</string>
+    <string name="collaborator">Collaborator ID</string>
 </resources>

@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.action_home:
-                        ReplaceFragment(mListParticipant);
+                        ReplaceFragment(mHomeFragment);
                         return true;
 
                     case R.id.action_info:
-                        ReplaceFragment(mSendEmailFragment);
+                        ReplaceFragment(mInfoFragment);
                         return true;
                 }
                 return true;

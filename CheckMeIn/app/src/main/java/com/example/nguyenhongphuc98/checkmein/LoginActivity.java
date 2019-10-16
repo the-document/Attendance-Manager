@@ -2,6 +2,8 @@ package com.example.nguyenhongphuc98.checkmein;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.nguyenhongphuc98.checkmein.OCR.Tesseract;
 
 public class LoginActivity extends AppCompatActivity {
     TextView txtLinkToRegister;
@@ -55,7 +59,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast toast = Toast.makeText(getApplicationContext(), "Login button clicked !", Toast.LENGTH_LONG);
                 toast.show();
-                ProcessLoginData();
+                //ProcessLoginData();
+                Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.mssv);
+                Tesseract tesseract=new Tesseract(getApplicationContext(),"eng");
+                String r=tesseract.getOCRResult(testdata);
+                Toast.makeText(getApplicationContext(),r,Toast.LENGTH_LONG).show();
             }
         });
     }

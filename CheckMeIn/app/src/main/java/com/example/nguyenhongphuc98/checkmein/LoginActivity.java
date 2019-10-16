@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nguyenhongphuc98.checkmein.OCR.Tesseract;
+
+
 public class LoginActivity extends AppCompatActivity {
     TextView txtLinkToRegister;
     TextView txtLinkToForgotPass;
@@ -39,8 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = (EditText)findViewById(R.id.login_edtPassword);
         btnLogin = (Button)findViewById(R.id.login_btnLogin);
 
-        //temp
-        iv=findViewById(R.id.mvCard);
+
 
         //Sư kiện.
         txtLinkToRegister.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void ProcessLoginData() {
         Intent intent = new Intent(this, MainActivity.class);

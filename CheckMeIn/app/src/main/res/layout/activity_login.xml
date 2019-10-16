@@ -73,5 +73,11 @@
             android:gravity="center"
             android:textSize="16dip"/>
 
+
+        <ImageView
+            android:id="@+id/mvCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
+
 </ScrollView>

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtPassword;
 
     Button btnLogin;
+
+    ImageView iv;
 
     boolean isRegisterSuccessful = false;
     public static final String EXTRA_USERNAME = ".LOGIN.USERNAME";
@@ -41,6 +44,9 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = (EditText)findViewById(R.id.login_edtPassword);
         btnLogin = (Button)findViewById(R.id.login_btnLogin);
 
+        //temp
+        iv=findViewById(R.id.mvCard);
+
         //Sư kiện.
         txtLinkToRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,11 +63,17 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Login button clicked !", Toast.LENGTH_LONG);
-                toast.show();
+                //Toast toast = Toast.makeText(getApplicationContext(), "Login button clicked !", Toast.LENGTH_LONG);
+                //toast.show();
                 //ProcessLoginData();
-                Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.mssv);
+
+
+                //Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.mssv);
+                Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.horizontal_card);
                 Tesseract tesseract=new Tesseract(getApplicationContext(),"eng");
+
+                iv.setImageBitmap(testdata);
+
                 String r=tesseract.getOCRResult(testdata);
                 Toast.makeText(getApplicationContext(),r,Toast.LENGTH_LONG).show();
             }

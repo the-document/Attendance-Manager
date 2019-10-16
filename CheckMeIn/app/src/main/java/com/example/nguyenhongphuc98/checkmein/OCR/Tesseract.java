@@ -34,7 +34,7 @@ public class Tesseract {
         mPathFileSave=mPathSaveData+mTrainedDataNamel;
 
         //start transfer data from asset to dir
-        Boolean isCreated=false;
+        boolean isCreated=false;
         try {
             //open source data
             inputFile=assetManager.open(mTrainedDataNamel);
@@ -42,8 +42,8 @@ public class Tesseract {
             //create foler to save data
             File fileToSave=new File(mPathSaveData);
 
-            if(fileToSave.exists()==false){
-                if(fileToSave.mkdir()==false){
+            if(!fileToSave.exists()){
+                if(!fileToSave.mkdirs()){
                     Toast.makeText(context, "Can't init data from OCR", Toast.LENGTH_SHORT).show();
                 }
 

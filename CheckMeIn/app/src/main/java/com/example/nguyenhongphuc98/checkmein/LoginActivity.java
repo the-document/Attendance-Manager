@@ -16,6 +16,12 @@ import android.widget.Toast;
 
 import com.example.nguyenhongphuc98.checkmein.OCR.Tesseract;
 
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+
 public class LoginActivity extends AppCompatActivity {
     TextView txtLinkToRegister;
     TextView txtLinkToForgotPass;
@@ -46,6 +52,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //temp
         iv=findViewById(R.id.mvCard);
+        if (!OpenCVLoader.initDebug()) {
+            Toast toast = Toast.makeText(getApplicationContext(), "canload opencv !", Toast.LENGTH_SHORT);
+        }
 
         //Sư kiện.
         txtLinkToRegister.setOnClickListener(new View.OnClickListener() {
@@ -68,16 +77,35 @@ public class LoginActivity extends AppCompatActivity {
                 //ProcessLoginData();
 
 
-                //Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.mssv);
-                Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.horizontal_card);
-                Tesseract tesseract=new Tesseract(getApplicationContext(),"eng");
 
-                iv.setImageBitmap(testdata);
-
-                String r=tesseract.getOCRResult(testdata);
-                Toast.makeText(getApplicationContext(),r,Toast.LENGTH_LONG).show();
+                TestImg();
             }
         });
+    }
+
+    private void TestImg(){
+        //Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.mssv);
+        Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.horizontal_card);
+        Tesseract tesseract=new Tesseract(getApplicationContext(),"eng");
+
+        Mat src=new Mat();
+        Mat des=new Mat();
+
+        Utils.bitmapToMat(testdata, src);
+//        Rect crop=new Rect();
+//        crop.x=0;
+//        crop.y=(int)(0.75*src.height());
+//        crop.width=(int)(0.3*src.width());
+//        crop.height=(int)(0.25*src.height());
+//
+//        Mat roi=src.submat(crop);
+        Imgproc.cvtColor(src,des,Imgproc.COLOR_RGB2GRAY);
+
+        Utils.matToBitmap(des,testdata);
+        iv.setImageBitmap(testdata);
+
+        String r=tesseract.getOCRResult(testdata);
+        Toast.makeText(getApplicationContext(),r,Toast.LENGTH_LONG).show();
     }
 
     private void ProcessLoginData() {

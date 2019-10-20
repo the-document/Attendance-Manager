@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private HomeFragment mHomeFragment;
     private InfoFragment mInfoFragment;
+    private CardScannerFragment mCardScannerFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         mMainFrame =(FrameLayout) findViewById(R.id.fragment_container);
         mHomeFragment=new HomeFragment();
         mInfoFragment=new InfoFragment();
-
+        mCardScannerFragment = new CardScannerFragment();
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.action_info:
                         ReplaceFragment(mInfoFragment);
+                        return true;
+                    case R.id.action_scan:
+                        ReplaceFragment(mCardScannerFragment);
                         return true;
                 }
                 return true;

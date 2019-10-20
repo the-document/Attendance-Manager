@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private SendEmailFragment mSendEmailFragment;
     private ListParticipantFragment mListParticipant;
 
+    private QuestionManagementFragment mQuestionManagementFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +40,15 @@ public class MainActivity extends AppCompatActivity {
         mSendEmailFragment=new SendEmailFragment();
         mListParticipant=new ListParticipantFragment();
 
+        mQuestionManagementFragment = new QuestionManagementFragment();
+
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 switch (item.getItemId()){
                     case R.id.action_home:
-                        ReplaceFragment(mListParticipant);
+                        ReplaceFragment(mQuestionManagementFragment);
                         return true;
 
                     case R.id.action_info:

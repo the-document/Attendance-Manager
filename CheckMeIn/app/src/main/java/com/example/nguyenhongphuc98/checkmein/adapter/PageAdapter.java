@@ -10,19 +10,24 @@ import com.example.nguyenhongphuc98.checkmein.InfoFragmentAct;
 public class PageAdapter extends FragmentPagerAdapter {
 
     private int mNumOfTab;
+    InfoFragmentAct act;
+    InfoFragmentAccount account;
 
     public PageAdapter(FragmentManager fm,int numOfTab){
         super(fm);
+
         this.mNumOfTab=numOfTab;
+        act=InfoFragmentAct.GetInstance();
+        account=InfoFragmentAccount.GetInstance();
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return  new InfoFragmentAct();
+                return  act;
             case 1:
-                return  new InfoFragmentAccount();
+                return  account;
 
                 default:
                     return null;

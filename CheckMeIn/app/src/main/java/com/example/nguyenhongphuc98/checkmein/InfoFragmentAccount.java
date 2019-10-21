@@ -30,6 +30,14 @@ public class InfoFragmentAccount extends Fragment {
     String mOldEmail;
     String mOldPhone;
 
+    private static InfoFragmentAccount _instance=null;
+
+    public static InfoFragmentAccount GetInstance(){
+        if(_instance==null)
+            _instance=new InfoFragmentAccount();
+        return  _instance;
+    }
+
     public InfoFragmentAccount() {
         // Required empty public constructor
         mEmailEditing=false;
@@ -40,6 +48,7 @@ public class InfoFragmentAccount extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //Toast.makeText(getContext(),"oncreate info account",Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_info_account, container, false);
 

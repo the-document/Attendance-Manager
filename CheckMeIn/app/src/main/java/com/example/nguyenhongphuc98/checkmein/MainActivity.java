@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         mMainNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         mMainFrame =(FrameLayout) findViewById(R.id.fragment_container);
-        mHomeFragment=new HomeFragment();
-        mInfoFragment=new InfoFragment();
+        mHomeFragment=HomeFragment.GetInstance();
+        mInfoFragment=InfoFragment.GetInstance();
 
         mCardScannerFragment = new CardScannerFragment();
         mSendEmailFragment=new SendEmailFragment();

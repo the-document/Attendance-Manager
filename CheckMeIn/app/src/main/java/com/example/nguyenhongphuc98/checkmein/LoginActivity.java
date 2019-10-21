@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), "Login button clicked !", Toast.LENGTH_LONG);
                 toast.show();
                 ProcessLoginData();
+
             }
         });
     }

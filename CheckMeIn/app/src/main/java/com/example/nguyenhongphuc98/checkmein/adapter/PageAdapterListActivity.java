@@ -22,13 +22,14 @@ public class PageAdapterListActivity extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return  new ViewListActivityFragment();
+                return  ViewListActivityFragment.GetInstance();
             case 1:
-                return  new ViewSetNameFragment();
+                return  ViewSetNameFragment.GetInstance();
             case 2:
-                return  new ViewSetTimeFragment();
+                return  ViewSetTimeFragment.GetInstance();
             case 3:
-                return  new ViewSetContentFragment();
+                return  ViewSetContentFragment.GetInstance();
+
             default:
                 return null;
         }

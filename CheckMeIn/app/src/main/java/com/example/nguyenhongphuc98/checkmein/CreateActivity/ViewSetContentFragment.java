@@ -19,6 +19,14 @@ public class ViewSetContentFragment extends Fragment {
 
     Button btnFinish;
 
+    private static ViewSetContentFragment _instance=null;
+
+    public static ViewSetContentFragment GetInstance(){
+        if(_instance==null)
+            _instance=new ViewSetContentFragment();
+        return  _instance;
+    }
+
     public ViewSetContentFragment() {
         // Required empty public constructor
     }

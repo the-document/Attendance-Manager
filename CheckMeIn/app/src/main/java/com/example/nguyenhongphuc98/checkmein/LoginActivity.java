@@ -85,13 +85,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private void TestImg(){
         //Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.mssv);
-        Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.horizontal_card);
-        Tesseract tesseract=new Tesseract(getApplicationContext(),"eng");
+        Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.card1);
+       // Tesseract tesseract=new Tesseract(getApplicationContext(),"eng");
 
+        Bitmap resized=Bitmap.createScaledBitmap(testdata,302,403,true);
         Mat src=new Mat();
         Mat des=new Mat();
 
-        Utils.bitmapToMat(testdata, src);
+        Utils.bitmapToMat(resized, src);
 //        Rect crop=new Rect();
 //        crop.x=0;
 //        crop.y=(int)(0.75*src.height());
@@ -101,11 +102,12 @@ public class LoginActivity extends AppCompatActivity {
 //        Mat roi=src.submat(crop);
         Imgproc.cvtColor(src,des,Imgproc.COLOR_RGB2GRAY);
 
-        Utils.matToBitmap(des,testdata);
-        iv.setImageBitmap(testdata);
+        Utils.matToBitmap(des,resized);
+        iv.setImageBitmap(resized);
 
-        String r=tesseract.getOCRResult(testdata);
-        Toast.makeText(getApplicationContext(),r,Toast.LENGTH_LONG).show();
+
+        //String r=tesseract.getOCRResult(testdata);
+        //Toast.makeText(getApplicationContext(),r,Toast.LENGTH_LONG).show();
     }
 
     private void ProcessLoginData() {

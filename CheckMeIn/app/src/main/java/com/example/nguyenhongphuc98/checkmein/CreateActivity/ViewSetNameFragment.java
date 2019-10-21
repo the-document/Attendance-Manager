@@ -18,6 +18,14 @@ public class ViewSetNameFragment extends Fragment {
 
     Button btnNextToTime;
 
+    private static ViewSetNameFragment _instance=null;
+
+    public static ViewSetNameFragment GetInstance(){
+        if(_instance==null)
+            _instance=new ViewSetNameFragment();
+        return  _instance;
+    }
+
     public ViewSetNameFragment() {
         // Required empty public constructor
     }

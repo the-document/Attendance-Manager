@@ -39,7 +39,7 @@ public class ListActivityFragment extends Fragment {
         activityViewPager=view.findViewById(R.id.vpActivity);
         vCreateAcivity=view.findViewById(R.id.viewCreateACtivity);
 
-        pageAdapterListActivity=new PageAdapterListActivity(getFragmentManager(),4);
+        pageAdapterListActivity=new PageAdapterListActivity(getChildFragmentManager(),4);
         activityViewPager.setAdapter(pageAdapterListActivity);
         activityViewPager.setCurrentItem(0);
 

@@ -40,6 +40,14 @@ public class HomeFragment extends Fragment {
     private List<ImageButton> mListOrganization;
     private RelativeLayout mOrganizationContainer;
 
+    private static HomeFragment _instance=null;
+
+    public static HomeFragment GetInstance(){
+        if(_instance==null)
+            _instance=new HomeFragment();
+        return  _instance;
+    }
+
     public HomeFragment() {
         // Required empty public constructor
         mListOrganization=new ArrayList<>();

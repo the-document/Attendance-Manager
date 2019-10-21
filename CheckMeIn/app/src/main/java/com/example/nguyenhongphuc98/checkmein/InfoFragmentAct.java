@@ -20,8 +20,18 @@ public class InfoFragmentAct extends Fragment {
     EventAdapter adapter;
     String temp1[]={"a","b","c","d"};
 
+    private static InfoFragmentAct _instance=null;
+
+    public static InfoFragmentAct GetInstance(){
+        if(_instance==null)
+            _instance=new InfoFragmentAct();
+        return  _instance;
+    }
+
+
     public InfoFragmentAct() {
         // Required empty public constructor
+
     }
 
 

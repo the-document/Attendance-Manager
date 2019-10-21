@@ -72,13 +72,13 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast toast = Toast.makeText(getApplicationContext(), "Login button clicked !", Toast.LENGTH_LONG);
-                //toast.show();
-                //ProcessLoginData();
+                Toast toast = Toast.makeText(getApplicationContext(), "Login button clicked !", Toast.LENGTH_LONG);
+                toast.show();
+                ProcessLoginData();
 
 
 
-                TestImg();
+                //TestImg();
             }
         });
     }

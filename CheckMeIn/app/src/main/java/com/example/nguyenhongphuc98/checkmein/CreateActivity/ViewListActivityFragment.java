@@ -20,6 +20,14 @@ public class ViewListActivityFragment extends Fragment {
     EventAdapter adapter;
     String temp1[]={"a","b","c","d","e"};
 
+    private static ViewListActivityFragment _instance=null;
+
+    public static ViewListActivityFragment GetInstance(){
+        if(_instance==null)
+            _instance=new ViewListActivityFragment();
+        return  _instance;
+    }
+
     public ViewListActivityFragment() {
         // Required empty public constructor
     }

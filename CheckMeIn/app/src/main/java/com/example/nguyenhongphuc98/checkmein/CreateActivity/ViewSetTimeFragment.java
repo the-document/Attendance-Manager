@@ -33,6 +33,14 @@ public class ViewSetTimeFragment extends Fragment {
 
     final Calendar myCalendar = Calendar.getInstance();
 
+    private static ViewSetTimeFragment _instance=null;
+
+    public static ViewSetTimeFragment GetInstance(){
+        if(_instance==null)
+            _instance=new ViewSetTimeFragment();
+        return  _instance;
+    }
+
     public ViewSetTimeFragment() {
         // Required empty public constructor
     }

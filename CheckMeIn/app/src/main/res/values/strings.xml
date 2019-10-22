@@ -35,4 +35,8 @@
     <string name="cau_tra_loi">Câu trả lời</string>
     <string name="tieu_de">Tiêu đề</string>
     <string name="len_lich_gui">Lên lịch gửi</string>
+    <string name="change_photo">Change Photo</string>
+    <string name="organization_name">Organization Name</string>
+    <string name="description">Description</string>
+    <string name="collaborator">Collaborator ID</string>
 </resources>

@@ -85,7 +85,7 @@
 
         <LinearLayout
             android:layout_width="355dp"
-            android:layout_height="214dp"
+            android:layout_height="201dp"
             android:layout_gravity="center"
             android:orientation="vertical">
 
@@ -117,9 +117,7 @@
                 android:id="@+id/tvDate"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="20dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="21/10/2019 23:59"
@@ -138,7 +136,7 @@
                 android:id="@+id/btnSend"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:text="Gửi"

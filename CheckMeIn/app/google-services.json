@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "236028448482",
+    "firebase_url": "https://checkmein-b6379.firebaseio.com",
+    "project_id": "checkmein-b6379",
+    "storage_bucket": "checkmein-b6379.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236028448482:android:96c6c1b28ad8e3c8e518bb",
+        "android_client_info": {
+          "package_name": "com.example.nguyenhongphuc98.checkmein"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236028448482-767a2ifa998hd8md3uraqncr75ls8d0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIAuKFVt7LlrtrPMc09ZqXkM0r7uF2sEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236028448482-767a2ifa998hd8md3uraqncr75ls8d0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

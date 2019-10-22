@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
+import com.example.nguyenhongphuc98.checkmein.QuestionManagementFragment;
 import com.example.nguyenhongphuc98.checkmein.Adapter.ParticipantAdapter;
 import com.example.nguyenhongphuc98.checkmein.R;
+import com.example.nguyenhongphuc98.checkmein.model.Question;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,8 +36,21 @@ public class ViewListActivityFragment extends Fragment {
         listView=view.findViewById(R.id.lvEventOfOrganization);
         adapter=new EventAdapter(getContext(),temp1);
         listView.setAdapter(adapter);
-
         return view;
     }
-
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getActivity(), String.format("Position : %d", position), Toast.LENGTH_LONG);
+//                ReplaceFragment(new QuestionManagementFragment());
+//            }
+//        });
+//        return view;
+//    }
+//
+//    private void ReplaceFragment(Fragment fragment){
+//        FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();
+//        fragmentTransition.replace(R.id.fragment_container,fragment);
+//        fragmentTransition.commit();
+//    }
 }

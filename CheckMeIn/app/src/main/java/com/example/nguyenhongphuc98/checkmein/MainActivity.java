@@ -17,8 +17,11 @@ public class MainActivity extends AppCompatActivity {
 
     private HomeFragment mHomeFragment;
     private InfoFragment mInfoFragment;
+    private CardScannerFragment mCardScannerFragment;
     private SendEmailFragment mSendEmailFragment;
     private ListParticipantFragment mListParticipant;
+
+    private QuestionManagementFragment mQuestionManagementFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,9 +35,12 @@ public class MainActivity extends AppCompatActivity {
         mMainFrame =(FrameLayout) findViewById(R.id.fragment_container);
         mHomeFragment=new HomeFragment();
         mInfoFragment=new InfoFragment();
+
+        mCardScannerFragment = new CardScannerFragment();
         mSendEmailFragment=new SendEmailFragment();
         mListParticipant=new ListParticipantFragment();
 
+        mQuestionManagementFragment = new QuestionManagementFragment();
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -42,11 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.action_home:
-                        ReplaceFragment(mListParticipant);
+                        ReplaceFragment(mQuestionManagementFragment);
                         return true;
 
                     case R.id.action_info:
                         ReplaceFragment(mSendEmailFragment);
+                        return true;
+                    case R.id.action_scan:
+                        ReplaceFragment(mCardScannerFragment);
                         return true;
                 }
                 return true;

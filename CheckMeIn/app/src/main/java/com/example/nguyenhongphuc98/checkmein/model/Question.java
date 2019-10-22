@@ -3,8 +3,11 @@ package com.example.nguyenhongphuc98.checkmein.model;
 import java.util.ArrayList;
 
 public class Question {
+    private int id;
     private String mQuestion;
     private ArrayList<String> mAnswers;
+    private String questionType;
+    private int idEvent;
 
     public Question(String mQuestion, ArrayList<String>answers)
     {
@@ -20,7 +23,6 @@ public class Question {
             mAnswers.add(answer);
     }
 
-
     public String getmQuestion() {
         return mQuestion;
     }
@@ -35,5 +37,29 @@ public class Question {
 
     public void setmAnswers(ArrayList<String> mAnswers) {
         this.mAnswers = mAnswers;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getIdEvent() {
+        return idEvent;
+    }
+
+    public void setIdEvent(int idEvent) {
+        this.idEvent = idEvent;
+    }
+
+    public String getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(String questionType) {
+        this.questionType = questionType;
     }
 }

@@ -50,9 +50,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_home:
                         ReplaceFragment(mQuestionManagementFragment);
                         return true;
-
                     case R.id.action_info:
-                        ReplaceFragment(mSendEmailFragment);
+                        ReplaceFragment(mListParticipant);
                         return true;
                     case R.id.action_scan:
                         ReplaceFragment(mCardScannerFragment);

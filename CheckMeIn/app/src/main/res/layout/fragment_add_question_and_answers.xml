@@ -32,7 +32,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fragment_add_question_and_answers_btn_add_question"
+        android:id="@+id/fragment_add_question_and_answers_btn_add_answer"
         android:text="Thêm câu trả lời"
         android:gravity="center"
         android:paddingHorizontal="8dp"

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nguyenhongphuc98.checkmein.OCR.PreProcess;
 import com.example.nguyenhongphuc98.checkmein.OCR.Tesseract;
 
 import org.opencv.android.OpenCVLoader;
@@ -31,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
 
     Button btnLogin;
 
-    ImageView iv;
 
     boolean isRegisterSuccessful = false;
     public static final String EXTRA_USERNAME = ".LOGIN.USERNAME";
@@ -50,8 +50,6 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = (EditText)findViewById(R.id.login_edtPassword);
         btnLogin = (Button)findViewById(R.id.login_btnLogin);
 
-        //temp
-        iv=findViewById(R.id.mvCard);
         if (!OpenCVLoader.initDebug()) {
             Toast toast = Toast.makeText(getApplicationContext(), "canload opencv !", Toast.LENGTH_SHORT);
         }
@@ -75,39 +73,8 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), "Login button clicked !", Toast.LENGTH_LONG);
                 toast.show();
                 ProcessLoginData();
-
-
-
-                //TestImg();
             }
         });
-    }
-
-    private void TestImg(){
-        //Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.mssv);
-        Bitmap testdata= BitmapFactory.decodeResource(getBaseContext().getResources(),R.drawable.card1);
-       // Tesseract tesseract=new Tesseract(getApplicationContext(),"eng");
-
-        Bitmap resized=Bitmap.createScaledBitmap(testdata,302,403,true);
-        Mat src=new Mat();
-        Mat des=new Mat();
-
-        Utils.bitmapToMat(resized, src);
-//        Rect crop=new Rect();
-//        crop.x=0;
-//        crop.y=(int)(0.75*src.height());
-//        crop.width=(int)(0.3*src.width());
-//        crop.height=(int)(0.25*src.height());
-//
-//        Mat roi=src.submat(crop);
-        Imgproc.cvtColor(src,des,Imgproc.COLOR_RGB2GRAY);
-
-        Utils.matToBitmap(des,resized);
-        iv.setImageBitmap(resized);
-
-
-        //String r=tesseract.getOCRResult(testdata);
-        //Toast.makeText(getApplicationContext(),r,Toast.LENGTH_LONG).show();
     }
 
     private void ProcessLoginData() {

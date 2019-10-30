@@ -21,6 +21,7 @@ public class Tesseract {
     String mPathFileSave;
     String mTrainedDataNamel="eng.traineddata";
 
+
     public Tesseract(Context context,String language) {
 
         mTesseract=new TessBaseAPI();

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nguyenhongphuc98.checkmein.OCR.PreProcess;
 import com.example.nguyenhongphuc98.checkmein.OCR.Tesseract;
 
 
@@ -23,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
 
     Button btnLogin;
 
-    ImageView iv;
 
     boolean isRegisterSuccessful = false;
     public static final String EXTRA_USERNAME = ".LOGIN.USERNAME";
@@ -64,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), "Login button clicked !", Toast.LENGTH_LONG);
                 toast.show();
                 ProcessLoginData();
-
             }
         });
     }

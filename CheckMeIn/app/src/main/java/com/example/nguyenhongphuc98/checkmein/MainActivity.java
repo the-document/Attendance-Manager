@@ -11,6 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView mMainNav;
     private FrameLayout mMainFrame;
@@ -48,10 +51,15 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.action_home:
-                        ReplaceFragment(mQuestionManagementFragment);
+                        ReplaceFragment(mHomeFragment);
+
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference myRef = database.getReference("message");
+
+                        myRef.setValue("Hello, World!");
                         return true;
                     case R.id.action_info:
-                        ReplaceFragment(mListParticipant);
+                        ReplaceFragment(mInfoFragment);
                         return true;
                     case R.id.action_scan:
                         ReplaceFragment(mCardScannerFragment);

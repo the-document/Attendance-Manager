@@ -1,6 +1,6 @@
 package com.example.nguyenhongphuc98.checkmein;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class Loading extends AppCompatActivity {

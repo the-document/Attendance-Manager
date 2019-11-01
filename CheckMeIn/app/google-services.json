@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "236028448482-m6b092eckrokpsbhj6umnlgqjofehjl1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nguyenhongphuc98.checkmein",
+            "certificate_hash": "62eefb9e932156f53dbb2e20da5956f3d9b8f146"
+          }
+        },
+        {
           "client_id": "236028448482-767a2ifa998hd8md3uraqncr75ls8d0h.apps.googleusercontent.com",
           "client_type": 3
         }

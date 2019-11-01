@@ -66,7 +66,7 @@
 
 
         <!--tab view-->
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/tlInfo"
             android:layout_width="380dp"
             android:layout_height="65dp"
@@ -74,38 +74,38 @@
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabSelectedTextColor="@color/colorPrimary">
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:id="@+id/tiList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/danh_sach" />
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:id="@+id/tiQuestion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/trac_nghiem" />
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:id="@+id/tiAnswer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cau_tra_loi" />
 
-        </android.support.design.widget.TabLayout>
+        </com.google.android.material.tabs.TabLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/line"/>
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/vpParticipant"
             android:layout_width="350dp"
             android:layout_height="262dp"
             android:layout_gravity="center">
 
-        </android.support.v4.view.ViewPager>
+        </androidx.viewpager.widget.ViewPager>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,8 +1,8 @@
 package com.example.nguyenhongphuc98.checkmein.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,6 @@ import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.model.Question;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
 

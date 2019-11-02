@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OrganFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorPrimary">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/avatar_organ"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/avatar"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+           />
+
+            <Button
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:text="@string/change_photo"
+                android:textColor="@color/white"
+                android:background="@drawable/custom_button_create_organization_selector"
+                android:textAllCaps="false"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dp"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etOrganName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="40dp"
+                android:hint="@string/organization_name"/>
+
+            <EditText
+                android:id="@+id/etOrganDes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:hint="@string/description"/>
+
+            <EditText
+                android:id="@+id/etOrganCollaborator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:drawableEnd="@drawable/icon_plus"
+                android:hint="@string/collaborator"/>
+
+
+            <GridView
+                android:id="@+id/gvCollaborator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:columnWidth="41dp"
+                android:numColumns="auto_fit"
+                android:layout_marginTop="10dp"/>
+
+            <Button
+                android:id="@+id/btnSaveOrgan"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:layout_marginLeft="40dp"
+                android:background="@drawable/custom_button_create_organization_selector"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

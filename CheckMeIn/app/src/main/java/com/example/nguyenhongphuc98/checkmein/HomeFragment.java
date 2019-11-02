@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,9 +27,13 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     ListActivityFragment lsActivityFragment;
+    OrganFragment organFragment;
+
+
     View ctnCheckIn;
     ImageView avtCheckIn;
     EditText etActivityCode;
+    Button btnCreateOrgan;
 
     private List<ImageButton> mListOrganization;
     private RelativeLayout mOrganizationContainer;
@@ -36,7 +41,8 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
         mListOrganization=new ArrayList<>();
-
+        lsActivityFragment=new ListActivityFragment();
+        organFragment=new OrganFragment();
     }
 
 
@@ -46,12 +52,10 @@ public class HomeFragment extends Fragment {
 
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
-        lsActivityFragment=new ListActivityFragment();
+
 
         mOrganizationContainer=(RelativeLayout) view.findViewById(R.id.organization_container);
-        ctnCheckIn=view.findViewById(R.id.ctnCheckIn);
-        avtCheckIn=view.findViewById(R.id.avtCheckIn);
-        etActivityCode=view.findViewById(R.id.etActivityCode);
+        MatchView(view);
 
         //load from DB and add to this list for current user
 //        int sizeOfList=5;
@@ -104,7 +108,25 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+
+
+        btnCreateOrgan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransition.replace(R.id.fragment_container,organFragment);
+                fragmentTransition.commit();
+            }
+        });
+
         return  view;
+    }
+
+    private void MatchView(View view){
+        ctnCheckIn=view.findViewById(R.id.ctnCheckIn);
+        avtCheckIn=view.findViewById(R.id.avtCheckIn);
+        etActivityCode=view.findViewById(R.id.etActivityCode);
+        btnCreateOrgan=view.findViewById(R.id.btnCreateOrgan);
     }
 
 }

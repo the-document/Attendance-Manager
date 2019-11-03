@@ -71,6 +71,8 @@ public class InfoFragmentAccount extends Fragment {
 
                     etEmail.setFocusableInTouchMode(true);
                     etEmail.setFocusable(true);
+                    etEmail.requestFocus();
+                    etEmail.setSelection(etEmail.getText().length());
 
                     btnEditEmail.setBackgroundResource(R.drawable.icon_check);
                     mEmailEditing=true;
@@ -102,6 +104,8 @@ public class InfoFragmentAccount extends Fragment {
 
                     etPhone.setFocusableInTouchMode(true);
                     etPhone.setFocusable(true);
+                    etPhone.requestFocus();
+                    etPhone.setSelection(etPhone.getText().length());
 
                     btnEditPhone.setBackgroundResource(R.drawable.icon_check);
                     mPhoneEditing=true;

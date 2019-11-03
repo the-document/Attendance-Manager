@@ -1,4 +1,4 @@
-package com.example.nguyenhongphuc98.checkmein.Adapter;
+package com.example.nguyenhongphuc98.checkmein.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
-
-import java.util.List;
 
 public class EventAdapter extends ArrayAdapter {
     Context context;
@@ -33,6 +31,11 @@ public class EventAdapter extends ArrayAdapter {
         CircularImageView img=row.findViewById(R.id.avtRowEvent);
         TextView TitleEvent=row.findViewById(R.id.nameRowEvent);
         TextView DateEvent=row.findViewById(R.id.dateRowEvent);
+        View rowEvent=row.findViewById(R.id.rowEvent);
+
+        //change color if this is event just register and not take part in
+        if(position==3)
+            rowEvent.setBackgroundResource(R.drawable.custom_row_event_orange);
 
         img.setImageResource(R.drawable.ninja_avt);
         TitleEvent.setText("Training CSDL 2019");

@@ -1,4 +1,4 @@
-package com.example.nguyenhongphuc98.checkmein.Adapter;
+package com.example.nguyenhongphuc98.checkmein.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

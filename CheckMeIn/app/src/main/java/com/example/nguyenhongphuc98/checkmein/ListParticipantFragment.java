@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.nguyenhongphuc98.checkmein.Adapter.PageAdapterListParticipant;
+import com.example.nguyenhongphuc98.checkmein.adapter.PageAdapterListParticipant;
 
 public class ListParticipantFragment extends Fragment {
     ViewPager participantViewPager;

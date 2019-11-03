@@ -22,14 +22,6 @@ public class InfoFragmentAct extends Fragment {
 
     private static InfoFragmentAct _instance=null;
 
-    public static InfoFragmentAct GetInstance(){
-        if(_instance==null)
-            _instance=new InfoFragmentAct();
-        return  _instance;
-    }
-
-
-    private static InfoFragmentAct _instance=null;
 
     public static InfoFragmentAct GetInstance(){
         if(_instance==null)

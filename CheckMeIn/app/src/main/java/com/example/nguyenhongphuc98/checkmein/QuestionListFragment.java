@@ -18,7 +18,7 @@ import com.example.nguyenhongphuc98.checkmein.model.Question;
 
 import java.util.ArrayList;
 
-public class fragment_list_of_question extends Fragment{
+public class QuestionListFragment extends Fragment{
 
     ListView lv_question_list;
     FloatingActionButton fab_add_question;

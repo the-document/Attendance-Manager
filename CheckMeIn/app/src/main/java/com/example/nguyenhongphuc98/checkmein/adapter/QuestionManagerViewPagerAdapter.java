@@ -1,13 +1,12 @@
 package com.example.nguyenhongphuc98.checkmein.adapter;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.nguyenhongphuc98.checkmein.fragment_list_of_participant;
-import com.example.nguyenhongphuc98.checkmein.fragment_list_of_participant_analytics;
-import com.example.nguyenhongphuc98.checkmein.fragment_list_of_question;
+import com.example.nguyenhongphuc98.checkmein.ParticipantListFragment;
+import com.example.nguyenhongphuc98.checkmein.ParticipantAnalyticsListFragment;
+import com.example.nguyenhongphuc98.checkmein.QuestionListFragment;
 
 public class QuestionManagerViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -20,11 +19,11 @@ public class QuestionManagerViewPagerAdapter extends FragmentPagerAdapter {
         switch (position)
         {
             case 0:
-                return new fragment_list_of_participant();
+                return new ParticipantListFragment();
             case 1:
-                return new fragment_list_of_question();
+                return new QuestionListFragment();
             case 2:
-                return new fragment_list_of_participant_analytics();
+                return new ParticipantAnalyticsListFragment();
         }
         return null;
     }

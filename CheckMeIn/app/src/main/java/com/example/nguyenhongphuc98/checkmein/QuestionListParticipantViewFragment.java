@@ -13,7 +13,7 @@ import com.example.nguyenhongphuc98.checkmein.model.Question;
 
 import java.util.ArrayList;
 
-public class fragment_list_of_question_participant_view extends Fragment {
+public class QuestionListParticipantViewFragment extends Fragment {
     ListView lv_question_list;
 
     @Nullable

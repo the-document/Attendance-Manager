@@ -27,19 +27,36 @@ public class EventAdapter extends ArrayAdapter {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        @SuppressLint("ViewHolder") View row=layoutInflater.inflate(R.layout.custom_row_event,parent,false);
-        CircularImageView img=row.findViewById(R.id.avtRowEvent);
-        TextView TitleEvent=row.findViewById(R.id.nameRowEvent);
-        TextView DateEvent=row.findViewById(R.id.dateRowEvent);
-        View rowEvent=row.findViewById(R.id.rowEvent);
+        View viewRow= convertView;
+
+        if(viewRow==null){
+            viewRow=layoutInflater.inflate(R.layout.custom_row_event,parent,false);
+            ViewHolder holder=new ViewHolder();
+            holder.imageView =viewRow.findViewById(R.id.avtRowEvent);
+            holder.title =viewRow.findViewById(R.id.nameRowEvent);
+            holder.date =viewRow.findViewById(R.id.dateRowEvent);
+            holder.border =viewRow.findViewById(R.id.rowEvent);
+
+            viewRow.setTag(holder);
+        }
+
+        ViewHolder viewHolder= (ViewHolder) viewRow.getTag();
 
         //change color if this is event just register and not take part in
         if(position==3)
-            rowEvent.setBackgroundResource(R.drawable.custom_row_event_orange);
+            viewHolder.border.setBackgroundResource(R.drawable.custom_row_event_orange);
 
-        img.setImageResource(R.drawable.ninja_avt);
-        TitleEvent.setText("Training CSDL 2019");
-        DateEvent.setText("22/11/1998");
-        return row;
+        viewHolder.imageView.setImageResource(R.drawable.ninja_avt);
+        viewHolder.title.setText("Training CSDL 2019");
+        viewHolder.date.setText("22/11/1998");
+
+        return viewRow;
+    }
+
+    public static class ViewHolder{
+        View border;
+        CircularImageView imageView;
+        TextView title;
+        TextView date;
     }
 }

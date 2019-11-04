@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_home:
                         ReplaceFragment(mHomeFragment);
 
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        /*FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference myRef = database.getReference("message");
 
-                        myRef.setValue("Hello, World!");
+                        myRef.setValue("Hello, World!");*/
                         return true;
                     case R.id.action_info:
                         ReplaceFragment(mInfoFragment);

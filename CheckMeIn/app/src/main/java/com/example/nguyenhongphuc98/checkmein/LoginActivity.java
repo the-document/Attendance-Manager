@@ -2,13 +2,24 @@ package com.example.nguyenhongphuc98.checkmein;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     TextView txtLinkToRegister;
@@ -18,6 +29,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtPassword;
 
     Button btnLogin;
+
+    private FirebaseAuth mAuth;
+    private static final String TAG = "EmailPassword";
 
     boolean isRegisterSuccessful = false;
     public static final String EXTRA_USERNAME = ".LOGIN.USERNAME";
@@ -35,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         edtUsername = (EditText)findViewById(R.id.login_edtUsername);
         edtPassword = (EditText)findViewById(R.id.login_edtPassword);
         btnLogin = (Button)findViewById(R.id.login_btnLogin);
+        mAuth = FirebaseAuth.getInstance();
 
         //Sư kiện.
         txtLinkToRegister.setOnClickListener(new View.OnClickListener() {
@@ -52,16 +67,55 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Login button clicked !", Toast.LENGTH_LONG);
-                toast.show();
-                ProcessLoginData();
+                //Toast toast = Toast.makeText(getApplicationContext(), "Login button clicked !", Toast.LENGTH_LONG);
+                //toast.show();
+
+                ProcessLoginData(edtUsername.getText().toString(), edtPassword.getText().toString());
             }
         });
     }
 
-    private void ProcessLoginData() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+    // [START on_start_check_user]
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //updateUI(currentUser);
+    }
+    // [END on_start_check_user]
+
+    private void ProcessLoginData(String email, String password) {
+        final Intent intent = new Intent(this, MainActivity.class);
+
+        // [START sign_in_with_email]
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            startActivity(intent);
+                            //updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                        }
+
+                        // [START_EXCLUDE]
+                        /*if (!task.isSuccessful()) {
+                            mStatusTextView.setText(R.string.auth_failed);
+                        }
+                        hideProgressDialog();*/
+                        // [END_EXCLUDE]
+                    }
+                });
+        // [END sign_in_with_email]
     }
 
     protected void GoToRegisterActivity(View view)
@@ -109,5 +163,27 @@ public class LoginActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(getApplicationContext(), "Error receive intent from register", Toast.LENGTH_LONG);
             toast.show();
         }
+    }
+
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String userName = edtUsername.getText().toString();
+        if (TextUtils.isEmpty(userName)) {
+            edtUsername.setError("Required.");
+            valid = false;
+        } else {
+            edtUsername.setError(null);
+        }
+
+        String password = edtPassword.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            edtPassword.setError("Required.");
+            valid = false;
+        } else {
+            edtPassword.setError(null);
+        }
+
+        return valid;
     }
 }

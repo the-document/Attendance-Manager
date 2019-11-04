@@ -27,7 +27,7 @@ public class CardScannerFragment extends Fragment {
         mPreview = new CameraPreview(view.getContext(), mCamera);
 
         //Cài đặt preview camera.
-        previewLayout = (FrameLayout)view.findViewById(R.id.fv_camera_preview);
+        previewLayout = view.findViewById(R.id.fv_camera_preview);
         previewLayout.addView(mPreview);
 
         return view;

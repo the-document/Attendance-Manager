@@ -54,7 +54,7 @@ public class InfoFragment extends Fragment {
         mEtMSSV=view.findViewById(R.id.etMSSV);
 
         mViewPaper=view.findViewById(R.id.vpInfor);
-        mPageAdapter=new PageAdapter(getFragmentManager(),mTabLayout.getTabCount());
+        mPageAdapter=new PageAdapter(getChildFragmentManager(),mTabLayout.getTabCount());
         mViewPaper.setAdapter(mPageAdapter);
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

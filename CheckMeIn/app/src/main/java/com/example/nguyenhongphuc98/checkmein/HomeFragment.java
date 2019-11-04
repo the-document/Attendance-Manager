@@ -1,6 +1,8 @@
 package com.example.nguyenhongphuc98.checkmein;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.nguyenhongphuc98.checkmein.Animate.ResizeWidthAnimation;
+import com.example.nguyenhongphuc98.checkmein.OCR.Tesseract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +118,7 @@ public class HomeFragment extends Fragment {
         btnCreateOrgan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransition.replace(R.id.fragment_container,organFragment);
                 fragmentTransition.commit();

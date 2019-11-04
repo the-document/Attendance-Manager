@@ -291,7 +291,8 @@
     <dimen name="activity_chooser_popup_min_width">200dip</dimen>
 
     <!--Popup Height phục vụ cho DialogFragment thêm câu hỏi-->
-    <dimen name="popup_height">500dip</dimen>
+    <dimen name="popup_height">750dip</dimen>
+    <dimen name="popup_width">500dip</dimen>
 
     <!-- The default gap between components in a layout. -->
     <dimen name="default_gap">8dip</dimen>

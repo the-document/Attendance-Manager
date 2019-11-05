@@ -2,19 +2,14 @@ package com.example.nguyenhongphuc98.checkmein.ViewGroupModel;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.example.nguyenhongphuc98.checkmein.NewQuestionDialogFragment;
 import com.example.nguyenhongphuc98.checkmein.R;
-
-import java.util.ArrayList;
 
 public class AnswerView extends LinearLayout {
 

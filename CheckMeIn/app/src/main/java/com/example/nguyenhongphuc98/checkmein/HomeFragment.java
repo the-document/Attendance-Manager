@@ -1,17 +1,13 @@
 package com.example.nguyenhongphuc98.checkmein;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.nguyenhongphuc98.checkmein.Animate.ResizeWidthAnimation;
-import com.example.nguyenhongphuc98.checkmein.OCR.Tesseract;
 
 import java.util.ArrayList;
 import java.util.List;

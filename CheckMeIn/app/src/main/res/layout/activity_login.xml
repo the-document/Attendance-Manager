@@ -18,7 +18,7 @@
             android:textAlignment="center"
             android:textSize="30sp" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -31,9 +31,9 @@
                 android:layout_height="wrap_content"
                 android:hint="Username (MSSV)"
                 android:inputType="textEmailAddress" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -44,9 +44,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="Mật khẩu"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/login_btnLogin"
             android:layout_width="300dp"
             android:layout_height="40dp"

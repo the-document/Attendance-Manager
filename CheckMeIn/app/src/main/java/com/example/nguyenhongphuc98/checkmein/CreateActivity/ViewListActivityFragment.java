@@ -2,14 +2,18 @@ package com.example.nguyenhongphuc98.checkmein.CreateActivity;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.nguyenhongphuc98.checkmein.adapter.EventAdapter;
 import com.example.nguyenhongphuc98.checkmein.R;
+import com.example.nguyenhongphuc98.checkmein.QuestionManagementFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,21 +37,20 @@ public class ViewListActivityFragment extends Fragment {
         listView=view.findViewById(R.id.lvEventOfOrganization);
         adapter=new EventAdapter(getContext(),temp1);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(), String.format("Position : %d", position), Toast.LENGTH_LONG);
+                ReplaceFragment(new QuestionManagementFragment());
+            }
+        });
         return view;
     }
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getActivity(), String.format("Position : %d", position), Toast.LENGTH_LONG);
-//                ReplaceFragment(new QuestionManagementFragment());
-//            }
-//        });
-//        return view;
-//    }
-//
-//    private void ReplaceFragment(Fragment fragment){
-//        FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();
-//        fragmentTransition.replace(R.id.fragment_container,fragment);
-//        fragmentTransition.commit();
-//    }
+
+    private void ReplaceFragment(Fragment fragment){
+        FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransition.replace(R.id.fragment_container,fragment);
+        fragmentTransition.commit();
+    }
 }

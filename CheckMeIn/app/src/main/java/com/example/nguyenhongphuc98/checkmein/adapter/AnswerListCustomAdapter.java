@@ -1,7 +1,7 @@
 package com.example.nguyenhongphuc98.checkmein.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.ArrayAdapter;
 
 import com.example.nguyenhongphuc98.checkmein.model.Answer;

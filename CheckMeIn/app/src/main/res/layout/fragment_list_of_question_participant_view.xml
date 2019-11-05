@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment_list_of_question"
+    tools:context=".QuestionListFragment"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingTop="16dp">
@@ -16,7 +16,7 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="5dp"/>
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/fab_finish"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

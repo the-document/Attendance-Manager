@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InfoFragmentAct">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".InfoFragmentAct"
+    android:orientation="vertical">
 
     <ListView
         android:id="@+id/lvEventOfInfo"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@android:color/transparent"
         android:dividerHeight="5dp"
@@ -17,4 +19,38 @@
 
     </ListView>
 
-</FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        >
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/custom_cricle_orange_bg"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đã đăng ký"
+            android:layout_margin="10dp"
+            android:textAlignment="center"/>
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/custom_cricle_green_bg"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Đã tham gia"
+            android:layout_margin="10dp"
+            android:textAlignment="center"/>
+    </LinearLayout>
+</RelativeLayout>

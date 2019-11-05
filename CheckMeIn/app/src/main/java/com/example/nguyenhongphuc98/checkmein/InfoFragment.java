@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.nguyenhongphuc98.checkmein.Adapter.PageAdapter;
+import com.example.nguyenhongphuc98.checkmein.adapter.PageAdapter;
 
 
 /**
@@ -54,7 +54,7 @@ public class InfoFragment extends Fragment {
         mEtMSSV=view.findViewById(R.id.etMSSV);
 
         mViewPaper=view.findViewById(R.id.vpInfor);
-        mPageAdapter=new PageAdapter(getFragmentManager(),mTabLayout.getTabCount());
+        mPageAdapter=new PageAdapter(getChildFragmentManager(),mTabLayout.getTabCount());
         mViewPaper.setAdapter(mPageAdapter);
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -64,14 +64,23 @@ public class InfoFragment extends Fragment {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+            public void onTabUnselected(TabLayout.Tab tab) { }
 
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
+
+        mViewPaper.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+
+            @Override
+            public void onPageSelected(int position) {
+                mTabLayout.getTabAt(position).select();
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onPageScrollStateChanged(int state) { }
         });
 
         mEtName.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +98,8 @@ public class InfoFragment extends Fragment {
 
                     mEtName.setFocusableInTouchMode(true);
                     mEtName.setFocusable(true);
+                    mEtName.requestFocus();
+                    mEtName.setSelection(mEtName.getText().length());
 
                     mBtnEditName.setBackgroundResource(R.drawable.icon_check);
                     mNameEditing=true;

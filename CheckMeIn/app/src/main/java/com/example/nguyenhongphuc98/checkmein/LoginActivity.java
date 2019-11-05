@@ -2,7 +2,6 @@ package com.example.nguyenhongphuc98.checkmein;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,10 +66,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast toast = Toast.makeText(getApplicationContext(), "Login button clicked !", Toast.LENGTH_LONG);
-                //toast.show();
-
                 ProcessLoginData(edtUsername.getText().toString(), edtPassword.getText().toString());
+
             }
         });
     }

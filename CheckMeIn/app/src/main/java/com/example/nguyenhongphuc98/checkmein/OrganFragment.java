@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.example.nguyenhongphuc98.checkmein.Adapter.CollaborationAdapter;
+import com.example.nguyenhongphuc98.checkmein.adapter.CollaborationAdapter;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;

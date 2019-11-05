@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
+import com.example.nguyenhongphuc98.checkmein.adapter.EventAdapter;
 
 
 /**
@@ -18,7 +18,7 @@ public class InfoFragmentAct extends Fragment {
 
     ListView listView;
     EventAdapter adapter;
-    String temp1[]={"a","b","c","d"};
+    String temp1[]={"a","b","c","d","d","d","d"};
 
     public InfoFragmentAct() {
         // Required empty public constructor

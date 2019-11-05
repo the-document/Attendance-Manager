@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.action_home:
-                        ReplaceFragment(mListParticipant);
+                        ReplaceFragment(mHomeFragment);
 
                         /*FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference myRef = database.getReference("message");
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                         myRef.setValue("Hello, World!");*/
                         return true;
                     case R.id.action_info:
-                        ReplaceFragment(mSendEmailFragment);
+                        ReplaceFragment(mInfoFragment);
                         return true;
                     case R.id.action_scan:
                         ReplaceFragment(mCardScannerFragment);

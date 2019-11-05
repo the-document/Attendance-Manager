@@ -2,6 +2,7 @@ package com.example.nguyenhongphuc98.checkmein.adapter;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import android.widget.ArrayAdapter;
 

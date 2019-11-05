@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.nguyenhongphuc98.checkmein.R;
-import com.example.nguyenhongphuc98.checkmein.adapter.QuestionManagerViewPagerAdapter;
+import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionManagerViewPagerAdapter;
 public class QuestionManagementFragment extends Fragment {
     @Nullable
     @Override

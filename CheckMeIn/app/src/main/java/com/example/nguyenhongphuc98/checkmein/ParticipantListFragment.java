@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class fragment_list_of_participant extends Fragment {
+public class ParticipantListFragment extends Fragment {
 
     @Nullable
     @Override

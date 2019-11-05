@@ -15,7 +15,7 @@ import com.example.nguyenhongphuc98.checkmein.model.ParticipantAnswerDetails;
 
 import java.util.ArrayList;
 
-public class fragment_list_of_participant_analytics extends Fragment {
+public class ParticipantAnalyticsListFragment extends Fragment {
 
     ListView lv_participant_analytics_list;
 

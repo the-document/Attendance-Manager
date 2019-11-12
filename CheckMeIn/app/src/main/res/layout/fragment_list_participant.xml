@@ -100,56 +100,83 @@
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/vpParticipant"
-            android:layout_width="330dp"
+            android:layout_width="332dp"
             android:layout_height="314dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center|fill_vertical"
+            android:scrollbars="vertical">
 
         </androidx.viewpager.widget.ViewPager>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="336dp"
             android:layout_height="62dp"
-            android:layout_gravity="clip_horizontal">
-
-            <View
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/custom_cricle_orange_bg" />
+            android:layout_gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Đã đăng ký"
-                android:textAlignment="center" />
-
-            <View
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/custom_cricle_green_bg" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:id="@+id/textView5"
+                android:layout_width="88dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="20dp"
                 android:text=" Đã tham gia"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button"
+                app:layout_constraintStart_toEndOf="@+id/view2"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+
+                android:layout_marginStart="16dp"
+                android:background="@drawable/custom_cricle_orange_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="88dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Đã đăng ký"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/view2"
+                app:layout_constraintStart_toEndOf="@+id/view"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/custom_cricle_green_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView5"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
+                android:layout_width="88dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="7dp"
                 android:background="@drawable/custom_checkin_card"
-                android:text="Mở rộng" />
+                android:text="Mở rộng"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/textView5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.6" />
 
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

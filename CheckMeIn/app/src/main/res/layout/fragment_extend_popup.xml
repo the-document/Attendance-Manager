@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        >
+
+        <TextView
+            android:id="@+id/tvAttendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/gui_mail_cho" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_cricle_green_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView5"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        >
+
+        <TextView
+            android:id="@+id/tvAbsence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/gui_mail_cho" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_cricle_orange_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        >
+
+        <TextView
+            android:id="@+id/tvAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/gui_mail_cho" />
+
+        <View
+            android:id="@+id/view7"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_cricle_green_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView5"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_cricle_orange_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvImport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Import list"
+        android:layout_margin="5dp"
+        />
+
+</LinearLayout>

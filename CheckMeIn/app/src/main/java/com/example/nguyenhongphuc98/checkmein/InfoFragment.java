@@ -2,10 +2,17 @@ package com.example.nguyenhongphuc98.checkmein;
 
 
 import android.os.Bundle;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +21,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.nguyenhongphuc98.checkmein.adapter.PageAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
 /**
@@ -34,9 +46,13 @@ public class InfoFragment extends Fragment {
     TabItem mTiActivity;
     TabItem mTiAccount;
 
+    FirebaseUser user;
+    UserProfileChangeRequest profileUpdates;
+
     public InfoFragment() {
         // Required empty public constructor
         mNameEditing=false;
+        user = FirebaseAuth.getInstance().getCurrentUser();
     }
 
 
@@ -49,6 +65,7 @@ public class InfoFragment extends Fragment {
         mTabLayout=view.findViewById(R.id.tlInfo);
         mTiActivity=view.findViewById(R.id.tiAccount);
         mTiAccount=view.findViewById(R.id.tiAccount);
+
         mEtName=view.findViewById(R.id.etName);
         mBtnEditName=view.findViewById(R.id.btnEditName);
         mEtMSSV=view.findViewById(R.id.etMSSV);
@@ -56,6 +73,11 @@ public class InfoFragment extends Fragment {
         mViewPaper=view.findViewById(R.id.vpInfor);
         mPageAdapter=new PageAdapter(getChildFragmentManager(),mTabLayout.getTabCount());
         mViewPaper.setAdapter(mPageAdapter);
+
+        if (user != null) {
+            String name = user.getDisplayName();
+            mEtName.setText(name);
+        }
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -91,6 +113,7 @@ public class InfoFragment extends Fragment {
             }
         });
 
+        // Update user info
         mBtnEditName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +141,18 @@ public class InfoFragment extends Fragment {
                         return;
 
                     //save new name here
-                    //========================
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(newName)
+                            .build();
+                    user.updateProfile(profileUpdates)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "User profile updated.");
+                                    }
+                                }
+                            });
                 }
             }
         });

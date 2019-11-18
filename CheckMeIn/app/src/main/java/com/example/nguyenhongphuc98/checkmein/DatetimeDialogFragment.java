@@ -22,7 +22,7 @@ public class DatetimeDialogFragment extends DialogFragment  {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.datetime_popup, container, false);
+        View view = inflater.inflate(R.layout.fragment_datetime_popup, container, false);
         final TextView txtDate = (TextView) view.findViewById(R.id.txtDate);
 
         txtDate.setOnClickListener(new View.OnClickListener() {

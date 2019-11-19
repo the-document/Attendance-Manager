@@ -113,7 +113,7 @@ public class InfoFragment extends Fragment {
             }
         });
 
-        // Update user info
+        // Update user name
         mBtnEditName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,7 +149,7 @@ public class InfoFragment extends Fragment {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Log.d(TAG, "User profile updated.");
+                                        Log.d(TAG, "User name updated.");
                                     }
                                 }
                             });

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center|center_vertical"
-    android:layout_margin="5dp"
+    android:layout_margin="10dp"
     android:background="@drawable/custom_row_event"
     tools:layout_editor_absoluteX="26dp"
     tools:layout_editor_absoluteY="357dp">
@@ -22,7 +22,7 @@
         app:civ_shadow_color="#8BC34A"
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

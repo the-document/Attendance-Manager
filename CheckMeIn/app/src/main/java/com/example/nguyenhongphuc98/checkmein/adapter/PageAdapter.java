@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.nguyenhongphuc98.checkmein.InfoFragmentAccount;
-import com.example.nguyenhongphuc98.checkmein.InfoFragmentAct;
+import com.example.nguyenhongphuc98.checkmein.UI.user.InfoFragmentAccount;
+import com.example.nguyenhongphuc98.checkmein.UI.user.InfoFragmentAct;
 
 public class PageAdapter extends FragmentPagerAdapter {
 

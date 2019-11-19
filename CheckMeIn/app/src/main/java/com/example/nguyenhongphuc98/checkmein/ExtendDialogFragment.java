@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.nguyenhongphuc98.checkmein.UI.mail.SendEmailFragment;
+
 public class ExtendDialogFragment extends DialogFragment {
     SendEmailFragment sendEmailFragment;
 

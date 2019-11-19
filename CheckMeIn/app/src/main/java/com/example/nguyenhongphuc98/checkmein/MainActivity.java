@@ -3,6 +3,12 @@ package com.example.nguyenhongphuc98.checkmein;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.nguyenhongphuc98.checkmein.UI.event_ques.QuestionManagementFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.home.HomeFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.mail.SendEmailFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.scan.CardScannerFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.user.InfoFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -68,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference myRef = database.getReference("message");
 
         myRef.setValue("Hello, World!");
+
+        ReplaceFragment(mHomeFragment);
     }
 
     private void ReplaceFragment(Fragment fragment){

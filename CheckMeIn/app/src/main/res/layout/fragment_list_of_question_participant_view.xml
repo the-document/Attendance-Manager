@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QuestionListFragment"
+    tools:context=".UI.event_ques.QuestionListFragment"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingTop="16dp">

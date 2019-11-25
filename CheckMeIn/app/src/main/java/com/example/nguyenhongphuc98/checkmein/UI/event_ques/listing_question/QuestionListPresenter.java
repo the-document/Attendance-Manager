@@ -25,6 +25,7 @@ public class QuestionListPresenter implements QuestionListContract.QuestionListP
 
         dsTest.add(question1);
         dsTest.add(question2);
+
         QuestionListCustomAdapter qaCustomAdapter = new QuestionListCustomAdapter(view.getContext(), R.layout.custom_question_row_layout, dsTest);
         view.setQuestionListAdapter(qaCustomAdapter);
     }

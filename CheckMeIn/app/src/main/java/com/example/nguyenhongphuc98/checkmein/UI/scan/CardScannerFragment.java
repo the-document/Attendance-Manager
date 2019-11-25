@@ -1,12 +1,20 @@
 package com.example.nguyenhongphuc98.checkmein.UI.scan;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +22,7 @@ import android.widget.FrameLayout;
 
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.UI.scan.CameraPreview;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 public class CardScannerFragment extends Fragment {
 
@@ -39,7 +48,8 @@ public class CardScannerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mCamera.startPreview();
+        if (mCamera != null)
+            mCamera.startPreview();
     }
 
     @Override
@@ -52,7 +62,8 @@ public class CardScannerFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        mCamera.stopPreview();
+        if (mCamera != null)
+            mCamera.stopPreview();
     }
 
     private boolean checkCameraHardwareAvailability (Context context)
@@ -63,11 +74,39 @@ public class CardScannerFragment extends Fragment {
             return false;
     }
 
-    private static Camera getCameraInstance(CameraPreview camPreview){
+    private Camera getCameraInstance(CameraPreview camPreview){
         try
         {
             if (cameraInstance == null) {
-                cameraInstance = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+                //Kiểm tra tiếp quyền truy cập xem đã có quyền truy cập Camera chưa.
+                {
+                    final RxPermissions rxPermissions = new RxPermissions(this);
+                    rxPermissions
+                            .request(Manifest.permission.CAMERA)
+                            .subscribe(granted -> {
+                                if (granted)
+                                {
+                                    cameraInstance = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+                                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                    if (Build.VERSION.SDK_INT >= 26) {
+                                        ft.setReorderingAllowed(false);
+                                    }
+                                    ft.detach(this).attach(this).commit();
+                                }
+                                else
+                                {
+                                    new AlertDialog.Builder(getActivity())
+                                            .setTitle("Permission not granted !")
+                                            .setMessage("Permission not granted ! Therefore we cannot proceed your request.")
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    getFragmentManager().popBackStackImmediate();
+                                                }
+                                            });
+                                }
+                            });
+                }
             }
         }
         catch (Exception e)

@@ -53,6 +53,10 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
     implementation 'com.rmtheis:tess-two:9.0.0'
+
+    //For camera permission (and other permission as well).
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 }
 
 configurations.all {

@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.nguyenhongphuc98.checkmein.adapter.EventAdapter;
+import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.UI.event_ques.QuestionManagementFragment;
 

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.nguyenhongphuc98.checkmein.R;
-import com.example.nguyenhongphuc98.checkmein.adapter.EventAdapter;
+import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
 
 
 /**

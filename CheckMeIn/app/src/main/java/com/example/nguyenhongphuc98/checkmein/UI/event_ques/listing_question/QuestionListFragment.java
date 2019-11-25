@@ -1,4 +1,4 @@
-package com.example.nguyenhongphuc98.checkmein.UI.event_ques;
+package com.example.nguyenhongphuc98.checkmein.UI.event_ques.listing_question;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.nguyenhongphuc98.checkmein.R;
+import com.example.nguyenhongphuc98.checkmein.UI.event_ques.new_question_dialog.NewQuestionDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ public class QuestionListFragment extends Fragment{
 
         ArrayList<Question> dsTest = new ArrayList<>();
 
-        Question question1 = new Question("Câu hỏi số 1", "Câu trả lời A", "Câu trả lời B", "Câu trả lời C", "Câu trả lời D");
+        Question question1 = new Question("Câu hỏi số 1", "Câu trả lời A", "Câu trả lời B", "Câu trả lời C", "Câu trả lời D", "Câu trả lời E");
         Question question2 = new Question("Câu hỏi số 2", "Câu trả lời A", "Câu trả lời B", "Câu trả lời C", "Câu trả lời D");
 
         dsTest.add(question1);

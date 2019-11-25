@@ -1,4 +1,4 @@
-package com.example.nguyenhongphuc98.checkmein.UI.event_ques;
+package com.example.nguyenhongphuc98.checkmein.UI.event_ques.new_question_dialog;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -22,7 +22,7 @@ import com.example.nguyenhongphuc98.checkmein.ViewGroupModel.AnswerView;
 
 import java.util.ArrayList;
 
-public class NewQuestionDialogFragment extends DialogFragment {
+public class NewQuestionDialogFragment extends DialogFragment implements NewQuestionDialogContract.NewQuestionDialogView {
 
     private final Integer maxNumOfInitAnswers = 4;
 
@@ -30,6 +30,8 @@ public class NewQuestionDialogFragment extends DialogFragment {
     private ScrollView mScrollView;
 
     private EditText mEdtQuestion;
+
+    private NewQuestionDialogContract.NewQuestionDialogPresenter presenter;
 
     //Mảng lưu trữ tất cả các AnswerView.
     //Mặc định khi mới bấm vào thêm câu hỏi thì sẽ được cài sẵn 4 trường AnswerView.
@@ -75,17 +77,35 @@ public class NewQuestionDialogFragment extends DialogFragment {
         //Ánh xạ.
         AssignAllControl(view);
 
+        //Xử lý presenter.
+        presenter = new NewQuestionDialogPresenter();
+        presenter.setView(this);
+
         //Số câu trả lời ban đầu.
         for (int i=0;i<maxNumOfInitAnswers;++i)
         {
             AddOneMoreAnswer();
         }
+        //Thêm tất cả listener có thể có.
+        AssignListeners();
 
+    }
+
+    private void AssignListeners()
+    {
         //Thêm listener bắt sự kiện khi người dùng muốn thêm câu trả lời cho câu hỏi.
         mButtonAddAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AddOneMoreAnswer();
+            }
+        });
+
+        //Thêm listener bắt sự kiện khi người dùng hoàn thành việc thêm câu hỏi và cần lưu lại.
+        mButtonFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.finishAddingQuestion();
             }
         });
     }

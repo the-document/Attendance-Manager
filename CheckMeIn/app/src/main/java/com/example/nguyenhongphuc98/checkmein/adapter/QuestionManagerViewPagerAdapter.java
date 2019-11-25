@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.nguyenhongphuc98.checkmein.UI.event_list_join.ParticipantListFragment;
 import com.example.nguyenhongphuc98.checkmein.UI.event_ans.ParticipantAnalyticsListFragment;
-import com.example.nguyenhongphuc98.checkmein.UI.event_ques.QuestionListFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.event_ques.listing_question.QuestionListFragment;
 
 public class QuestionManagerViewPagerAdapter extends FragmentPagerAdapter {
 

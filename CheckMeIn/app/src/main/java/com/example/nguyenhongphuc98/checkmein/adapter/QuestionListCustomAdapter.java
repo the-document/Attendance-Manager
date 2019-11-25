@@ -1,4 +1,4 @@
-package com.example.nguyenhongphuc98.checkmein.adapter;
+package com.example.nguyenhongphuc98.checkmein.Adapter;
 
 import android.content.Context;
 import androidx.annotation.NonNull;

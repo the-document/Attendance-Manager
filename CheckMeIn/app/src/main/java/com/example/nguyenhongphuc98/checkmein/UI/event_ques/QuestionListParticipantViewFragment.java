@@ -31,7 +31,7 @@ public class QuestionListParticipantViewFragment extends Fragment {
         dsTest.add(question1);
         dsTest.add(question2);
 
-        com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter qaCustomAdapter = new com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter(getActivity(), R.layout.custom_question_row_layout, dsTest);
+        com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter qaCustomAdapter = new com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter(getActivity(), R.layout.custom_question_row_layout, dsTest);
 
         lv_question_list.setAdapter(qaCustomAdapter);
 

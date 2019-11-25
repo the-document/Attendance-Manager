@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.UI.event_ques.new_question_dialog.NewQuestionDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;import android.os.Bundle;
@@ -12,16 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 
 import java.util.ArrayList;
 
-public class QuestionListFragment extends Fragment{
+public class QuestionListFragment extends Fragment implements QuestionListContract.QuestionListView {
 
     ListView lv_question_list;
     FloatingActionButton fab_add_question;
+    QuestionListContract.QuestionListPresenter presenter;
 
     @Nullable
     @Override
@@ -33,17 +33,11 @@ public class QuestionListFragment extends Fragment{
         //Ánh xạ.
         AssignValues(view);
 
-        ArrayList<Question> dsTest = new ArrayList<>();
-
-        Question question1 = new Question("Câu hỏi số 1", "Câu trả lời A", "Câu trả lời B", "Câu trả lời C", "Câu trả lời D", "Câu trả lời E");
-        Question question2 = new Question("Câu hỏi số 2", "Câu trả lời A", "Câu trả lời B", "Câu trả lời C", "Câu trả lời D");
-
-        dsTest.add(question1);
-        dsTest.add(question2);
-
-        QuestionListCustomAdapter qaCustomAdapter = new QuestionListCustomAdapter(getActivity(), R.layout.custom_question_row_layout, dsTest);
-
-        lv_question_list.setAdapter(qaCustomAdapter);
+        //Cài đặt presenter.
+        presenter = new QuestionListPresenter();
+        presenter.setView(this);
+        //Xong load câu hỏi lên luôn.
+        presenter.loadQuestions();
 
         //Xử lý sự kiện cho nút thêm.
         fab_add_question.setOnClickListener(new View.OnClickListener() {
@@ -63,5 +57,10 @@ public class QuestionListFragment extends Fragment{
         //Ánh xạ.
         lv_question_list = (ListView)view.findViewById(R.id.lv_question_list);
         fab_add_question = (FloatingActionButton)view.findViewById(R.id.fab_add_question);
+    }
+
+    @Override
+    public void setQuestionListAdapter(QuestionListCustomAdapter adapter) {
+        lv_question_list.setAdapter(adapter);
     }
 }

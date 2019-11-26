@@ -78,35 +78,7 @@ public class CardScannerFragment extends Fragment {
         try
         {
             if (cameraInstance == null) {
-                //Kiểm tra tiếp quyền truy cập xem đã có quyền truy cập Camera chưa.
-                {
-                    final RxPermissions rxPermissions = new RxPermissions(this);
-                    rxPermissions
-                            .request(Manifest.permission.CAMERA)
-                            .subscribe(granted -> {
-                                if (granted)
-                                {
-                                    cameraInstance = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
-                                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                                    if (Build.VERSION.SDK_INT >= 26) {
-                                        ft.setReorderingAllowed(false);
-                                    }
-                                    ft.detach(this).attach(this).commit();
-                                }
-                                else
-                                {
-                                    new AlertDialog.Builder(getActivity())
-                                            .setTitle("Permission not granted !")
-                                            .setMessage("Permission not granted ! Therefore we cannot proceed your request.")
-                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    getFragmentManager().popBackStackImmediate();
-                                                }
-                                            });
-                                }
-                            });
-                }
+                cameraInstance = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
             }
         }
         catch (Exception e)

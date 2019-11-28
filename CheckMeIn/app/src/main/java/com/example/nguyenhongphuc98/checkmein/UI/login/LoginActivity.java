@@ -72,9 +72,9 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ProcessLoginData(edtUsername.getText().toString(), edtPassword.getText().toString());
-                loginPresenter.getAccount(edtUsername.getText().toString(), edtPassword.getText().toString());
-                loginPresenter.LoginProcess();
+                ProcessLoginData(edtUsername.getText().toString(), edtPassword.getText().toString());
+                //loginPresenter.getAccount(edtUsername.getText().toString(), edtPassword.getText().toString());
+                //loginPresenter.LoginProcess();
             }
         });
     }

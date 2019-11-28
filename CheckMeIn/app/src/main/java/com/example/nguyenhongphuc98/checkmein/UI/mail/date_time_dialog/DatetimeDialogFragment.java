@@ -1,4 +1,4 @@
-package com.example.nguyenhongphuc98.checkmein;
+package com.example.nguyenhongphuc98.checkmein.UI.mail.date_time_dialog;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -14,6 +14,9 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.example.nguyenhongphuc98.checkmein.R;
+import com.example.nguyenhongphuc98.checkmein.UI.mail.date_time_dialog.DatePickerFragment;
 
 import java.util.Calendar;
 

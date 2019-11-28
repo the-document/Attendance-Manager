@@ -22,7 +22,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginPresenter.View {
     TextView txtLinkToRegister;
     TextView txtLinkToForgotPass;
 
@@ -30,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtPassword;
 
     Button btnLogin;
+
+    LoginPresenter loginPresenter;
 
     private FirebaseAuth mAuth;
     private static final String TAG = "EmailPassword";
@@ -43,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        loginPresenter = new LoginPresenter(this);
 
         //Ánh xạ.
         txtLinkToRegister = (TextView)findViewById(R.id.txtLinkToRegister);
@@ -68,8 +72,9 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProcessLoginData(edtUsername.getText().toString(), edtPassword.getText().toString());
-
+                //ProcessLoginData(edtUsername.getText().toString(), edtPassword.getText().toString());
+                loginPresenter.getAccount(edtUsername.getText().toString(), edtPassword.getText().toString());
+                loginPresenter.LoginProcess();
             }
         });
     }

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.nguyenhongphuc98.checkmein.ExtendDialogFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.event_list_join.extend_dialog.ExtendDialogFragment;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.adapter.ParticipantAdapter;
 

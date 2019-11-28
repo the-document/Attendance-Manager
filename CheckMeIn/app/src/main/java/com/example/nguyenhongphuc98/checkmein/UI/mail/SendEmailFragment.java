@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.nguyenhongphuc98.checkmein.DatetimeDialogFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.mail.date_time_dialog.DatetimeDialogFragment;
 import com.example.nguyenhongphuc98.checkmein.R;
 
 public class SendEmailFragment extends Fragment {

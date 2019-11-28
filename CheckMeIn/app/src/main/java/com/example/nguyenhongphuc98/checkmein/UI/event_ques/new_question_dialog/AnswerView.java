@@ -1,4 +1,4 @@
-package com.example.nguyenhongphuc98.checkmein.ViewGroupModel;
+package com.example.nguyenhongphuc98.checkmein.UI.event_ques.new_question_dialog;
 
 import android.content.Context;
 import android.os.Build;

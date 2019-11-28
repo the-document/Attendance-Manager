@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 
 import com.example.nguyenhongphuc98.checkmein.R;
-import com.example.nguyenhongphuc98.checkmein.ViewGroupModel.AnswerView;
 
 import java.util.ArrayList;
 

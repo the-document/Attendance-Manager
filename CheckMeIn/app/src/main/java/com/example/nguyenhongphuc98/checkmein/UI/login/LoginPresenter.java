@@ -8,7 +8,7 @@ import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 public class LoginPresenter implements ILoginView {
     private Account account;
     private View view;
-    DataManager dataManager;
+    private DataManager dataManager;
 
     public LoginPresenter(View view) {
         this.account = new Account();
@@ -16,13 +16,17 @@ public class LoginPresenter implements ILoginView {
         dataManager = new DataManager();
     }
 
-    public void getAccount(String email, String password) {
+    public void setAccount(String email, String password) {
         account.setMail(email);
         account.setPassword(password);
     }
 
-    public void LoginProcess() {
-        dataManager.ProcessLogin();
+    public void LoginProcess(String email, String password) {
+        dataManager.ProcessLogin(email, password);
+    }
+
+    public boolean CheckLoginStatus() {
+        return dataManager.checkLoginStatus();
     }
 
     public interface View{

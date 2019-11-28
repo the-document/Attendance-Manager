@@ -1,13 +1,13 @@
-package com.example.nguyenhongphuc98.checkmein.adapter;
+package com.example.nguyenhongphuc98.checkmein.Adapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.nguyenhongphuc98.checkmein.CreateActivity.ViewListActivityFragment;
-import com.example.nguyenhongphuc98.checkmein.CreateActivity.ViewSetContentFragment;
-import com.example.nguyenhongphuc98.checkmein.CreateActivity.ViewSetNameFragment;
-import com.example.nguyenhongphuc98.checkmein.CreateActivity.ViewSetTimeFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.event.ViewListActivityFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.event.ViewSetContentFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.event.ViewSetNameFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.event.ViewSetTimeFragment;
 
 public class PageAdapterListActivity extends FragmentPagerAdapter {
 

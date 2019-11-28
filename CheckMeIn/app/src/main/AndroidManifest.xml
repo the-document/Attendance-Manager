@@ -15,10 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ParticipantAnalyticsListFragment"></activity>
-        <activity android:name=".QuestionListFragment" />
-        <activity android:name=".ParticipantListFragment" />
-        <activity android:name=".CardScannerFragment"
+        <activity android:name=".UI.event_ans.ParticipantAnalyticsListFragment"></activity>
+        <activity android:name=".UI.event_ques.listing_question.QuestionListFragment" />
+        <activity android:name=".UI.event_list_join.ParticipantListFragment" />
+        <activity android:name=".UI.scan.CardScannerFragment"
             android:label="@string/app_name" />
 
         <activity android:name=".Loading">
@@ -30,18 +30,18 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".UI.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".UI.login.RegisterActivity" />
+        <activity android:name=".UI.login.ResetPasswordActivity" />
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
-        <activity android:name=".QuestionManagementFragment"/>
+        <activity android:name=".UI.event_ques.QuestionManagementFragment"/>
 
 
     </application>

@@ -1,4 +1,4 @@
-package com.example.nguyenhongphuc98.checkmein.adapter;
+package com.example.nguyenhongphuc98.checkmein.Adapter;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.nguyenhongphuc98.checkmein.R;
-import com.example.nguyenhongphuc98.checkmein.model.Question;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 
 import java.util.ArrayList;
 

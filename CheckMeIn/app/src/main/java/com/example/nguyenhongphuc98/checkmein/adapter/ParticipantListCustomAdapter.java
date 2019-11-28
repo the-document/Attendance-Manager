@@ -2,11 +2,10 @@ package com.example.nguyenhongphuc98.checkmein.adapter;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import android.widget.ArrayAdapter;
 
-import com.example.nguyenhongphuc98.checkmein.model.Participant;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Participant;
 
 import java.util.List;
 

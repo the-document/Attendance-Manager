@@ -4,7 +4,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import android.widget.ArrayAdapter;
 
-import com.example.nguyenhongphuc98.checkmein.model.Answer;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 
 import java.util.List;
 

@@ -1,12 +1,10 @@
 package com.example.nguyenhongphuc98.checkmein.Data.network;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
-import com.example.nguyenhongphuc98.checkmein.UI.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,10 +16,10 @@ public class DataManager {
     FirebaseAuth mAuth;
     private static final String TAG = "EmailPassword";
 
-    public static final String EXTRA_USERNAME = ".LOGIN.USERNAME";
-    public static final String EXTRA_PASSWORD = ".LOGIN.PASSWORD";
-    public static final int REGISTER_SUCCESS = 1;
-    public static final int REGISTER_NOT = 0;
+    //public static final String EXTRA_USERNAME = ".LOGIN.USERNAME";
+    //public static final String EXTRA_PASSWORD = ".LOGIN.PASSWORD";
+    //public static final int REGISTER_SUCCESS = 1;
+    //public static final int REGISTER_NOT = 0;
     //fire base implement here
     public DataManager() {
         mAuth = FirebaseAuth.getInstance();
@@ -32,8 +30,20 @@ public class DataManager {
         account.setPassword(password);
     }
 
-    public void ProcessLogin() {
-        mAuth.signInWithEmailAndPassword(account.getMail(), account.getPassword())
+    public boolean checkLoginStatus()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            return true;
+        } else {
+            // No user is signed in
+            return false;
+        }
+    }
+
+    public void ProcessLogin(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -45,13 +55,6 @@ public class DataManager {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                         }
-
-                        // [START_EXCLUDE]
-                        /*if (!task.isSuccessful()) {
-                            mStatusTextView.setText(R.string.auth_failed);
-                        }
-                        hideProgressDialog();*/
-                        // [END_EXCLUDE]
                     }
                 });
     }

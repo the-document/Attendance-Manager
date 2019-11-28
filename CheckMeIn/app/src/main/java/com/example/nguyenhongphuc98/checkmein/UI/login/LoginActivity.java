@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         setContentView(R.layout.activity_login);
 
         loginPresenter = new LoginPresenter(this);
+        final Intent intent = new Intent(this, MainActivity.class);
 
         //Ánh xạ.
         txtLinkToRegister = (TextView)findViewById(R.id.txtLinkToRegister);
@@ -73,8 +74,14 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
             @Override
             public void onClick(View v) {
                 //ProcessLoginData(edtUsername.getText().toString(), edtPassword.getText().toString());
-                loginPresenter.getAccount(edtUsername.getText().toString(), edtPassword.getText().toString());
-                loginPresenter.LoginProcess();
+                //loginPresenter.setAccount(edtUsername.getText().toString(), edtPassword.getText().toString());
+                loginPresenter.LoginProcess(edtUsername.getText().toString(), edtPassword.getText().toString());
+                if (loginPresenter.CheckLoginStatus()) {
+                    startActivity(intent);
+                }
+                else {
+
+                }
             }
         });
     }

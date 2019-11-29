@@ -17,8 +17,16 @@ public class LoginPresenter implements ILoginView {
     }
 
     public void setAccount(String email, String password) {
-        account.setMail(email);
-        account.setPassword(password);
+        this.account.setMail(email);
+        this.account.setPassword(password);
+    }
+
+    public String getEmail() {
+        return this.account.getMail();
+    }
+
+    public String getPassword() {
+        return this.account.getPassword();
     }
 
     public void LoginProcess(String email, String password) {

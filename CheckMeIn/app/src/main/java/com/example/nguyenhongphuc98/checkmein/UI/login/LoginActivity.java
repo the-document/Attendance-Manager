@@ -73,21 +73,21 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-<<<<<<< HEAD
-                //ProcessLoginData(edtUsername.getText().toString(), edtPassword.getText().toString());
-                //loginPresenter.setAccount(edtUsername.getText().toString(), edtPassword.getText().toString());
-                loginPresenter.LoginProcess(edtUsername.getText().toString(), edtPassword.getText().toString());
-                if (loginPresenter.CheckLoginStatus()) {
-                    startActivity(intent);
+                if (!edtUsername.getText().toString().isEmpty() && !edtPassword.getText().toString().isEmpty()) {
+                    loginPresenter.setAccount(edtUsername.getText().toString(), edtPassword.getText().toString());
+                    loginPresenter.LoginProcess(loginPresenter.getEmail() , loginPresenter.getPassword());
+                    if (loginPresenter.CheckLoginStatus()) {
+                        startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
-
+                    Toast.makeText(LoginActivity.this, "Please make sure to enter valid email and password!",
+                            Toast.LENGTH_SHORT).show();
                 }
-=======
-                ProcessLoginData(edtUsername.getText().toString(), edtPassword.getText().toString());
-                //loginPresenter.getAccount(edtUsername.getText().toString(), edtPassword.getText().toString());
-                //loginPresenter.LoginProcess();
->>>>>>> 768cf0338e040bd382e379823ccbec6b3dc69c58
             }
         });
     }

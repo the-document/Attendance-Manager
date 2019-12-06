@@ -1,20 +1,28 @@
 package com.example.nguyenhongphuc98.checkmein.Data.db.model;
 
+import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
+
 import java.util.ArrayList;
 
 public class Organization {
     private String name;
-    private int id;
+    private String id;
     private String avatar;
     private String description;
-    private int userId;
-    private ArrayList<Integer> collaborator;
+    private String userId;
+    private ArrayList<String> collaborator;
 
+    //to access db
+    public Boolean Save(){
+        return DataManager.Instance().SaveOrgan(this);
+    }
+
+    //geter and seter
     public String getName() {
         return name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -26,7 +34,7 @@ public class Organization {
         return description;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
@@ -38,7 +46,7 @@ public class Organization {
         this.name = name;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -50,11 +58,11 @@ public class Organization {
         this.description = description;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public void setCollaborator(ArrayList<Integer> collaborator) {
+    public void setCollaborator(ArrayList<String> collaborator) {
         this.collaborator = collaborator;
     }
 }

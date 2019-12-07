@@ -5,16 +5,24 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.example.nguyenhongphuc98.checkmein.Adapter.OrganAdaptor;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Collaborator;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,8 +32,12 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -37,7 +49,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DataManager {
@@ -124,6 +138,7 @@ public class DataManager {
 
 
     //THIS PART MAKE BY NGUYEN HONG PHUC
+    //organ
     public Boolean SaveOrgan(Organization organization){
 
         try{
@@ -155,6 +170,98 @@ public class DataManager {
 
     }
 
+    public void LoadOrgan(OrganAdaptor adaptor,List<String> lsID,List<String> lsImage,String host){
+
+        final DatabaseReference organs_Reference = FirebaseDatabase.getInstance().getReference("Organization");
+        Query query=organs_Reference.orderByChild("userId").equalTo(host);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                lsID.clear();
+                lsImage.clear();
+
+                if (dataSnapshot.exists()) {
+
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Organization o = snapshot.getValue(Organization.class);
+                        lsID.add(o.getId());
+
+
+
+                        mStorageRef.child("organ/"+o.getAvatar()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Log.e("DTM","get url avt a organ:"+uri.getPath());
+
+                                lsImage.add(uri.toString());
+                                adaptor.notifyDataSetChanged();
+
+
+                                Log.e("DTM","downloaded a organ:"+uri.getPath());
+
+                            }
+                        });
+                    }
+
+                    //adaptor.SetOrganAdaptor(lsImage,lsID);
+                    //adaptor.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void LoadImageCollorator(String imageName,
+                                    List<String> lsColla, com.example.nguyenhongphuc98.checkmein.adapter.CollaborationAdapter adapter){
+        mStorageRef.child("organ/"+imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.e("DTM","get url avt collabortor:"+uri.getPath());
+
+                lsColla.add(uri.toString());
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
+
+    public Boolean SaveCollaborator(Collaborator c){
+
+        try{
+
+            //save to firebase
+            Task task= mDatabase.child("Collaborator").child(c.getOrgan()).child(c.getCollaborator()).setValue(c.getName());
+            task.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("DATAMANAGER",e.toString());
+
+                }
+            }).addOnSuccessListener(new OnSuccessListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    Log.d("DATAMANAGER","save success");
+                }
+            });
+
+            return true;
+        }
+        catch (Exception e){
+            Log.d("DATAMANAGER",e.toString());
+        }
+
+        return false;
+    }
+
+
+    //---------------------------------------------------------------------
     private String queryName(ContentResolver resolver, Uri uri) {
         Cursor returnCursor =
                 resolver.query(uri, null, null, null, null);
@@ -189,12 +296,13 @@ public class DataManager {
 
         return localDateTime.toString();
     }
-    
+
     public void LoadImageFromStorage(String imageName,ImageView imageView){
         mStorageRef.child("organ/"+imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Log.e("DTM","download uri:"+uri.getPath());
+                Log.e("DTM","downloaded image uri:"+uri.getPath());
+
                 Glide.with(mContext).load(uri).into(imageView);
             }
         });

@@ -1,11 +1,16 @@
 package com.example.nguyenhongphuc98.checkmein.UI.organ;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Collaborator;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
 import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 
@@ -25,6 +30,21 @@ public class OrganPresenter implements IOrganView {
     @Override
     public void onAddCollaboratorClick() {
 
+
+        DataManager.Instance().LoadImageCollorator(
+                view.etCollaborator.getText().toString(),
+                view.lsCollaborator,view.adapter);
+
+        view.mssvCollaborators.add(view.etCollaborator.getText().toString());
+        view.etCollaborator.setText("");
+    }
+
+    public void SaveCollborator(){
+        for(int i=0;i<view.mssvCollaborators.size();i++){
+            Collaborator cola=new Collaborator(view.mssvCollaborators.get(i),DataCenter.UserID, DataCenter.OrganID);
+
+            cola.Save();
+        }
     }
 
     @Override
@@ -59,13 +79,15 @@ public class OrganPresenter implements IOrganView {
 
         //setcurrent account login in this app
         organization.setUserId("person1");
+        SaveCollborator();
 
         if(organization.Save())
             onSaveOrganResult(CODE_SAVE_ORGAN_SUCCESS);
         else
             onSaveOrganResult(CODE_SAVE_ORGAN_FAIL);
-    }
 
+
+    }
 
 
 
@@ -78,6 +100,12 @@ public class OrganPresenter implements IOrganView {
     @Override
     public void onChangePhotoResult(int code) {
         view.onChangePhotoResult(code);
+
+
+//        CircularImageView i=new CircularImageView(view.getContext());
+//        DataManager.Instance(view.getContext()).LoadImageFromStorage("1575613702902",i);
+//        view.avtOrgan= i;
+
         //DataManager.Instance(view.getContext()).LoadImageFromStorage("1575613702902",view.avtOrgan);
 
     }

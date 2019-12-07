@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,10 +16,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.R;
+import com.example.nguyenhongphuc98.checkmein.UI.home.HomeFragment;
 import com.example.nguyenhongphuc98.checkmein.adapter.CollaborationAdapter;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -49,15 +53,13 @@ public class OrganFragment extends Fragment implements IOrganView{
     CollaborationAdapter adapter;
 
     List<String> lsCollaborator;
+    List<String> mssvCollaborators;
     Uri avatarRUri;
 
     public OrganFragment() {
         // Required empty public constructor
-       lsCollaborator=new ArrayList<String>();
-       lsCollaborator.add("a");
-       lsCollaborator.add("a");
-       lsCollaborator.add("a");
-
+       lsCollaborator=new ArrayList<>();
+        mssvCollaborators=new ArrayList<>();
     }
 
 
@@ -98,7 +100,11 @@ public class OrganFragment extends Fragment implements IOrganView{
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onSaveOrganClick();
+                if(DataCenter.typeAction== DataCenter.TypeAction.CREATE)
+                    onSaveOrganClick();
+                else {
+                    //this is edit part
+                }
             }
         });
 
@@ -117,8 +123,9 @@ public class OrganFragment extends Fragment implements IOrganView{
                         }
 
                         //get link by ID user
-                        lsCollaborator.add("templink");
-                        adapter.notifyDataSetChanged();
+                        //lsCollaborator.add("");
+                        presenter.onAddCollaboratorClick();
+
                         return true;
                     }
                 }
@@ -167,6 +174,11 @@ public class OrganFragment extends Fragment implements IOrganView{
         {
             case CODE_SAVE_ORGAN_SUCCESS:
                 Toast.makeText(getContext(),"save success.",Toast.LENGTH_SHORT).show();
+
+                FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransition.replace(R.id.fragment_container,new HomeFragment());
+                fragmentTransition.commit();
+
                 break;
             case CODE_SAVE_ORGAN_FAIL:
                 Toast.makeText(getContext(),"fail to save.",Toast.LENGTH_SHORT).show();

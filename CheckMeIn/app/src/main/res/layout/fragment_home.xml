@@ -84,35 +84,45 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/black"/>
 
-            <ScrollView
+            <GridView
+                android:id="@+id/gvOrgan"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="150dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:columnWidth="64dp"
+                android:numColumns="auto_fit"
+                android:layout_marginTop="10dp"/>
 
-                <RelativeLayout
-                    android:id="@+id/organization_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:gravity="center">
+<!--            <ScrollView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
 
-                    <!--<ImageButton-->
-                        <!--android:id="@+id/btn1"-->
-                        <!--android:layout_width="130dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:src="@drawable/icon_checkin"-->
-                        <!--android:layout_margin="20dp"-->
-                        <!--android:background="@drawable/custom_button_organization"/>-->
+<!--                <RelativeLayout-->
+<!--                    android:id="@+id/organization_container"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:gravity="center">-->
 
-                    <!--<ImageButton-->
-                        <!--android:layout_width="130dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:src="@drawable/icon_checkin"-->
-                        <!--android:layout_margin="20dp"-->
-                        <!--android:layout_toRightOf="@+id/btn1"-->
-                        <!--android:background="@drawable/custom_button_organization"/>-->
-                </RelativeLayout>
+<!--                    &lt;!&ndash;<ImageButton&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:id="@+id/btn1"&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:layout_width="130dp"&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:src="@drawable/icon_checkin"&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:layout_margin="20dp"&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:background="@drawable/custom_button_organization"/>&ndash;&gt;-->
 
-            </ScrollView>
+<!--                    &lt;!&ndash;<ImageButton&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:layout_width="130dp"&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:src="@drawable/icon_checkin"&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:layout_margin="20dp"&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:layout_toRightOf="@+id/btn1"&ndash;&gt;-->
+<!--                        &lt;!&ndash;android:background="@drawable/custom_button_organization"/>&ndash;&gt;-->
+<!--                </RelativeLayout>-->
+
+<!--            </ScrollView>-->
 
             <Button
                 android:id="@+id/btnCreateOrgan"

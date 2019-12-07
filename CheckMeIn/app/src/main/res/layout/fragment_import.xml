@@ -12,14 +12,12 @@
         android:layout_margin="10dp"
         android:text="Import danh sách Excel" />
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="246dp"
-        android:layout_height="60dp"
-        android:layout_gravity="left"
-        android:layout_margin="10dp"
-        android:background="@color/line"
-        android:text="Đang xử lý..." />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:indeterminate="true" />
 
     <Button
         android:id="@+id/button4"

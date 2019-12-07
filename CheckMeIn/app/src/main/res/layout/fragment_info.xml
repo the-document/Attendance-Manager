@@ -37,7 +37,7 @@
                     android:focusable="false"
                     android:background="@drawable/custom_et_info_account"
                     android:layout_centerVertical="true"
-                    android:text="Nguyen Hong Phuc"/>
+                    android:text="New User"/>
 
                 <Button
                     android:id="@+id/btnEditName"

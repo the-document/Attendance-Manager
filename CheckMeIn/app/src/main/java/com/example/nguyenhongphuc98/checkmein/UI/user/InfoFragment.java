@@ -3,6 +3,7 @@ package com.example.nguyenhongphuc98.checkmein.UI.user;
 
 import android.os.Bundle;
 
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,6 +50,7 @@ public class InfoFragment extends Fragment {
 
     FirebaseUser user;
     UserProfileChangeRequest profileUpdates;
+    Account account;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -75,7 +77,7 @@ public class InfoFragment extends Fragment {
         mPageAdapter=new PageAdapter(getChildFragmentManager(),mTabLayout.getTabCount());
         mViewPaper.setAdapter(mPageAdapter);
 
-        if (user != null) {
+        if (user.getDisplayName() != null) {
             String name = user.getDisplayName();
             mEtName.setText(name);
         }
@@ -161,7 +163,6 @@ public class InfoFragment extends Fragment {
         mEtMSSV.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (mEtMSSV.getRight() - mEtMSSV.getCompoundDrawables()[2].getBounds().width())) {
                         mEtMSSV.setText("");

@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.nguyenhongphuc98.checkmein.UI.event.ViewListActivityFragment;
-import com.example.nguyenhongphuc98.checkmein.UI.event.ViewSetContentFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.event.ViewSetLocationFragment;
 import com.example.nguyenhongphuc98.checkmein.UI.event.ViewSetNameFragment;
 import com.example.nguyenhongphuc98.checkmein.UI.event.ViewSetTimeFragment;
 
@@ -28,7 +28,7 @@ public class PageAdapterListActivity extends FragmentPagerAdapter {
             case 2:
                 return  new ViewSetTimeFragment();
             case 3:
-                return  new ViewSetContentFragment();
+                return  new ViewSetLocationFragment();
             default:
                 return null;
         }

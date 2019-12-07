@@ -8,8 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -19,10 +23,11 @@ public class InfoFragmentAct extends Fragment {
 
     ListView listView;
     EventAdapter adapter;
-    String temp1[]={"a","b","c","d","d","d","d"};
+    List<Event> lsEvent;
 
     public InfoFragmentAct() {
         // Required empty public constructor
+        lsEvent=new ArrayList<>();
     }
 
 
@@ -33,7 +38,7 @@ public class InfoFragmentAct extends Fragment {
         View view= inflater.inflate(R.layout.fragment_info_act, container, false);
 
         listView=view.findViewById(R.id.lvEventOfInfo);
-        adapter=new EventAdapter(getContext(),temp1);
+        adapter=new EventAdapter(getContext(),lsEvent);
         listView.setAdapter(adapter);
 
         return view;

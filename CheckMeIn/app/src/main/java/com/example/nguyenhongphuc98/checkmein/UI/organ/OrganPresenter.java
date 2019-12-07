@@ -78,7 +78,7 @@ public class OrganPresenter implements IOrganView {
         organization.setName(name);
 
         //setcurrent account login in this app
-        organization.setUserId("person1");
+        organization.setUserId(DataCenter.UserID);
         SaveCollborator();
 
         if(organization.Save())

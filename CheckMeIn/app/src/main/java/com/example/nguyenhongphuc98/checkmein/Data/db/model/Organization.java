@@ -3,6 +3,7 @@ package com.example.nguyenhongphuc98.checkmein.Data.db.model;
 import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Organization {
     private String name;
@@ -16,6 +17,7 @@ public class Organization {
     public Boolean Save(){
         return DataManager.Instance().SaveOrgan(this);
     }
+
 
     //geter and seter
     public String getName() {

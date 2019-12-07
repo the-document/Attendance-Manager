@@ -20,9 +20,11 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
 import com.example.nguyenhongphuc98.checkmein.Adapter.OrganAdaptor;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Collaborator;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -137,6 +139,7 @@ public class DataManager {
     }
 
 
+
     //THIS PART MAKE BY NGUYEN HONG PHUC
     //organ
     public Boolean SaveOrgan(Organization organization){
@@ -144,7 +147,7 @@ public class DataManager {
         try{
             //create new node organ
             String key=mDatabase.child("Organization").push().getKey();
-
+            organization.setId(key);
             //save to firebase
             Task task= mDatabase.child("Organization").child(key).setValue(organization);
             task.addOnFailureListener(new OnFailureListener() {
@@ -219,6 +222,7 @@ public class DataManager {
 
     public void LoadImageCollorator(String imageName,
                                     List<String> lsColla, com.example.nguyenhongphuc98.checkmein.adapter.CollaborationAdapter adapter){
+
         mStorageRef.child("organ/"+imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -260,6 +264,88 @@ public class DataManager {
         return false;
     }
 
+
+
+    public Boolean LoadActivitys(List<Event> lsEvent, String organID, EventAdapter adapter){
+
+        try {
+            final DatabaseReference events_Reference = FirebaseDatabase.getInstance().getReference("Event");
+            Query query=events_Reference.orderByChild("organ").equalTo(organID);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    lsEvent.clear();
+
+                    if (dataSnapshot.exists()) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Event o = snapshot.getValue(Event.class);
+                            lsEvent.add(o);
+                            Log.e("DTM","load event: "+o.getEvent_name());
+
+//                        mStorageRef.child("organ/"+o.getAvatar()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                            @Override
+//                            public void onSuccess(Uri uri) {
+//                                Log.e("DTM","get url avt a organ:"+uri.getPath());
+//
+//                                lsImage.add(uri.toString());
+//                                adaptor.notifyDataSetChanged();
+//
+//
+//                                Log.e("DTM","downloaded a organ:"+uri.getPath());
+//
+//                            }
+//                        });
+                        }
+
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get list event: "+e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    public Boolean SaveEvent(Event event){
+        try{
+            //create new node organ
+            String key=mDatabase.child("Event").push().getKey();
+            event.setEvent_id(key);
+
+            //save to firebase
+            Task task= mDatabase.child("Event").child(key).setValue(event);
+            task.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("DATAMANAGER",e.toString());
+
+                }
+            }).addOnSuccessListener(new OnSuccessListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    Log.d("DATAMANAGER","save event success");
+                }
+            });
+
+            return true;
+        }
+        catch (Exception e){
+            Log.d("DATAMANAGER",e.toString());
+        }
+
+        return false;
+    }
 
     //---------------------------------------------------------------------
     private String queryName(ContentResolver resolver, Uri uri) {

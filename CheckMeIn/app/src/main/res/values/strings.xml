@@ -40,4 +40,6 @@
     <string name="description">Description</string>
     <string name="collaborator">Collaborator ID</string>
     <string name="gui_mail_cho">Gửi mail cho</string>
+    <string name="event_code">Event code</string>
+    <string name="location">Địa điểm</string>
 </resources>

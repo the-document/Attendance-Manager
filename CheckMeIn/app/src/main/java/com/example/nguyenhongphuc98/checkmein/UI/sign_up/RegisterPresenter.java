@@ -38,6 +38,10 @@ public class RegisterPresenter {
         return dataManager.registerProcess(email, password);
     }
 
+    public boolean CheckMailVerify() {
+        return dataManager.mAuth.getCurrentUser().isEmailVerified();
+    }
+
     public void writeNewAccount(String userId, String username, int mssv, String password, String create_date) {
         dataManager.mDatabase = dataManager.database.getReference("Person");
         dataManager.mDatabase.orderByChild("mssv").equalTo(mssv).addChildEventListener(new ChildEventListener() {
@@ -72,5 +76,9 @@ public class RegisterPresenter {
 
     public void writeNewPerson(int mssv) {
         person.writeNewPerson(mssv, 0, "", "New User", "");
+    }
+
+    public void checkNewPerson(int mssv) {
+
     }
 }

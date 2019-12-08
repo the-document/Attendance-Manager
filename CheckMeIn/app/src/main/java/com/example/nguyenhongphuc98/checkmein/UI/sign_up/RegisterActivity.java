@@ -60,19 +60,9 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
         edtPassword.setText(inputtedPassword);
 
         //Sự kiện.
-            txtLinkToLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GoToLoginScreen();
-            }
-        });
+            txtLinkToLogin.setOnClickListener(v -> GoToLoginScreen());
 
-            btnRegister.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    registerProcess(edtEmail.getText().toString(), edtPassword.getText().toString());
-                }
-            });
+            btnRegister.setOnClickListener(v -> registerProcess(edtEmail.getText().toString(), edtPassword.getText().toString()));
 
     }
 
@@ -81,27 +71,25 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
             return;
         }
         if (registerPresenter.SignUpProcess(email, passWord)) {
-
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date now = new Date();
             try {
                 registerPresenter.writeNewPerson(Integer.parseInt(edtUsername.getText().toString()));
                 registerPresenter.writeNewAccount(registerPresenter.getCurrentUser().getUid(), email, Integer.parseInt(edtUsername.getText().toString()), passWord, formatter.format(now));
 
-                Toast. makeText(RegisterActivity.this,"Create user success",Toast. LENGTH_SHORT).show();
-                startActivity(new Intent(this, MainActivity.class));
+                Toast.makeText(RegisterActivity.this, "Create user success", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoginActivity.class));
 
                 Log.d(TAG, "addAccountInfo:success");
-            }
-            catch (NumberFormatException nfe)
-            {
+            } catch (NumberFormatException nfe) {
                 Log.w(TAG, "addAccountInfo:failure");
-                Toast. makeText(RegisterActivity.this,"Invalid MSSV",Toast. LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Invalid MSSV", Toast.LENGTH_SHORT).show();
             }
         }
         else
             Log.w(TAG, "addAccountInfo:failure");
     }
+
 
     public boolean ValidateForm() {
         boolean valid = true;

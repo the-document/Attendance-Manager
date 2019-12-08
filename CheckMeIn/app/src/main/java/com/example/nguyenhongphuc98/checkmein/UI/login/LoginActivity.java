@@ -9,12 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nguyenhongphuc98.checkmein.MainActivity;
 import com.example.nguyenhongphuc98.checkmein.R;
+import com.example.nguyenhongphuc98.checkmein.UI.reset_password.ResetPasswordActivity;
 import com.example.nguyenhongphuc98.checkmein.UI.sign_up.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements ILoginView {
     TextView txtLinkToRegister;
@@ -58,28 +59,20 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         mAuth = FirebaseAuth.getInstance();
 
         //Sư kiện.
-        txtLinkToRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GoToRegisterActivity(v);
-            }
-        });
-        txtLinkToForgotPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GoToResetPasswordActivity(v);
-            }
-        });
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ValidateForm())
-                {
-                    loginPresenter.LoginProcess(edtUsername.getText().toString(), edtPassword.getText().toString());
+        txtLinkToRegister.setOnClickListener(v -> GoToRegisterActivity(v));
+        txtLinkToForgotPass.setOnClickListener(v -> GoToResetPasswordActivity(v));
+        btnLogin.setOnClickListener(v -> {
+            if (ValidateForm())
+            {
+                loginPresenter.LoginProcess(edtUsername.getText().toString(), edtPassword.getText().toString());
+                if (loginPresenter.CheckEmailVerify()){
                     startActivity(intent);
                 }
-
+                else {
+                    Toast. makeText(LoginActivity.this,"Please verify your account.",Toast. LENGTH_SHORT).show();
+                }
             }
+
         });
     }
 

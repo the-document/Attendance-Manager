@@ -21,10 +21,6 @@ public class LoginPresenter {
         dataManager.ProcessLogin(email, password);
     }
 
-    public boolean CheckLoginStatus() {
-        return dataManager.checkLoginStatus();
-    }
-
     public boolean ValidateForm(TextView edtUsername, TextView edtPassword) {
         boolean valid = true;
 
@@ -45,5 +41,13 @@ public class LoginPresenter {
         }
 
         return valid;
+    }
+
+    public boolean CheckLoginStatus() {
+        return dataManager.checkLoginStatus();
+    }
+
+    public boolean CheckEmailVerify() {
+        return dataManager.checkEmailVerify();
     }
 }

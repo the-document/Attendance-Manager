@@ -18,10 +18,23 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         super(context);
         mCamera = camera;
 
+        //Chỉnh các cài đặt cho Camera.
+        setupCamera();
+
         mHolder = getHolder();
         mHolder.addCallback(this);
 
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    }
+
+    private void setupCamera(){
+        Camera.Parameters parameters = mCamera.getParameters();
+        //Kiểm tra xem camera hiện tại có hỗ trợ chế độ Auto Focus không.
+        if (parameters.getSupportedFocusModes().contains(
+                Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)){
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        }
+        mCamera.setParameters(parameters);
     }
 
     @Override

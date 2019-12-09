@@ -9,12 +9,11 @@ import com.example.nguyenhongphuc98.checkmein.R;
 import com.google.android.material.tabs.TabLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionManagerViewPagerAdapter;
+import com.example.nguyenhongphuc98.checkmein.adapter.QuestionManagerViewPagerAdapter;
 
 public class QuestionManagementFragment extends Fragment {
     @Nullable

@@ -79,7 +79,7 @@
                 android:text="@string/tieu_de" />
 
             <EditText
-                android:id="@+id/etTopic"
+                android:id="@+id/etSubject"
                 android:layout_width="match_parent"
                 android:layout_height="71dp"
                 android:ems="10"
@@ -102,7 +102,7 @@
                 android:text="@string/noi_dung" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/etMessage"
                 android:layout_width="match_parent"
                 android:layout_height="214dp"
                 android:ems="10"

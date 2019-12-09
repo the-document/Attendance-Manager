@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.nguyenhongphuc98.checkmein.R;
-import com.example.nguyenhongphuc98.checkmein.Adapter.PageAdapterListActivity;
+import com.example.nguyenhongphuc98.checkmein.adapter.PageAdapterListActivity;
 
 
 /**

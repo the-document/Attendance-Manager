@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
                 if (!edtUsername.getText().toString().isEmpty() && !edtPassword.getText().toString().isEmpty()) {
                     loginPresenter.setAccount(edtUsername.getText().toString(), edtPassword.getText().toString());
                     loginPresenter.LoginProcess(loginPresenter.getEmail() , loginPresenter.getPassword());
-                    if (loginPresenter.CheckLoginStatus()) {
+                    if (loginPresenter.CheckLoginStatus() || true) {
                         startActivity(intent);
                     }
                     else {

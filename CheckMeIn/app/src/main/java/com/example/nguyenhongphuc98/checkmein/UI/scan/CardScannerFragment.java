@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,34 +17,38 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.nguyenhongphuc98.checkmein.R;
 
 public class CardScannerFragment extends Fragment {
 
-    private static Camera cameraInstance;
-    private Camera mCamera;
     private CameraPreview mPreview;
     FrameLayout previewLayout;
     ConstraintLayout layout;
     ImageView imgViewCardScanningBarLeft;
     ImageView imgViewCardScanningBarRight;
+    ImageView imgViewScanPreview;
+    TextView txtViewScannedText;
+
+    //Callback để nhận ảnh Preview trả về từ Camera.
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_card_scanner, container, false);
-        mCamera = getCameraInstance(mPreview);
-        mPreview = new CameraPreview(view.getContext(), mCamera);
 
         //Ánh xạ.
         layout = (ConstraintLayout)view.findViewById(R.id.fragment_card_scanner_layout);
         imgViewCardScanningBarLeft = (ImageView)view.findViewById(R.id.fragment_card_scanner_scanning_bar);
         imgViewCardScanningBarRight = (ImageView)view.findViewById(R.id.fragment_card_scanner_scanning_bar_2);
+        imgViewScanPreview = (ImageView)view.findViewById(R.id.fragment_card_scanner_scan_preview);
+        txtViewScannedText = (TextView)view.findViewById(R.id.fragment_card_scanner_scanned_text);
+
+        mPreview = new CameraPreview(view.getContext(), imgViewScanPreview, txtViewScannedText);
 
         //Cài đặt preview camera.
         previewLayout = view.findViewById(R.id.fv_camera_preview);
-        previewLayout.addView(mPreview);
 
         //Animation cho thanh chạy.
         final Animation scanningAnimationBottomToTop = AnimationUtils.loadAnimation(getContext(), R.anim.custom_scanning_moving_bar_bottom_to_top);
@@ -59,22 +64,24 @@ public class CardScannerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (mCamera != null)
-            mCamera.startPreview();
+//        if (mCamera != null)
+//            mCamera.startPreview();
+        previewLayout.addView(mPreview);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCamera.stopPreview();
-        releaseCameraInstance();
+//        mCamera.stopPreview();
+        previewLayout.removeView(mPreview);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mCamera != null)
-            mCamera.stopPreview();
+//        if (mCamera != null)
+//            mCamera.stopPreview();
+        previewLayout.removeView(mPreview);
     }
 
     private boolean checkCameraHardwareAvailability (Context context)
@@ -85,26 +92,5 @@ public class CardScannerFragment extends Fragment {
             return false;
     }
 
-    private Camera getCameraInstance(CameraPreview camPreview){
-        try
-        {
-            if (cameraInstance == null) {
-                cameraInstance = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return cameraInstance;
-    }
 
-    private static void releaseCameraInstance()
-    {
-        if (cameraInstance != null)
-        {
-            cameraInstance.release();
-            cameraInstance = null;
-        }
-    }
 }

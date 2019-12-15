@@ -1,39 +1,76 @@
 package com.example.nguyenhongphuc98.checkmein.UI.scan;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.nguyenhongphuc98.checkmein.R;
+import com.example.nguyenhongphuc98.checkmein.Utils.AppExecutors;
+import com.example.nguyenhongphuc98.checkmein.Utils.Tesseract;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.Policy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
-public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback, Camera.AutoFocusCallback {
+public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback, Camera.AutoFocusCallback, Camera.PreviewCallback {
+
+    //Biến giữ ImageView để set Preview.
+    ImageView scanPreview;
+
+    //Biến giữ TextView dùng để hiển thị kết quả đã OCR được.
+    TextView txtViewScannedText;
 
     //Kích cỡ của Focus Area.
     final float focusAreaSize = 72;
 
+    //Delay để lấy một frame.
+    final double frameCaptureDelay = 3;
+
+    //Tính thời gian đã qua.
+    double timeHolder = 0;
+
+    //Giữ frame hiện tại, để chúng ta có thể thao tác với frame hiện tại.
+    private final Lock lock = new ReentrantLock();
+    private byte[] mPreviewFrameBuffer;
+
     private SurfaceHolder mHolder;
+
+    private static Camera cameraInstance;
+
     private Camera mCamera;
     private boolean meteringAreaSupported = false;
 
-    public CameraPreview(Context context, Camera camera) {
+    Tesseract tesseract;
+
+    Context context;
+
+    public CameraPreview(Context context, ImageView scanPreview, TextView txtViewScannedText) {
         super(context);
-        mCamera = camera;
+        this.context = context;
+        this.scanPreview = scanPreview;
+        this.txtViewScannedText = txtViewScannedText;
+
+        //Ánh xạ.
+        tesseract = new Tesseract(context, "eng");
 
         Log.d("onCreateCameraPreview","Camera Preview Created !");
-
-        //Chỉnh các cài đặt cho Camera.
-        setupCamera();
 
         mHolder = getHolder();
         mHolder.addCallback(this);
@@ -51,6 +88,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         };
         this.setOnTouchListener(touchListener);
     }
+
 
     //Hàm này sẽ được gọi khi người dùng chạm tay vào màn hình để lấy nét.
     protected void focusOnTouch (MotionEvent event){
@@ -98,6 +136,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         try {
+            mCamera = getCameraInstance(this);
+            //Chỉnh các cài đặt cho Camera.
+            setupCamera();
+            mCamera.setPreviewCallback(this);
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
         }
@@ -107,7 +149,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        if (mHolder.getSurface() == null)
+        if (mHolder.getSurface() == null || mCamera == null)
         {
             //Surface không tồn tại.
             return;
@@ -135,6 +177,29 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    private Camera getCameraInstance(CameraPreview camPreview){
+        try
+        {
+            if (cameraInstance == null) {
+                cameraInstance = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return cameraInstance;
+    }
+
+    private static void releaseCameraInstance()
+    {
+        if (cameraInstance != null)
+        {
+            cameraInstance.release();
+            cameraInstance = null;
+        }
+    }
+
     private Rect getTapArea(float x, float y, float coefficent){
         int areaSize = Float.valueOf(focusAreaSize * coefficent).intValue();
 
@@ -158,11 +223,35 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
+        releaseCameraInstance();
+        mCamera.setPreviewCallback(null);
     }
 
     @Override
     public void onAutoFocus(boolean success, Camera camera) {
 
+    }
+
+    public Bitmap convertYuvByteArrayToBitmap(byte[] data, Camera camera) {
+        Camera.Parameters parameters = camera.getParameters();
+        Camera.Size size = parameters.getPreviewSize();
+        YuvImage image = new YuvImage(data, parameters.getPreviewFormat(), size.width, size.height, null);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        image.compressToJpeg(new Rect(0, 0, size.width, size.height), 100, out);
+        byte[] imageBytes = out.toByteArray();
+        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+    }
+
+    @Override
+    public void onPreviewFrame(byte[] data, Camera camera) {
+        {
+            if (System.currentTimeMillis()/1000 - timeHolder < frameCaptureDelay)
+                return;
+            Bitmap capturedImage = convertYuvByteArrayToBitmap(data,mCamera);
+            scanPreview.setImageBitmap(capturedImage);
+            //String scannedText = tesseract.getOCRResult(capturedImage);
+            txtViewScannedText.setText("Very_success");
+            timeHolder = System.currentTimeMillis()/1000;
+        }
     }
 }

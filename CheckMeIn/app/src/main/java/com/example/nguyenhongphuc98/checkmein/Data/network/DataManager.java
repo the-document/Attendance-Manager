@@ -571,6 +571,40 @@ public class DataManager {
         return true;
     }
 
+    public Boolean UpdatePersonDisplayNameByID(String userID,String newName){
+
+        //load person
+
+        try {
+            final DatabaseReference person_Reference = FirebaseDatabase.getInstance().getReference("Person");
+            Query query=person_Reference.orderByChild("mssv").equalTo(userID);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.exists()) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Person o = snapshot.getValue(Person.class);
+                            o.setDisplayName(newName);
+                            person_Reference.child(snapshot.getKey()).setValue(o);
+                            Log.e("DTM","updated displayname");
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {}
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err update name person: "+e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
     //---------------------------------------------------------------------
     private String queryName(ContentResolver resolver, Uri uri) {
         Cursor returnCursor =

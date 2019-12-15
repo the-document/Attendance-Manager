@@ -130,8 +130,14 @@ public class InfoFragment extends Fragment implements IInforFragmentView {
         mEtName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBtnEditName.setBackgroundResource(R.drawable.icon_edit);
-                mBtnEditName.setVisibility(View.VISIBLE);
+
+                //don't allow modify other account
+                if(mEtMSSV.getText().toString().isEmpty())
+                {
+                    mBtnEditName.setBackgroundResource(R.drawable.icon_edit);
+                    mBtnEditName.setVisibility(View.VISIBLE);
+                }
+
             }
         });
 
@@ -157,11 +163,12 @@ public class InfoFragment extends Fragment implements IInforFragmentView {
                     mBtnEditName.setVisibility(View.INVISIBLE);
                     mNameEditing=false;
 
+                    Log.e("AAAA","here1");
                     //check save data
                     String newName=mEtName.getText().toString();
                     if(newName.equals(mOldName))
                         return;
-
+                    Log.e("AAAA","here2");
                     //save new name here
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                             .setDisplayName(newName)
@@ -175,6 +182,9 @@ public class InfoFragment extends Fragment implements IInforFragmentView {
                                     }
                                 }
                             });
+
+                    //update new name in person Table
+                    OnUpdateNameOfUser();
                 }
             }
         });
@@ -235,6 +245,11 @@ public class InfoFragment extends Fragment implements IInforFragmentView {
     }
 
     @Override
+    public void OnUpdateNameOfUser() {
+        presenter.OnUpdateNameOfUser();
+    }
+
+    @Override
     public void OnShowEvent(int code) {
 
         switch (code){
@@ -243,6 +258,18 @@ public class InfoFragment extends Fragment implements IInforFragmentView {
                 break;
             case CODE_NOT_FOUND:
                 Toast.makeText(getContext(),"not found",Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    @Override
+    public void OnUpdatedDisplayName(int code) {
+        switch (code){
+            case CODE_SUCCESS:
+                Toast.makeText(getContext(),"Update success",Toast.LENGTH_SHORT).show();
+                break;
+            case CODE_FAIL:
+                Toast.makeText(getContext(),"Fail",Toast.LENGTH_SHORT).show();
                 break;
         }
     }

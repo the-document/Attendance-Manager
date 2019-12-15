@@ -97,9 +97,23 @@ public class InforFragmentPresenter implements IInforFragmentView{
 
     }
 
+    @Override
+    public void OnUpdateNameOfUser() {
+        Boolean r= DataManager.Instance().UpdatePersonDisplayNameByID(DataCenter.UserID,view.mEtName.getText().toString());
+
+        if(r)
+            OnUpdatedDisplayName(CODE_SUCCESS);
+        else OnUpdatedDisplayName(CODE_FAIL);
+    }
+
 
     @Override
     public void OnShowEvent(int code) {
         view.OnShowEvent(code);
+    }
+
+    @Override
+    public void OnUpdatedDisplayName(int code) {
+        view.OnUpdatedDisplayName(code);
     }
 }

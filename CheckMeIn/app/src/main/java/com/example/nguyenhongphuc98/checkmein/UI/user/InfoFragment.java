@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,11 +22,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.example.nguyenhongphuc98.checkmein.adapter.PageAdapter;
+import com.example.nguyenhongphuc98.checkmein.Adapter.PageAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -32,11 +36,15 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InfoFragment extends Fragment {
+public class InfoFragment extends Fragment implements IInforFragmentView {
+
+    InforFragmentPresenter presenter;
 
     EditText mEtName;
     EditText mEtMSSV;
     Button mBtnEditName;
+    CircularImageView avatar;
+
     String mOldName;
     Boolean mNameEditing;
 
@@ -62,14 +70,16 @@ public class InfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_info, container, false);
+        presenter=new InforFragmentPresenter(this);
 
         mTabLayout=view.findViewById(R.id.tlInfo);
         mTiActivity=view.findViewById(R.id.tiAccount);
         mTiAccount=view.findViewById(R.id.tiAccount);
 
-        mEtName=view.findViewById(R.id.etName);
+        mEtName=view.findViewById(R.id.etNameUser);
         mBtnEditName=view.findViewById(R.id.btnEditName);
         mEtMSSV=view.findViewById(R.id.etMSSV);
+        avatar=view.findViewById(R.id.avataruser);
 
         mViewPaper=view.findViewById(R.id.vpInfor);
         mPageAdapter=new PageAdapter(getChildFragmentManager(),mTabLayout.getTabCount());
@@ -80,10 +90,21 @@ public class InfoFragment extends Fragment {
             mEtName.setText(name);
         }
 
+        addEvent();
+
+        OnInitInfo();
+
+        return view;
+    }
+
+
+
+    void addEvent(){
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPaper.setCurrentItem(tab.getPosition());
+
             }
 
             @Override
@@ -173,7 +194,56 @@ public class InfoFragment extends Fragment {
             }
         });
 
-        return view;
+        mEtMSSV.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                OnQueryData();
+            }
+        });
     }
 
+
+
+
+    //=============================================================
+    @Override
+    public void OnInitInfo() {
+        //get display name and avatart
+        presenter.OnInitInfo();
+    }
+
+
+    @Override
+    public void OnSaveDisplayName(String _displayName) {
+
+    }
+
+
+    @Override
+    public void OnQueryData() {
+        presenter.OnQueryData();
+    }
+
+    @Override
+    public void OnShowEvent(int code) {
+
+        switch (code){
+            case CODE_SUCCESS:
+                Toast.makeText(getContext(),"finding...",Toast.LENGTH_SHORT).show();
+                break;
+            case CODE_NOT_FOUND:
+                Toast.makeText(getContext(),"not found",Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
 }

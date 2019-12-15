@@ -1,4 +1,4 @@
-package com.example.nguyenhongphuc98.checkmein.UI.user;
+package com.example.nguyenhongphuc98.checkmein.UI.user.activity;
 
 
 import android.os.Bundle;
@@ -19,15 +19,29 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InfoFragmentAct extends Fragment {
+public class InfoFragmentAct extends Fragment implements IInfoActivity {
+
+    InfoActivityPresenter presenter;
 
     ListView listView;
-    EventAdapter adapter;
-    List<Event> lsEvent;
+    public EventAdapter adapter;
+    public List<Event> lsEvent;
+
+    private static InfoFragmentAct instance;
+    public static InfoFragmentAct Instance(){
+        if(instance==null)
+            instance=new InfoFragmentAct();
+
+        return instance;
+    }
 
     public InfoFragmentAct() {
         // Required empty public constructor
         lsEvent=new ArrayList<>();
+        Event e=new Event("ava","9:30","11:00",
+                "CODEXC","location","organ",
+                "id","22-12","Huongn ghiep 2019");
+        lsEvent.add(e);
     }
 
 
@@ -41,7 +55,15 @@ public class InfoFragmentAct extends Fragment {
         adapter=new EventAdapter(getContext(),lsEvent);
         listView.setAdapter(adapter);
 
+        presenter=new InfoActivityPresenter(this);
+
+        OnInitActivityInfo();
         return view;
     }
 
+
+    @Override
+    public void OnInitActivityInfo() {
+        presenter.OnInitActivityInfo();
+    }
 }

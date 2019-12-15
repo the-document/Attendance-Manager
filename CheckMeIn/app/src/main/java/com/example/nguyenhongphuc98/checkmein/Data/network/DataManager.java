@@ -11,8 +11,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +28,7 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Collaborator;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Person;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,6 +47,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -105,7 +109,7 @@ public class DataManager {
     }
 
     public void getLoginInfo(String email, String password) {
-        account.setMail(email);
+        account.setUserName(email);
         account.setPassword(password);
     }
 
@@ -234,8 +238,6 @@ public class DataManager {
         });
     }
 
-
-
     public Boolean SaveCollaborator(Collaborator c){
 
         try{
@@ -317,6 +319,101 @@ public class DataManager {
         return true;
     }
 
+    public Boolean LoadActivitysOfUser(List<Event> lsEvent, String userID, EventAdapter adapter){
+
+        try {
+            final DatabaseReference events_Reference = FirebaseDatabase.getInstance().getReference("Attendance");
+            Query query=events_Reference.orderByChild(userID);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    lsEvent.clear();
+
+                    if (dataSnapshot.exists()) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            //{16520951=Hồng Phúc, 16520713=Phúc đẹp trai}
+                            Log.e("DTMA","load event : "+snapshot.getValue());
+                            String rawData;
+                            rawData=snapshot.getValue().toString().split("\\}")[0];
+                            rawData=rawData.split("\\{")[1];
+                            //Log.e("DTMA","raw : "+rawData);
+                            String pair[]=rawData.split(",");
+                            //Log.e("DTMA","pair: "+pair);
+
+                            for (String str: pair) {
+                                String mssvs[] =(str.split("=")[0]).split(" ");
+                                String mssv;
+                                if(mssvs[0].length()>1)
+                                    mssv=mssvs[0];
+                                else mssv=mssvs[1];
+
+                               // Log.e("DTMA","mssv : "+mssv);
+                                if (mssv.equals(userID)) {
+                                    String eventKey = snapshot.getKey();
+                                    LoadActivitysOfByID(lsEvent, eventKey, adapter);
+                                    Log.e("DTMA", "load event : " + eventKey);
+                                }
+                            }
+
+                        }
+
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get list event: "+e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    public Boolean LoadActivitysOfByID(List<Event> lsEvent, String eventID,EventAdapter adapter){
+
+        try {
+            final DatabaseReference events_Reference = FirebaseDatabase.getInstance().getReference("Event");
+            Query query=events_Reference.orderByChild("event_id").equalTo(eventID);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    lsEvent.clear();
+
+                    if (dataSnapshot.exists()) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Event o = snapshot.getValue(Event.class);
+                            lsEvent.add(o);
+                            Log.e("DTM","added event: "+o.getEvent_name());
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get list event: "+e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
     public Boolean SaveEvent(Event event){
         try{
             //create new node organ
@@ -345,6 +442,133 @@ public class DataManager {
         }
 
         return false;
+    }
+
+
+    public Boolean LoadUserByID(String userID,EditText email, EditText phone, TextView mssv){
+
+        //load person
+
+        try {
+            final DatabaseReference person_Reference = FirebaseDatabase.getInstance().getReference("Person");
+            Query query=person_Reference.orderByChild("mssv").equalTo(userID);
+            Log.e("AAAA",query.toString());
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.exists()) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Person o = snapshot.getValue(Person.class);
+                            mssv.setText(o.getMssv());
+                            phone.setText(o.getPhone());
+
+
+                            String personKey=snapshot.getKey();
+                            Log.e("DTM","got person: "+o.getDisplayName());
+                            LoadAccountByPerson(personKey,email);
+                        }
+                    }
+                    else
+                        Log.e("AAAA","4");
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get person: "+e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    public Boolean LoadAccountByPerson(String personKey,EditText email){
+
+        //load account
+
+        try {
+            final DatabaseReference events_Reference = FirebaseDatabase.getInstance().getReference("Account");
+            Query query=events_Reference.orderByChild("person").equalTo(personKey);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.exists()) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Account o = snapshot.getValue(Account.class);
+                            email.setText(o.getUserName());
+
+                            Log.e("DTM","got account: "+o.getUserName());
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get account: "+e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    public Boolean LoadGenarelInfoPersonByID(String userID, EditText displayName, CircularImageView avatar){
+
+        //load person
+
+        try {
+            final DatabaseReference person_Reference = FirebaseDatabase.getInstance().getReference("Person");
+            Query query=person_Reference.orderByChild("mssv").equalTo(userID);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.exists()) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Person o = snapshot.getValue(Person.class);
+                            displayName.setText(o.getDisplayName());
+                            Log.e("DTM","get name user:"+o.getDisplayName());
+
+                            mStorageRef.child("person/"+o.getAvatar()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Log.e("DTM","get url avt user:"+uri.getPath());
+
+                                    Glide.with(mContext)
+                                            .load(uri)
+                                            .into(avatar);
+                                }
+                            });
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {}
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get person: "+e.getMessage());
+            return false;
+        }
+
+        return true;
     }
 
     //---------------------------------------------------------------------
@@ -394,5 +618,10 @@ public class DataManager {
         });
     }
 
+
+    //tempt-------------------------------------------------------------
+    public boolean checkEmailVerify() {
+        return mAuth.getCurrentUser().isEmailVerified();
+    }
 
 }

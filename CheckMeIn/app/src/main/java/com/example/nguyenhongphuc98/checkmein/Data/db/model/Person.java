@@ -10,16 +10,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 public class Person {
-    private int mssv;
-    private int phone;
+
+    private String mssv;
+    private String phone;
+
     private String avatar;
     private String displayName;
     private String userClass;
     private DataManager dataManager;
 
+
     private static final String TAG = "PersonInfo";
 
-    public Person(int mssv, int phone, String avatar, String displayName, String userClass) {
+    public Person(String mssv, String phone, String avatar, String displayName, String userClass) {
         this.avatar = avatar;
         this.userClass = userClass;
         this.displayName = displayName;
@@ -31,11 +34,12 @@ public class Person {
         dataManager = new DataManager();
     }
 
-    public int getMssv() {
+    public String getMssv() {
         return mssv;
     }
 
-    public int getPhone() {
+
+    public String getPhone() {
         return phone;
     }
 
@@ -52,11 +56,11 @@ public class Person {
     }
 
 
-    public void setMssv(int mssv) {
+    public void setMssv(String mssv) {
         this.mssv = mssv;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -71,6 +75,7 @@ public class Person {
     public void setUserClass(String userClass) {
         this.userClass = userClass;
     }
+
 
     public void checkNewPerson(int mssv) {
         dataManager.mDatabase = dataManager.database.getReference("Person");
@@ -91,7 +96,7 @@ public class Person {
         });
     }
 
-    public void writeNewPerson(int mssv, int phone, String avatar, String displayName, String userClass) {
+    public void writeNewPerson(String mssv, String phone, String avatar, String displayName, String userClass) {
         Person person = new Person(mssv, phone, avatar, displayName, userClass);
         String key = dataManager.mDatabase.child("Person").push().getKey();
 
@@ -115,3 +120,4 @@ public class Person {
         });
     }
 }
+

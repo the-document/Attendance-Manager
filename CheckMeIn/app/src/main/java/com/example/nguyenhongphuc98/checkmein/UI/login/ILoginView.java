@@ -5,3 +5,4 @@ import android.widget.TextView;
 public interface ILoginView {
     boolean ValidateForm();
 }
+

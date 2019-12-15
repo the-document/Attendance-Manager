@@ -17,6 +17,7 @@ public class LoginPresenter {
         dataManager = new DataManager();
     }
 
+
     public String getPassword() {
         return this.account.getPassword();
     }

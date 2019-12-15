@@ -74,6 +74,9 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
             }
 
         });
+
+        //tempt
+        startActivity(intent);
     }
 
     @Override

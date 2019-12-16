@@ -2,6 +2,7 @@ package com.example.nguyenhongphuc98.checkmein.UI.scan;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -28,7 +29,10 @@ public class CardScannerFragment extends Fragment {
     ConstraintLayout layout;
     ImageView imgViewCardScanningBarLeft;
     ImageView imgViewCardScanningBarRight;
+    ImageView imgViewCardScanningAnimation;
     ImageView imgViewScanPreview;
+    ImageView imgViewMSSVCaptureBox;
+    ImageView imgViewScanMSSVPreview;
     TextView txtViewScannedText;
 
     //Callback để nhận ảnh Preview trả về từ Camera.
@@ -43,12 +47,50 @@ public class CardScannerFragment extends Fragment {
         imgViewCardScanningBarLeft = (ImageView)view.findViewById(R.id.fragment_card_scanner_scanning_bar);
         imgViewCardScanningBarRight = (ImageView)view.findViewById(R.id.fragment_card_scanner_scanning_bar_2);
         imgViewScanPreview = (ImageView)view.findViewById(R.id.fragment_card_scanner_scan_preview);
+        imgViewScanMSSVPreview = (ImageView)view.findViewById(R.id.fragment_card_scanner_MSSV_preview);
+        imgViewMSSVCaptureBox = (ImageView)view.findViewById(R.id.fragment_card_scanner_MSSV_imgView);
+        imgViewCardScanningAnimation = (ImageView)view.findViewById(R.id.fragment_card_scanner_animation);
         txtViewScannedText = (TextView)view.findViewById(R.id.fragment_card_scanner_scanned_text);
-
-        mPreview = new CameraPreview(view.getContext(), imgViewScanPreview, txtViewScannedText);
-
         //Cài đặt preview camera.
         previewLayout = view.findViewById(R.id.fv_camera_preview);
+
+        mPreview = new CameraPreview(view.getContext()){
+            @Override
+            public void onPreviewFrame(byte[] data, Camera camera){
+                if (System.currentTimeMillis()/1000 - timeHolder < frameCaptureDelay)
+                    return;
+                Bitmap capturedImage = convertYuvByteArrayToBitmap(data,camera);
+                int ciHeight = capturedImage.getHeight();
+                int ciWidth = capturedImage.getWidth();
+
+                //location[0] là X, location[1] là Y.
+                int[] location = new int[2];
+                imgViewMSSVCaptureBox.getLocationOnScreen(location);
+                final int scanningAnimPosX = location[0];
+                final int scanningAnimPosY = location[1];
+
+                //Do hình ảnh cắt ra bị ngược nên ta phải đảo lại.
+                int srcX = scanningAnimPosY + 60;
+                int srcY = (int)((1-percentHeightMSSV)*ciHeight) - scanningAnimPosX + 25;
+
+//                Bitmap resizedBitmap = Bitmap.createBitmap(capturedImage, srcX, srcY,
+//                        (int)(percentWidthMSSV * ciWidth), (int)(percentHeightMSSV * ciHeight));
+
+                final int captureBoxWidth = imgViewMSSVCaptureBox.getMeasuredWidth();
+                final int captureBoxHeight = imgViewMSSVCaptureBox.getMeasuredHeight();
+
+                Bitmap resizedBitmap = Bitmap.createBitmap(capturedImage, srcX, srcY,
+                        captureBoxHeight + 60, captureBoxWidth + 25);
+
+                imgViewScanPreview.setImageBitmap(capturedImage);
+                imgViewScanMSSVPreview.setImageBitmap(resizedBitmap);
+                String scannedText = tesseract.getOCRResult(resizedBitmap);
+                txtViewScannedText.setText(scannedText);
+                timeHolder = System.currentTimeMillis()/1000;
+            }
+        };
+
+        mPreview.addCallbackToView(mPreview);
 
         //Animation cho thanh chạy.
         final Animation scanningAnimationBottomToTop = AnimationUtils.loadAnimation(getContext(), R.anim.custom_scanning_moving_bar_bottom_to_top);

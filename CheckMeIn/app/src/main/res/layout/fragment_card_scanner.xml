@@ -64,21 +64,34 @@
             app:layout_constraintBottom_toBottomOf="@id/fragment_card_scanner_inner_layout"
             android:background="@drawable/custom_scanning_corners"/>
 
+        <ImageView
+            android:id="@+id/fragment_card_scanner_MSSV_imgView"
+            android:layout_width="60dp"
+            android:layout_height="200dp"
+            app:layout_constraintLeft_toLeftOf="@id/fragment_card_scanner_inner_layout"
+            app:layout_constraintTop_toTopOf="@id/fragment_card_scanner_inner_layout"
+            android:background="@drawable/custom_transparent_rectangle"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/fragment_card_scanner_scan_preview"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
         app:layout_constraintRight_toRightOf="@id/fragment_card_scanner_layout"
-        app:layout_constraintLeft_toLeftOf="@id/fragment_card_scanner_layout"
+        app:layout_constraintLeft_toRightOf="@id/fragment_card_scanner_MSSV_preview"
         app:layout_constraintTop_toBottomOf="@id/fragment_card_scanner_inner_layout"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp" />
 
     <ImageView
         android:id="@+id/fragment_card_scanner_MSSV_preview"
-        android:layout_width="50dp"
-        android:layout_height="25dp"/>
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toLeftOf="@id/fragment_card_scanner_layout"
+        app:layout_constraintRight_toLeftOf="@id/fragment_card_scanner_scan_preview"
+        app:layout_constraintTop_toBottomOf="@id/fragment_card_scanner_inner_layout"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

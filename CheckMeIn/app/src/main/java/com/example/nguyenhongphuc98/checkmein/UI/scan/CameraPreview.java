@@ -12,13 +12,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.example.nguyenhongphuc98.checkmein.R;
-import com.example.nguyenhongphuc98.checkmein.Utils.AppExecutors;
 import com.example.nguyenhongphuc98.checkmein.Utils.Tesseract;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,11 +25,10 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback, Camera.AutoFocusCallback, Camera.PreviewCallback {
 
-    //Biến giữ ImageView để set Preview.
-    ImageView scanPreview;
-
-    //Biến giữ TextView dùng để hiển thị kết quả đã OCR được.
-    TextView txtViewScannedText;
+    //Biến này dùng để quản lý marginTop và marginRight của khung dùng để cắt MSSV (theo phần trăm).
+    //VD : Nếu giá trị = 0.2 thì tức là chỉ lấy 20% độ cao màn hình.
+    final double percentHeightMSSV = 0.2;
+    final double percentWidthMSSV = 0.2;
 
     //Kích cỡ của Focus Area.
     final float focusAreaSize = 72;
@@ -61,11 +54,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     Context context;
 
-    public CameraPreview(Context context, ImageView scanPreview, TextView txtViewScannedText) {
+    public CameraPreview(Context context) {
         super(context);
         this.context = context;
-        this.scanPreview = scanPreview;
-        this.txtViewScannedText = txtViewScannedText;
 
         //Ánh xạ.
         tesseract = new Tesseract(context, "eng");
@@ -73,7 +64,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         Log.d("onCreateCameraPreview","Camera Preview Created !");
 
         mHolder = getHolder();
-        mHolder.addCallback(this);
 
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
@@ -145,6 +135,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
         catch(IOException ex){
         }
+    }
+
+    void addCallbackToView(SurfaceHolder.Callback callback){
+        mHolder.addCallback(callback);
     }
 
     @Override
@@ -244,14 +238,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
-        {
-            if (System.currentTimeMillis()/1000 - timeHolder < frameCaptureDelay)
-                return;
-            Bitmap capturedImage = convertYuvByteArrayToBitmap(data,mCamera);
-            scanPreview.setImageBitmap(capturedImage);
-            //String scannedText = tesseract.getOCRResult(capturedImage);
-            txtViewScannedText.setText("Very_success");
-            timeHolder = System.currentTimeMillis()/1000;
-        }
+
     }
 }

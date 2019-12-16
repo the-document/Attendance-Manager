@@ -217,8 +217,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        releaseCameraInstance();
         mCamera.setPreviewCallback(null);
+        releaseCameraInstance();
     }
 
     @Override

@@ -21,6 +21,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.nguyenhongphuc98.checkmein.R;
+import com.example.nguyenhongphuc98.checkmein.Utils.AppExecutors;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class CardScannerFragment extends Fragment {
 
@@ -35,7 +40,8 @@ public class CardScannerFragment extends Fragment {
     ImageView imgViewScanMSSVPreview;
     TextView txtViewScannedText;
 
-    //Callback để nhận ảnh Preview trả về từ Camera.
+    //Lock để khoá không cho phép chạy 2 lần việc xử lý hình ảnh.
+    Lock imageProcessingLock = new ReentrantLock();
 
     @Nullable
     @Override
@@ -57,35 +63,47 @@ public class CardScannerFragment extends Fragment {
         mPreview = new CameraPreview(view.getContext()){
             @Override
             public void onPreviewFrame(byte[] data, Camera camera){
+
                 if (System.currentTimeMillis()/1000 - timeHolder < frameCaptureDelay)
                     return;
-                Bitmap capturedImage = convertYuvByteArrayToBitmap(data,camera);
-                int ciHeight = capturedImage.getHeight();
-                int ciWidth = capturedImage.getWidth();
+                txtViewScannedText.setText("Processing ... ");
+                Executors.newSingleThreadExecutor().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean isLockAquired = imageProcessingLock.tryLock();
+                        if (!isLockAquired)
+                            return;
+                        Bitmap capturedImage = convertYuvByteArrayToBitmap(data,camera);
+                        int ciHeight = capturedImage.getHeight();
+                        int ciWidth = capturedImage.getWidth();
 
-                //location[0] là X, location[1] là Y.
-                int[] location = new int[2];
-                imgViewMSSVCaptureBox.getLocationOnScreen(location);
-                final int scanningAnimPosX = location[0];
-                final int scanningAnimPosY = location[1];
+                        //location[0] là X, location[1] là Y.
+                        int[] location = new int[2];
+                        imgViewMSSVCaptureBox.getLocationOnScreen(location);
+                        final int scanningAnimPosX = location[0];
+                        final int scanningAnimPosY = location[1];
 
-                //Do hình ảnh cắt ra bị ngược nên ta phải đảo lại.
-                int srcX = scanningAnimPosY + 60;
-                int srcY = (int)((1-percentHeightMSSV)*ciHeight) - scanningAnimPosX + 25;
+                        //Do hình ảnh cắt ra bị ngược nên ta phải đảo lại.
+                        int srcX = scanningAnimPosY + 60;
+                        int srcY = (int)((1-percentHeightMSSV)*ciHeight) - scanningAnimPosX + 25;
 
 //                Bitmap resizedBitmap = Bitmap.createBitmap(capturedImage, srcX, srcY,
 //                        (int)(percentWidthMSSV * ciWidth), (int)(percentHeightMSSV * ciHeight));
 
-                final int captureBoxWidth = imgViewMSSVCaptureBox.getMeasuredWidth();
-                final int captureBoxHeight = imgViewMSSVCaptureBox.getMeasuredHeight();
+                        final int captureBoxWidth = imgViewMSSVCaptureBox.getMeasuredWidth();
+                        final int captureBoxHeight = imgViewMSSVCaptureBox.getMeasuredHeight();
 
-                Bitmap resizedBitmap = Bitmap.createBitmap(capturedImage, srcX, srcY,
-                        captureBoxHeight + 60, captureBoxWidth + 25);
-
-                imgViewScanPreview.setImageBitmap(capturedImage);
-                imgViewScanMSSVPreview.setImageBitmap(resizedBitmap);
-                String scannedText = tesseract.getOCRResult(resizedBitmap);
-                txtViewScannedText.setText(scannedText);
+                        Bitmap resizedBitmap = Bitmap.createBitmap(capturedImage, srcX, srcY,
+                                captureBoxHeight + 60, captureBoxWidth + 25);
+                        String scannedText = tesseract.getOCRResult(resizedBitmap);
+                        AppExecutors.getInstance().mainThread().execute(() -> {
+                            imgViewScanPreview.setImageBitmap(capturedImage);
+                            imgViewScanMSSVPreview.setImageBitmap(resizedBitmap);
+                            txtViewScannedText.setText(scannedText);
+                        });
+                        imageProcessingLock.unlock();
+                    }
+                });
                 timeHolder = System.currentTimeMillis()/1000;
             }
         };

@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.R;
 
 
@@ -70,17 +72,21 @@ public class InfoFragmentAccount extends Fragment  implements IInfoAccount{
     }
 
     void addEvent(){
-        etEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnEditEmail.setBackgroundResource(R.drawable.icon_edit);
-                btnEditEmail.setVisibility(View.VISIBLE);
-            }
-        });
+//        etEmail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                btnEditEmail.setBackgroundResource(R.drawable.icon_edit);
+//                btnEditEmail.setVisibility(View.VISIBLE);
+//            }
+//        });
 
         etPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //check permission to edit
+                if(!tvMssv.getText().toString().equals(DataCenter.UserID))
+                    return;
+
                 btnEditPhone.setBackgroundResource(R.drawable.icon_edit);
                 btnEditPhone.setVisibility(View.VISIBLE);
             }
@@ -147,6 +153,7 @@ public class InfoFragmentAccount extends Fragment  implements IInfoAccount{
 
                     //save new phone here
                     //========================
+                    presenter.OnUpdatePhoneNumber();
                 }
 
             }
@@ -157,5 +164,22 @@ public class InfoFragmentAccount extends Fragment  implements IInfoAccount{
     public void OnInitAccountInfo() {
         Log.e("AAAA","1");
         presenter.OnInitAccountInfo();
+    }
+
+    @Override
+    public void OnUpdatePhoneNumber() {
+        presenter.OnUpdatePhoneNumber();
+    }
+
+    @Override
+    public void OnUpdatePhoneResult(int code) {
+        switch (code){
+            case CODE_UPDATE_PHONE_SUCCESS:
+                Toast.makeText(getContext(),"updated",Toast.LENGTH_SHORT).show();
+                break;
+            case CODE_UPDATE_PHONE_FAIL:
+                Toast.makeText(getContext(),"fail",Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 }

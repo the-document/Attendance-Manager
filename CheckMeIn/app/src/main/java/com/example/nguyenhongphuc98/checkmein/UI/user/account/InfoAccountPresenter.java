@@ -17,7 +17,21 @@ public class InfoAccountPresenter implements IInfoAccount {
 
     @Override
     public void OnInitAccountInfo() {
-        Log.e("AAAA","2");
         DataManager.Instance().LoadUserByID(DataCenter.UserID,view.etEmail,view.etPhone,view.tvMssv);
+    }
+
+    @Override
+    public void OnUpdatePhoneNumber() {
+
+        Boolean result = DataManager.Instance().UpdatePersonPhoneNumberByID(DataCenter.UserID,view.etPhone.getText().toString());
+        if(result)
+            view.OnUpdatePhoneResult(CODE_UPDATE_PHONE_SUCCESS);
+        else
+            view.OnUpdatePhoneResult(CODE_UPDATE_PHONE_FAIL);
+    }
+
+    @Override
+    public void OnUpdatePhoneResult(int code) {
+        view.OnUpdatePhoneResult(code);
     }
 }

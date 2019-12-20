@@ -42,4 +42,6 @@
     <string name="gui_mail_cho">Gửi mail cho</string>
     <string name="event_code">Event code</string>
     <string name="location">Địa điểm</string>
+    <string name="edit">Sửa</string>
+    <string name="delete">Xóa</string>
 </resources>

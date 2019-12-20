@@ -62,17 +62,18 @@ public class OrganPresenter implements IOrganView {
         }
 
         String avatar= DataManager.Instance(view.getContext()).SaveImageToDatastore(view.avatarRUri);
-        Log.e("DTM","uploadurl22:"+avatar);
-        if(avatar==null||avatar.isEmpty())
-        {
-            onSaveOrganResult(CODE_INVALID_PARAMETER);
-            return;
-        }
+            Log.e("DTM","uploadurl22:"+avatar);
+            if(avatar==null||avatar.isEmpty())
+            {
+                onSaveOrganResult(CODE_INVALID_PARAMETER);
+                return;
+            }
+
 
 
 
         Organization organization=new Organization();
-        organization.setId("NULL");
+        organization.setId("null");
         organization.setAvatar(avatar);
         organization.setDescription(des);
         organization.setName(name);
@@ -89,6 +90,53 @@ public class OrganPresenter implements IOrganView {
 
     }
 
+    @Override
+    public void OnEditOrganClick() {
+        String des=(view.etDescription).getText().toString();
+        String name=view.etNameOrgan.getText().toString();
+
+        if(des.isEmpty()||name.isEmpty())
+        {
+            onSaveOrganResult(CODE_INVALID_PARAMETER);
+            return;
+        }
+
+        String avatar=view.avatarid.getText().toString();
+        if(view.isImageChange)
+        {
+            avatar=DataManager.Instance(view.getContext()).SaveImageToDatastore(view.avatarRUri);
+            Log.e("DTM","uploadurl22:"+avatar);
+        }
+
+        if(avatar==null||avatar.isEmpty())
+        {
+            onSaveOrganResult(CODE_INVALID_PARAMETER);
+            return;
+        }
+
+
+
+
+        Organization organization=new Organization();
+        organization.setId(DataCenter.OrganID);
+        organization.setAvatar(avatar);
+        organization.setDescription(des);
+        organization.setName(name);
+
+        //setcurrent account login in this app
+        organization.setUserId(DataCenter.UserID);
+        //SaveCollborator();
+
+        if(DataManager.Instance().EditOrgan(organization)==true)
+            OnEditOrganResult(CODE_SAVE_ORGAN_SUCCESS);
+        else
+            OnEditOrganResult(CODE_SAVE_ORGAN_FAIL);
+    }
+
+    @Override
+    public void LoadOrganInfo() {
+        DataManager.Instance().LoadOrganByID(DataCenter.OrganID,view.avtOrgan,view.etNameOrgan,view.etDescription,view.avatarid);
+    }
 
 
     //result============================================================
@@ -113,5 +161,10 @@ public class OrganPresenter implements IOrganView {
     @Override
     public void onSaveOrganResult(int code) {
         view.onSaveOrganResult(code);
+    }
+
+    @Override
+    public void OnEditOrganResult(int code) {
+        view.OnEditOrganResult(code);
     }
 }

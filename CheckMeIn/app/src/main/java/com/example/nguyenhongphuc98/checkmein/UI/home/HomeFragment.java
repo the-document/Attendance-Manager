@@ -33,6 +33,7 @@ import com.example.nguyenhongphuc98.checkmein.UI.organ.OrganFragment;
 import com.example.nguyenhongphuc98.checkmein.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -57,7 +58,7 @@ public class HomeFragment extends Fragment implements IHome {
     private List<ImageButton> mListOrganization;
     private RelativeLayout mOrganizationContainer;
 
-    List<String> lsIv=new ArrayList<>() ;
+    HashMap<String,String> lsIv=new HashMap<>();
     List<String>lsId=new ArrayList<>();
 
     public HomeFragment() {
@@ -77,9 +78,9 @@ public class HomeFragment extends Fragment implements IHome {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        lsIv.add("null");
-        lsIv.add("null");
-        lsIv.add("null");
+        lsIv.put("null","null");
+        lsIv.put("null","null");
+        lsIv.put("null","null");
 
         lsId.add("1");
         lsId.add("2");
@@ -105,15 +106,18 @@ public class HomeFragment extends Fragment implements IHome {
                                 Toast.makeText(getContext(), "edit request", Toast.LENGTH_SHORT).show();
 
                                 DataCenter.OrganID=adaptor.getItem(i).toString();
+                                DataCenter.OrganAction= DataCenter.TypeAction.EDIT;
                                 Toast.makeText(getContext(),"organ: "+DataCenter.OrganID,Toast.LENGTH_SHORT).show();
 
                                 FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();
-                                fragmentTransition.replace(R.id.fragment_container,lsActivityFragment);
+                                fragmentTransition.replace(R.id.fragment_container,organFragment);
                                 fragmentTransition.commit();
 
                                 return true;
                             case R.id.action_delete_organ:
                                 Toast.makeText(getContext(), "delete request", Toast.LENGTH_SHORT).show();
+                                OnRequestDeleteOrgan(adaptor.getItem(i).toString());
+                                adaptor.DeleteOrgan(adaptor.getItem(i).toString());
                                 return true;
 
                                 default:
@@ -178,7 +182,7 @@ public class HomeFragment extends Fragment implements IHome {
                 fragmentTransition.replace(R.id.fragment_container,organFragment);
                 fragmentTransition.commit();
 
-                DataCenter.typeAction= DataCenter.TypeAction.CREATE;
+                DataCenter.OrganAction= DataCenter.TypeAction.CREATE;
             }
         });
 
@@ -205,6 +209,11 @@ public class HomeFragment extends Fragment implements IHome {
     @Override
     public void OnRequestJoinEvent() {
         presenter.OnRequestJoinEvent();
+    }
+
+    @Override
+    public void OnRequestDeleteOrgan(String organId) {
+        presenter.OnRequestDeleteOrgan(organId);
     }
 
     @Override

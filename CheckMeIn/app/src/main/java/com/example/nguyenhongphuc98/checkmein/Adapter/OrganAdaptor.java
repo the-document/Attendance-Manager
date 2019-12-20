@@ -25,20 +25,21 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class OrganAdaptor extends BaseAdapter {
-    List<String> lsImageView;
+    HashMap<String,String> lsImageView;
     List<String> lsOrganID;
     Context context;
 
-    public OrganAdaptor(List<String> lsimg,List<String>_lsOrganID, Context context) {
+    public OrganAdaptor(HashMap<String,String> lsimg,List<String>_lsOrganID, Context context) {
         this.lsImageView = lsimg;
         this.lsOrganID=_lsOrganID;
         this.context = context;
     }
 
-    public void SetOrganAdaptor(List<String> lsimg,List<String>_lsOrganID) {
+    public void SetOrganAdaptor(HashMap<String,String> lsimg,List<String>_lsOrganID) {
         this.lsImageView = lsimg;
         this.lsOrganID=_lsOrganID;
     }
@@ -75,13 +76,22 @@ public class OrganAdaptor extends BaseAdapter {
 
         OrganAdaptor.ViewHolder viewHolder= (OrganAdaptor.ViewHolder) viewRow.getTag();
 
-        if(lsImageView.size()<=position|| lsImageView.get(position).equals("null"))
+
+        String key=lsOrganID.get(position);
+        if(key==null||key.equals("null"))
             return viewRow;
 
         //ImageView t=new ImageView(context);
-        Glide.with(context)
-                .load(Uri.parse(lsImageView.get(position)))
-                .into(viewHolder.img);
+        try
+        {
+            Glide.with(context)
+                    .load(Uri.parse(lsImageView.get(lsOrganID.get(position))))
+                    .into(viewHolder.img);
+        }
+       catch (Exception e){
+           Log.e("DTM","err load img:"+e.getMessage());
+           viewHolder.img.setImageResource(R.drawable.avatar);
+       }
 
         Log.e("DTM","got view organ:"+position);
         return viewRow;
@@ -92,6 +102,21 @@ public class OrganAdaptor extends BaseAdapter {
     public void notifyDataSetChanged(){
         super.notifyDataSetChanged();
         Log.e("DTM","notify data change");
+    }
+
+    public void DeleteOrgan(String organID){
+        for (String organ : lsOrganID) {
+            if(organ.equals(organID))
+            {
+                lsOrganID.remove(organ);
+                Log.e("DTM","remove:" + organ);
+                break;
+            }
+
+        }
+
+        lsImageView.remove(organID);
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder{

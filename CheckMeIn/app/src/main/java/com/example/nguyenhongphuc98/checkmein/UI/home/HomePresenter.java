@@ -28,6 +28,11 @@ public class HomePresenter implements IHome, IEventCallBack{
     }
 
     @Override
+    public void OnRequestDeleteOrgan(String organID) {
+        DataManager.Instance().DeleteOrgan(organID);
+    }
+
+    @Override
     public void OnLoadOrganSuccess() {
 
     }

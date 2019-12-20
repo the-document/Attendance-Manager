@@ -18,9 +18,11 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
+import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.UI.home.HomeFragment;
 import com.example.nguyenhongphuc98.checkmein.adapter.CollaborationAdapter;
@@ -56,6 +58,9 @@ public class OrganFragment extends Fragment implements IOrganView{
     List<String> mssvCollaborators;
     Uri avatarRUri;
 
+    public Boolean isImageChange=false;
+    public TextView avatarid;
+
     public OrganFragment() {
         // Required empty public constructor
 
@@ -76,6 +81,12 @@ public class OrganFragment extends Fragment implements IOrganView{
         SetEvent(view);
 
         presenter=new OrganPresenter(this);
+        avatarid=new TextView(getContext());
+
+        //load current organ
+        if(DataCenter.OrganAction== DataCenter.TypeAction.EDIT){
+            LoadOrganInfo();
+        }
 
         return  view;
     }
@@ -102,11 +113,15 @@ public class OrganFragment extends Fragment implements IOrganView{
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(DataCenter.typeAction== DataCenter.TypeAction.CREATE)
+                if(DataCenter.OrganAction== DataCenter.TypeAction.CREATE)
                     onSaveOrganClick();
                 else {
                     //this is edit part
+                    if(DataCenter.OrganAction== DataCenter.TypeAction.EDIT)
+                        OnEditOrganClick();
                 }
+
+                DataCenter.OrganAction=DataCenter.TypeAction.CREATE;
             }
         });
 
@@ -138,7 +153,6 @@ public class OrganFragment extends Fragment implements IOrganView{
 
     @Override
     public void onChangePhotoClick() {
-
         //get image from device
         Intent intentOpenFile=new Intent().setType("*/*").setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intentOpenFile,"Choose image"),CODE_OPEN_DOCUMENT);
@@ -153,6 +167,11 @@ public class OrganFragment extends Fragment implements IOrganView{
     @Override
     public void onSaveOrganClick() {
         presenter.onSaveOrganClick();
+    }
+
+    @Override
+    public void OnEditOrganClick() {
+        presenter.OnEditOrganClick();
     }
 
 
@@ -191,6 +210,26 @@ public class OrganFragment extends Fragment implements IOrganView{
 
     }
 
+    @Override
+    public void OnEditOrganResult(int code) {
+        switch (code)
+        {
+            case CODE_SAVE_ORGAN_SUCCESS:
+                Toast.makeText(getContext(),"edit success.",Toast.LENGTH_SHORT).show();
+
+                FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransition.replace(R.id.fragment_container,new HomeFragment());
+                fragmentTransition.commit();
+
+                break;
+            case CODE_SAVE_ORGAN_FAIL:
+                Toast.makeText(getContext(),"fail to edit.",Toast.LENGTH_SHORT).show();
+                break;
+            case CODE_INVALID_PARAMETER:
+                Toast.makeText(getContext(),"infor not correct.",Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -203,7 +242,7 @@ public class OrganFragment extends Fragment implements IOrganView{
             Log.d("PhotoURL","photo: "+selectedFile.toString());
             avatarRUri=selectedFile;
             //Toast.makeText(getContext(),selectedFile.toString(), Toast.LENGTH_LONG).show();
-
+            isImageChange=true;
             presenter.onChangePhotoClick();
         }
 
@@ -211,5 +250,10 @@ public class OrganFragment extends Fragment implements IOrganView{
 
     public void onShowProfile(Bitmap bitmap){
         this.avtOrgan.setImageBitmap(bitmap);
+    }
+
+    @Override
+    public void LoadOrganInfo(){
+        presenter.LoadOrganInfo();
     }
 }

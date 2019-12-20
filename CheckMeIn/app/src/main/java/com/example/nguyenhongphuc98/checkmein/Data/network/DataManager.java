@@ -238,7 +238,51 @@ public class DataManager {
 
     }
 
-    public void LoadOrgan(OrganAdaptor adaptor,List<String> lsID,List<String> lsImage,String host){
+    public Boolean EditOrgan(Organization organization){
+
+        try{
+            //create new node organ
+           // String key=mDatabase.child("Organization").push().getKey();
+           // organization.setId(key);
+            //save to firebase
+            Task task= mDatabase.child("Organization").child(organization.getId()).setValue(organization);
+            task.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("DATAMANAGER",e.toString());
+
+                }
+            }).addOnSuccessListener(new OnSuccessListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    Log.d("DATAMANAGER","edit success");
+                }
+            });
+
+            return true;
+        }
+        catch (Exception e){
+            Log.d("DATAMANAGER",e.toString());
+        }
+
+        return false;
+
+    }
+
+    public Boolean DeleteOrgan(String organID){
+        try
+        {
+            Task task= mDatabase.child("Organization").child(organID).removeValue();
+            Log.e("DTM","delete organ:"+organID);
+            return true;
+        }
+        catch (Exception e){
+            Log.e("DTM","delete organ err");
+            return false;
+        }
+    }
+
+    public void LoadOrgan(OrganAdaptor adaptor,List<String> lsID,HashMap<String,String> lsImage,String host){
 
         final DatabaseReference organs_Reference = FirebaseDatabase.getInstance().getReference("Organization");
         Query query=organs_Reference.orderByChild("userId").equalTo(host);
@@ -262,7 +306,7 @@ public class DataManager {
                             public void onSuccess(Uri uri) {
                                 Log.e("DTM","get url avt a organ:"+uri.getPath());
 
-                                lsImage.add(uri.toString());
+                                lsImage.put (o.getId(),uri.toString());
                                 adaptor.notifyDataSetChanged();
 
 
@@ -283,6 +327,53 @@ public class DataManager {
             }
         });
 
+    }
+
+    public Boolean LoadOrganByID(String organId, ImageView img, EditText name, EditText des,TextView avtid){
+
+        try {
+            final DatabaseReference organ_Reference = FirebaseDatabase.getInstance().getReference("Organization");
+            Query query=organ_Reference.orderByChild("id").equalTo(organId);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Organization o = snapshot.getValue(Organization.class);
+                            Log.e("DTM","load organ: "+o.getId());
+
+                            name.setText(o.getName());
+                            des.setText(o.getDescription());
+                            avtid.setText(o.getAvatar());
+
+                            mStorageRef.child("organ/"+o.getAvatar()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Glide.with(mContext)
+                                            .load(uri)
+                                            .into(img);
+                                    Log.e("DTM","downloaded a organ:"+uri.getPath());
+
+                                }
+                            });
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get organ: "+e.getMessage());
+            return false;
+        }
+
+        return true;
     }
 
     public void LoadImageCollorator(String imageName,

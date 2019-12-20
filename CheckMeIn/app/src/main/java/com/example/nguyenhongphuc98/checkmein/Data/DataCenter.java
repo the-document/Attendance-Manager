@@ -5,7 +5,7 @@ public class DataCenter {
     public static String EventID;
     public static String UserID="16520951";
     public static String UserDisplayName="Empty name";
-    public static TypeAction typeAction= TypeAction.CREATE;
+    public static TypeAction OrganAction= TypeAction.CREATE; //action on organ
 
 
     //get infor create new event

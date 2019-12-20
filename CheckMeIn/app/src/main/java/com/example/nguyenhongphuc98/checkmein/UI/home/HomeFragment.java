@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +20,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.nguyenhongphuc98.checkmein.Adapter.OrganAdaptor;
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.Utils.ResizeWidthAnimation;
 import com.example.nguyenhongphuc98.checkmein.UI.event.ListActivityFragment;
 import com.example.nguyenhongphuc98.checkmein.UI.organ.OrganFragment;
@@ -87,6 +90,42 @@ public class HomeFragment extends Fragment implements IHome {
         gvOrgan.setAdapter(adaptor);
         OnRequestLoadOrgan();
 
+        gvOrgan.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                PopupMenu popupMenu = new PopupMenu(getContext(), view);
+                popupMenu.getMenuInflater().inflate(R.menu.organ_action_menu, popupMenu.getMenu());
+                popupMenu.show();
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.action_edit_organ:
+                                Toast.makeText(getContext(), "edit request", Toast.LENGTH_SHORT).show();
+
+                                DataCenter.OrganID=adaptor.getItem(i).toString();
+                                Toast.makeText(getContext(),"organ: "+DataCenter.OrganID,Toast.LENGTH_SHORT).show();
+
+                                FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();
+                                fragmentTransition.replace(R.id.fragment_container,lsActivityFragment);
+                                fragmentTransition.commit();
+
+                                return true;
+                            case R.id.action_delete_organ:
+                                Toast.makeText(getContext(), "delete request", Toast.LENGTH_SHORT).show();
+                                return true;
+
+                                default:
+                                    return false;
+                        }
+
+                    }
+                });
+                return true;
+            }
+        });
+
         gvOrgan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -122,6 +161,7 @@ public class HomeFragment extends Fragment implements IHome {
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (etActivityCode.getRight() - etActivityCode.getCompoundDrawables()[2].getBounds().width())) {
                         Toast.makeText(view.getContext(),"Joining",Toast.LENGTH_SHORT).show();
+                        OnRequestJoinEvent();
                         return true;
                     }
                 }
@@ -163,7 +203,24 @@ public class HomeFragment extends Fragment implements IHome {
     }
 
     @Override
+    public void OnRequestJoinEvent() {
+        presenter.OnRequestJoinEvent();
+    }
+
+    @Override
     public void OnLoadOrganSuccess() {
 
+    }
+
+    @Override
+    public void OnJoinEventSucess(Event event) {
+        Toast.makeText(getContext(),"join to: "+event.getEvent_code(),Toast.LENGTH_SHORT).show();
+
+        //replace to view joined event with this event.
+    }
+
+    @Override
+    public void OnJoinEventFail(Event event) {
+        Toast.makeText(getContext(),"can't join now",Toast.LENGTH_SHORT).show();
     }
 }

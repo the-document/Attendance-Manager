@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -29,6 +31,7 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Collaborator;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Person;
+import com.example.nguyenhongphuc98.checkmein.UI.home.IEventCallBack;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,13 +57,21 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class DataManager {
+
+    IEventCallBack eventCallBack;
 
     Context mContext;
 
@@ -106,6 +117,11 @@ public class DataManager {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mContext=c;
+    }
+
+    public void setEventCallBacks(IEventCallBack eventCallBack) {
+        if(this.eventCallBack==null)
+            this.eventCallBack = eventCallBack;
     }
 
     public void getLoginInfo(String email, String password) {
@@ -444,6 +460,69 @@ public class DataManager {
         return false;
     }
 
+    public Boolean LoadEventByCode(String eventCode){
+
+        try {
+            final DatabaseReference events_Reference = FirebaseDatabase.getInstance().getReference("Event");
+            Query query=events_Reference.orderByChild("event_code").equalTo(eventCode);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.exists()) {
+
+                        boolean isSuccess=false;
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Event o = snapshot.getValue(Event.class);
+                            if(eventCallBack!=null){
+
+                                try {
+                                    Date day= new SimpleDateFormat("dd/MM/yy").parse(o.getEvent_day());
+                                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+                                    Date date = new Date();
+                                    Log.e("DTM","date: "+date.getDate());
+                                    Log.e("DTM","day: "+day.getDate());
+                                    if(date.getDate()==day.getDate()
+                                        &&date.getMonth()==day.getMonth()
+                                        &&date.getYear()==day.getYear())
+                                    {
+                                        eventCallBack.OnLoadEventComplete(o);
+                                        isSuccess=true;
+                                        Log.e("DTM","got event: "+o.getEvent_code());
+                                        break;
+                                    }
+
+                                } catch (ParseException e) {
+                                    eventCallBack.OnLoadEventComplete(null);
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                        }
+
+                        if(!isSuccess)
+                            eventCallBack.OnLoadEventComplete(null);
+                    }
+                    else
+                        eventCallBack.OnLoadEventComplete(null);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get account: "+e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
 
     public Boolean LoadUserByID(String userID,EditText email, EditText phone, TextView mssv){
 
@@ -494,8 +573,8 @@ public class DataManager {
         //load account
 
         try {
-            final DatabaseReference events_Reference = FirebaseDatabase.getInstance().getReference("Account");
-            Query query=events_Reference.orderByChild("person").equalTo(personKey);
+            final DatabaseReference accounts_Reference = FirebaseDatabase.getInstance().getReference("Account");
+            Query query=accounts_Reference.orderByChild("person").equalTo(personKey);
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -640,6 +719,7 @@ public class DataManager {
 
         return true;
     }
+
     //---------------------------------------------------------------------
     private String queryName(ContentResolver resolver, Uri uri) {
         Cursor returnCursor =

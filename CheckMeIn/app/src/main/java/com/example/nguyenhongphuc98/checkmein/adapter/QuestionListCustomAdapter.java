@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 
@@ -50,14 +51,14 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
         {
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        ArrayList<String> answerList = questionArray.get(position).getmAnswers();
-        String question = questionArray.get(position).getmQuestion();
+        ArrayList<Answer> answerList = questionArray.get(position).getmAnswers();
+        String question = questionArray.get(position).getContent();
 
         viewHolder.txtQuestion.setText(question);
-        viewHolder.txtAnswer1.setText(answerList.get(0));
-        viewHolder.txtAnswer2.setText(answerList.get(1));
-        viewHolder.txtAnswer3.setText(answerList.get(2));
-        viewHolder.txtAnswer4.setText(answerList.get(3));
+        viewHolder.txtAnswer1.setText(answerList.get(0).getContent());
+        viewHolder.txtAnswer2.setText(answerList.get(1).getContent());
+        viewHolder.txtAnswer3.setText(answerList.get(2).getContent());
+        viewHolder.txtAnswer4.setText(answerList.get(3).getContent());
 
         return convertView;
     }

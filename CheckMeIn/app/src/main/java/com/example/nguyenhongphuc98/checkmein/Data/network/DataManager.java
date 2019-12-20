@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.widget.ImageView;
@@ -14,8 +15,11 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,8 +28,12 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -37,7 +45,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DataManager {
@@ -166,6 +176,68 @@ public class DataManager {
         return name;
     }
 
+    public void LoadAnswersForQuestion(QuestionListCustomAdapter questionAdapter,
+                                       List<Question> qsList, Question question){
+
+        final DatabaseReference answers_Ref = FirebaseDatabase.getInstance().getReference("Answer");
+        Query query = answers_Ref.orderByChild("question").equalTo(question.getId());
+        ArrayList<Answer> answerOfQuestion = new ArrayList<>();
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists())
+                    return;
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Answer ans = snapshot.getValue(Answer.class);
+                    answerOfQuestion.add(ans);
+                }
+
+                //Load xong câu trả lời rồi thì gán câu trả lời cho câu hỏi.
+                question.setmAnswers(answerOfQuestion);
+
+                //Sau khi load câu trả lời xong xuôi rồi thì mới thêm câu trả lời vào bộ câu hỏi.
+                synchronized (this){
+                    qsList.add(question);
+                    questionAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void LoadQuestions(QuestionListCustomAdapter adapter, List<Question> questionList, String eventID){
+        final DatabaseReference questions_Ref = FirebaseDatabase.getInstance().getReference("MultipleChoiceQuestion");
+        Query query = questions_Ref.orderByChild("event").equalTo(eventID);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Đầu tiên chúng ta cần xoá bỏ đi dữ liệu cũ để không bị trùng lặp.
+                questionList.clear();
+
+                if (!dataSnapshot.exists()){
+                    return;
+                }
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Question question = snapshot.getValue(Question.class);
+                    LoadAnswersForQuestion(adapter, questionList, question);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public String SaveImageToDatastore(Uri uriToImage){
 
         String result="";
@@ -199,6 +271,4 @@ public class DataManager {
             }
         });
     }
-
-
 }

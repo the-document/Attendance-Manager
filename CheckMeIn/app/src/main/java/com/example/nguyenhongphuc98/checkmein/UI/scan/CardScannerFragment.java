@@ -43,6 +43,9 @@ public class CardScannerFragment extends Fragment {
     //Lock để khoá không cho phép chạy 2 lần việc xử lý hình ảnh.
     Lock imageProcessingLock = new ReentrantLock();
 
+    //Đây là biến dùng để lưu trữ MSSV sau khi nhận diện thẻ thành công.
+    Integer scannedMSSVNumber = 0;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -96,15 +99,35 @@ public class CardScannerFragment extends Fragment {
                         Bitmap resizedBitmap = Bitmap.createBitmap(capturedImage, srcX, srcY,
                                 captureBoxHeight + 60, captureBoxWidth + 25);
                         String scannedText = tesseract.getOCRResult(resizedBitmap);
+
+                        try {
+                            scannedMSSVNumber = Integer.parseInt(scannedText);
+                        }catch(NullPointerException nptrEx){
+                            scannedMSSVNumber = -1;
+                        }
+                        catch(NumberFormatException ex){
+                            scannedMSSVNumber = -1;
+                        }
+
+                        String tmp = "";
+                        if (scannedMSSVNumber == -1){
+                            tmp = "Error. Please check your card placement position";
+                        }
+                        else{
+                            tmp = scannedMSSVNumber.toString();
+                        }
+
+                        final String scanResult = tmp;
+
                         AppExecutors.getInstance().mainThread().execute(() -> {
                             imgViewScanPreview.setImageBitmap(capturedImage);
                             imgViewScanMSSVPreview.setImageBitmap(resizedBitmap);
-                            txtViewScannedText.setText(scannedText);
+                            txtViewScannedText.setText(scanResult);
+                            timeHolder = System.currentTimeMillis()/1000;
                         });
                         imageProcessingLock.unlock();
                     }
                 });
-                timeHolder = System.currentTimeMillis()/1000;
             }
         };
 

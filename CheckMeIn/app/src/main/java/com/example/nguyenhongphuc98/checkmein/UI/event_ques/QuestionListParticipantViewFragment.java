@@ -25,12 +25,6 @@ public class QuestionListParticipantViewFragment extends Fragment {
 
         ArrayList<Question> dsTest = new ArrayList<>();
 
-        Question question1 = new Question("Câu hỏi số 1", "Câu trả lời A", "Câu trả lời B", "Câu trả lời C", "Câu trả lời D");
-        Question question2 = new Question("Câu hỏi số 2", "Câu trả lời A", "Câu trả lời B", "Câu trả lời C", "Câu trả lời D");
-
-        dsTest.add(question1);
-        dsTest.add(question2);
-
         com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter qaCustomAdapter = new com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter(getActivity(), R.layout.custom_question_row_layout, dsTest);
 
         lv_question_list.setAdapter(qaCustomAdapter);

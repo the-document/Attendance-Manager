@@ -37,7 +37,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     final double frameCaptureDelay = 3;
 
     //Tính thời gian đã qua.
-    double timeHolder = 0;
+    double timeHolder = System.currentTimeMillis()/1000;
 
     //Giữ frame hiện tại, để chúng ta có thể thao tác với frame hiện tại.
     private final Lock lock = new ReentrantLock();

@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/fragment_card_scanner_scanned_text"
-        android:text="Test"
+        android:text="Place card in as instructed."
         android:textSize="20sp"
         android:textColor="@color/black"
         android:background="@color/white"

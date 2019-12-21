@@ -36,32 +36,32 @@ public class ViewListActivityFragment extends Fragment implements IViewListActiv
         presenter=new ViewListActivityPresenter(this);
 
         lsEvent=new ArrayList<>();
-        lsEvent.add(new Event("avt",
-                "10:20","11:50",
-                "15H32V",
-                "E Building",
-                "LvOrAdb2ZVh09ULAgS6",
-                "NULL",
-                "22/12/2019",
-                "Hoi thao lam giau"));
-
-        lsEvent.add(new Event("avt",
-                "10:20","11:50",
-                "15H32V",
-                "E Building",
-                "LvOrAdb2ZVh09ULAgS6",
-                "NULL",
-                "01/11/2022",
-                "Chia se tai chinh"));
-
-        lsEvent.add(new Event("avt",
-                "10:20","11:50",
-                "15H32V",
-                "E Building",
-                "LvOrAdb2ZVh09ULAgS6",
-                "NULL",
-                "22/10/2015",
-                "Lam dep khong kho"));
+//        lsEvent.add(new Event("avt",
+//                "10:20","11:50",
+//                "15H32V",
+//                "E Building",
+//                "LvOrAdb2ZVh09ULAgS6",
+//                "NULL",
+//                "22/12/2019",
+//                "Hoi thao lam giau"));
+//
+//        lsEvent.add(new Event("avt",
+//                "10:20","11:50",
+//                "15H32V",
+//                "E Building",
+//                "LvOrAdb2ZVh09ULAgS6",
+//                "NULL",
+//                "01/11/2022",
+//                "Chia se tai chinh"));
+//
+//        lsEvent.add(new Event("avt",
+//                "10:20","11:50",
+//                "15H32V",
+//                "E Building",
+//                "LvOrAdb2ZVh09ULAgS6",
+//                "NULL",
+//                "22/10/2015",
+//                "Lam dep khong kho"));
     }
 
 

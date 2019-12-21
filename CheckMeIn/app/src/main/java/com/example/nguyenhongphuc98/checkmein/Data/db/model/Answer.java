@@ -1,31 +1,53 @@
 package com.example.nguyenhongphuc98.checkmein.Data.db.model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
 public class Answer {
-    private int questionId;
-    private int userId;
-    private String answer;
+    private String question;
+    private String key;
+    private boolean is_correct;
+    private String content;
 
-    public int getUserId() {
-        return userId;
+    public Answer() {
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public Answer(String question, String key, boolean is_correct, String content) {
+        this.question = question;
+        this.key = key;
+        this.is_correct = is_correct;
+        this.content = content;
     }
 
-    public int getQuestionId() {
-        return questionId;
+    public String getQuestion() {
+        return question;
     }
 
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getKey() {
+        return key;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public boolean isIs_correct() {
+        return is_correct;
+    }
+
+    public void setIs_correct(boolean is_correct) {
+        this.is_correct = is_correct;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

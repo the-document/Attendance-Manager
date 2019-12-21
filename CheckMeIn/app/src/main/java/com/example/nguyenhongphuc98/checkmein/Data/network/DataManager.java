@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.AsyncTask;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.widget.EditText;
@@ -37,6 +38,13 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Person;
 import com.example.nguyenhongphuc98.checkmein.UI.home.IEventCallBack;
 import com.example.nguyenhongphuc98.checkmein.UI.login.LoginCallback;
 
+
+import com.bumptech.glide.Glide;
+import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,6 +53,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import com.google.firebase.database.ChildEventListener;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -77,6 +88,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -996,6 +1008,150 @@ public class DataManager {
         return name;
     }
 
+    private void pushAnswerToDatabase(Answer answer){
+        String key = mDatabase.child("Answer").push().getKey();
+        Task task = mDatabase.child("Answer").child(key).setValue(answer);
+        task.addOnSuccessListener(new OnSuccessListener() {
+            @Override
+            public void onSuccess(Object o) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+
+    public void SaveAnswersForQuestion(Question question, ArrayList<Answer> answers){
+        //Đầu tiên là ta phải Remove hết tất cả các Answer trùng với Question.
+        String questionID = question.getId();
+        final DatabaseReference answers_Ref = FirebaseDatabase.getInstance().getReference("Answer");
+        Query query = answers_Ref.orderByChild("question").equalTo(question.getId());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            ArrayList<String> keys = new ArrayList<>();
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null && dataSnapshot.getValue() != null){
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        //Xoá tất cả các câu trả lời.
+                        answers_Ref.child("Answer").child(snapshot.getKey()).removeValue();
+                    }
+                }
+                for (Answer answer : answers){
+                    pushAnswerToDatabase(answer);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void SaveAnswer(Question question, Answer answer){
+
+    }
+
+    public void LoadAnswersForQuestion(QuestionListCustomAdapter questionAdapter,
+                                       List<Question> qsList, Question question){
+
+        final DatabaseReference answers_Ref = FirebaseDatabase.getInstance().getReference("Answer");
+        Query query = answers_Ref.orderByChild("question").equalTo(question.getId());
+        ArrayList<Answer> answerOfQuestion = new ArrayList<>();
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists())
+                    return;
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Answer ans = snapshot.getValue(Answer.class);
+                    answerOfQuestion.add(ans);
+                }
+
+                //Load xong câu trả lời rồi thì gán câu trả lời cho câu hỏi.
+                question.setmAnswers(answerOfQuestion);
+
+                //Sau khi load câu trả lời xong xuôi rồi thì mới thêm câu trả lời vào bộ câu hỏi.
+                synchronized (this){
+                    qsList.add(question);
+                    questionAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public boolean SaveQuestion(Question question){
+        try{
+            //Xem thử key có tồn tại chưa.
+            //Nếu có thì là update, nếu chưa thì phải tạo mới.
+            String key = "";
+            if (question.getId() == null){
+                key = mDatabase.child("MultipleChoiceQuestion").push().getKey();
+                question.setId(key);
+            }
+
+            else
+                key = question.getId();
+
+            Task task = mDatabase.child("MultipleChoiceQuestion").child(key).setValue(question);
+
+            task.addOnSuccessListener(new OnSuccessListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    Log.d("DataMan/SaveQuesSuccess", "Save success");
+                    //Lưu câu hỏi thành công thì tiếp tục lưu cả câu trả lời luôn.
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("DataMan/SaveQuesFail", "Save failed : " + e.toString());
+                }
+            });
+            return true;
+        }catch (Exception e){
+            Log.d("DataMan/SaveQuestion", e.toString());
+        }
+        return false;
+    }
+
+    public void LoadQuestions(QuestionListCustomAdapter adapter, List<Question> questionList, String eventID){
+        final DatabaseReference questions_Ref = FirebaseDatabase.getInstance().getReference("MultipleChoiceQuestion");
+        Query query = questions_Ref.orderByChild("event").equalTo(eventID);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Đầu tiên chúng ta cần xoá bỏ đi dữ liệu cũ để không bị trùng lặp.
+                questionList.clear();
+
+                if (!dataSnapshot.exists()){
+                    return;
+                }
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Question question = snapshot.getValue(Question.class);
+                    LoadAnswersForQuestion(adapter, questionList, question);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public String SaveImageToDatastore(Uri uriToImage){
 
         String result="";
@@ -1030,5 +1186,4 @@ public class DataManager {
             }
         });
     }
-
 }

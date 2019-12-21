@@ -267,14 +267,14 @@ public class DataManager {
             //Nếu có thì là update, nếu chưa thì phải tạo mới.
             String key = "";
             if (question.getId() == null){
-                key = mDatabase.child("Question").push().getKey();
+                key = mDatabase.child("MultipleChoiceQuestion").push().getKey();
                 question.setId(key);
             }
 
             else
                 key = question.getId();
 
-            Task task = mDatabase.child("Question").child(key).setValue(question);
+            Task task = mDatabase.child("MultipleChoiceQuestion").child(key).setValue(question);
 
             task.addOnSuccessListener(new OnSuccessListener() {
                 @Override

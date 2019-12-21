@@ -74,8 +74,8 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date now = new Date();
             try {
-                registerPresenter.writeNewPerson(Integer.parseInt(edtUsername.getText().toString()));
-                registerPresenter.writeNewAccount(registerPresenter.getCurrentUser().getUid(), email, Integer.parseInt(edtUsername.getText().toString()), passWord, formatter.format(now));
+                registerPresenter.writeNewPerson(edtUsername.getText().toString());
+                registerPresenter.writeNewAccount(registerPresenter.getCurrentUser().getUid(), email, edtUsername.getText().toString(), passWord, formatter.format(now));
 
                 Toast.makeText(RegisterActivity.this, "Create user success", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, LoginActivity.class));

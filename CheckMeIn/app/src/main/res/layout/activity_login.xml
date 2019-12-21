@@ -48,6 +48,13 @@
                 android:text="123456"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <ProgressBar
+            android:id="@+id/progressbarLogin"
+            android:visibility="invisible"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/login_btnLogin"
             android:layout_width="300dp"

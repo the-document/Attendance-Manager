@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:columnWidth="41dp"
+                android:columnWidth="60dp"
                 android:numColumns="auto_fit"
                 android:layout_marginTop="10dp"/>
 

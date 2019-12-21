@@ -1,27 +1,34 @@
-package com.example.nguyenhongphuc98.checkmein.UI.user;
+package com.example.nguyenhongphuc98.checkmein.UI.user.account;
 
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InfoFragmentAccount extends Fragment {
+public class InfoFragmentAccount extends Fragment  implements IInfoAccount{
+
+    InfoAccountPresenter presenter;
 
     Button btnEditEmail;
     Button btnEditPhone;
-    EditText etEmail;
-    EditText etPhone;
+    public EditText etEmail;
+    public EditText etPhone;
+    public TextView tvMssv;
 
     boolean mEmailEditing;
     boolean mPhoneEditing;
@@ -35,6 +42,15 @@ public class InfoFragmentAccount extends Fragment {
         mPhoneEditing=false;
     }
 
+    private static InfoFragmentAccount instance;
+
+    public static InfoFragmentAccount Instance(){
+        if(instance==null){
+            instance=new InfoFragmentAccount();
+        }
+        return instance;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,18 +62,31 @@ public class InfoFragmentAccount extends Fragment {
         btnEditPhone=view.findViewById(R.id.btnEditPhone);
         etEmail=view.findViewById(R.id.etEmail);
         etPhone=view.findViewById(R.id.etPhone);
+        tvMssv=view.findViewById(R.id.tvmssv);
 
-        etEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnEditEmail.setBackgroundResource(R.drawable.icon_edit);
-                btnEditEmail.setVisibility(View.VISIBLE);
-            }
-        });
+       addEvent();
+
+        presenter=new InfoAccountPresenter(this);
+        OnInitAccountInfo();
+        return  view;
+    }
+
+    void addEvent(){
+//        etEmail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                btnEditEmail.setBackgroundResource(R.drawable.icon_edit);
+//                btnEditEmail.setVisibility(View.VISIBLE);
+//            }
+//        });
 
         etPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //check permission to edit
+                if(!tvMssv.getText().toString().equals(DataCenter.UserID))
+                    return;
+
                 btnEditPhone.setBackgroundResource(R.drawable.icon_edit);
                 btnEditPhone.setVisibility(View.VISIBLE);
             }
@@ -124,12 +153,33 @@ public class InfoFragmentAccount extends Fragment {
 
                     //save new phone here
                     //========================
+                    presenter.OnUpdatePhoneNumber();
                 }
 
             }
         });
-
-        return  view;
     }
 
+    @Override
+    public void OnInitAccountInfo() {
+        Log.e("AAAA","1");
+        presenter.OnInitAccountInfo();
+    }
+
+    @Override
+    public void OnUpdatePhoneNumber() {
+        presenter.OnUpdatePhoneNumber();
+    }
+
+    @Override
+    public void OnUpdatePhoneResult(int code) {
+        switch (code){
+            case CODE_UPDATE_PHONE_SUCCESS:
+                Toast.makeText(getContext(),"updated",Toast.LENGTH_SHORT).show();
+                break;
+            case CODE_UPDATE_PHONE_FAIL:
+                Toast.makeText(getContext(),"fail",Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
 }

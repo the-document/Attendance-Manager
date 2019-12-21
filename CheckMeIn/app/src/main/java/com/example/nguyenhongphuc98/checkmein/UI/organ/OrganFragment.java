@@ -1,8 +1,13 @@
 package com.example.nguyenhongphuc98.checkmein.UI.organ;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.example.nguyenhongphuc98.checkmein.R;
@@ -19,17 +25,22 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class OrganFragment extends Fragment implements IOrganView{
 
+    //define constant;
+    final int CODE_OPEN_DOCUMENT = 22;
+
     private OrganPresenter presenter;
 
     GridView gvCollaborator;
     CircularImageView avtOrgan;
-    EditText etBameOrgan;
+    EditText etNameOrgan;
     EditText etDescription;
     EditText etCollaborator;
     Button btnSave;
@@ -38,6 +49,7 @@ public class OrganFragment extends Fragment implements IOrganView{
     CollaborationAdapter adapter;
 
     List<String> lsCollaborator;
+    Uri avatarRUri;
 
     public OrganFragment() {
         // Required empty public constructor
@@ -66,7 +78,7 @@ public class OrganFragment extends Fragment implements IOrganView{
     private void MatchView( View v){
         gvCollaborator=v.findViewById(R.id.gvCollaborator);
         avtOrgan=v.findViewById(R.id.avatar_organ);
-        etBameOrgan=v.findViewById(R.id.etOrganName);
+        etNameOrgan=v.findViewById(R.id.etOrganName);
         etDescription=v.findViewById(R.id.etOrganDes);
         etCollaborator=v.findViewById(R.id.etOrganCollaborator);
         btnSave=v.findViewById(R.id.btnSaveOrgan);
@@ -85,7 +97,7 @@ public class OrganFragment extends Fragment implements IOrganView{
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //save data organ
+                onSaveOrganClick();
             }
         });
 
@@ -116,7 +128,11 @@ public class OrganFragment extends Fragment implements IOrganView{
 
     @Override
     public void onChangePhotoClick() {
-        presenter.onChangePhotoClick();
+
+        //get image from device
+        Intent intentOpenFile=new Intent().setType("*/*").setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intentOpenFile,"Choose image"),CODE_OPEN_DOCUMENT);
+
     }
 
     @Override
@@ -126,11 +142,59 @@ public class OrganFragment extends Fragment implements IOrganView{
 
     @Override
     public void onSaveOrganClick() {
-
+        presenter.onSaveOrganClick();
     }
 
+
+    //==================================================================
     @Override
     public void showResult(String msg) {
         Toast.makeText(getContext(),msg,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onChangePhotoResult(int code) {
+        if(code==CODE_CHANGE_PHOTO_SUCCESS)
+            avtOrgan.setImageURI(avatarRUri);
+        else
+            Toast.makeText(getContext(),"can't set avatar!",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSaveOrganResult(int code) {
+        switch (code)
+        {
+            case CODE_SAVE_ORGAN_SUCCESS:
+                Toast.makeText(getContext(),"save success.",Toast.LENGTH_SHORT).show();
+                break;
+            case CODE_SAVE_ORGAN_FAIL:
+                Toast.makeText(getContext(),"fail to save.",Toast.LENGTH_SHORT).show();
+                break;
+            case CODE_INVALID_PARAMETER:
+                Toast.makeText(getContext(),"infor not correct.",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==CODE_OPEN_DOCUMENT&&resultCode==RESULT_OK){
+
+            //show image on avatar
+            Uri selectedFile=data.getData();
+            Log.d("PhotoURL","photo: "+selectedFile.toString());
+            avatarRUri=selectedFile;
+            //Toast.makeText(getContext(),selectedFile.toString(), Toast.LENGTH_LONG).show();
+
+            presenter.onChangePhotoClick();
+        }
+
+    }
+
+    public void onShowProfile(Bitmap bitmap){
+        this.avtOrgan.setImageBitmap(bitmap);
     }
 }

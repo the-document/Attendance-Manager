@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 import com.example.nguyenhongphuc98.checkmein.UI.home.HomeFragment;
 import com.example.nguyenhongphuc98.checkmein.UI.scan.CardScannerFragment;
 import com.example.nguyenhongphuc98.checkmein.UI.user.InfoFragment;
@@ -39,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         mMainNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-
         mMainFrame =(FrameLayout) findViewById(R.id.fragment_container);
+        DataManager.Instance(getApplication());
+
         mHomeFragment=new HomeFragment();
         mInfoFragment=new InfoFragment();
 

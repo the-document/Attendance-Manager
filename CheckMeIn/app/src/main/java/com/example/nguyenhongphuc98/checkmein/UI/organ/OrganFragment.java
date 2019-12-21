@@ -45,7 +45,6 @@ public class OrganFragment extends Fragment implements IOrganView{
        lsCollaborator.add("a");
        lsCollaborator.add("a");
        lsCollaborator.add("a");
-
     }
 
 

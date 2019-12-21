@@ -1,28 +1,20 @@
 package com.example.nguyenhongphuc98.checkmein.UI.login;
 
-import android.view.View;
+import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 
-public class LoginPresenter implements ILoginView {
+public class LoginPresenter {
     private Account account;
-    private View view;
+    private ILoginView view;
     private DataManager dataManager;
 
-    public LoginPresenter(View view) {
+    public LoginPresenter(ILoginView view) {
         this.account = new Account();
         this.view = view;
         dataManager = new DataManager();
-    }
-
-    public void setAccount(String email, String password) {
-        this.account.setMail(email);
-        this.account.setPassword(password);
-    }
-
-    public String getEmail() {
-        return this.account.getMail();
     }
 
     public String getPassword() {
@@ -33,11 +25,33 @@ public class LoginPresenter implements ILoginView {
         dataManager.ProcessLogin(email, password);
     }
 
+    public boolean ValidateForm(TextView edtUsername, TextView edtPassword) {
+        boolean valid = true;
+
+        String userName = edtUsername.getText().toString();
+        if (TextUtils.isEmpty(userName)) {
+            edtUsername.setError("Required.");
+            valid = false;
+        } else {
+            edtUsername.setError(null);
+        }
+
+        String password = edtPassword.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            edtPassword.setError("Required.");
+            valid = false;
+        } else {
+            edtPassword.setError(null);
+        }
+
+        return valid;
+    }
+
     public boolean CheckLoginStatus() {
         return dataManager.checkLoginStatus();
     }
 
-    public interface View{
-
+    public boolean CheckEmailVerify() {
+        return dataManager.checkEmailVerify();
     }
 }

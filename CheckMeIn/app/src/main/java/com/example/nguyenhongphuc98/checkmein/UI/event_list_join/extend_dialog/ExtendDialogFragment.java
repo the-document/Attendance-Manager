@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.UI.mail.SendEmailFragment;
 
+import java.io.FileReader;
+
 public class ExtendDialogFragment extends DialogFragment {
     SendEmailFragment sendEmailFragment;
 

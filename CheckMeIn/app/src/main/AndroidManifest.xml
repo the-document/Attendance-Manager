@@ -37,8 +37,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.login.RegisterActivity" />
-        <activity android:name=".UI.login.ResetPasswordActivity" />
+        <activity android:name=".UI.sign_up.RegisterActivity" />
+        <activity android:name=".UI.reset_password.ResetPasswordActivity" />
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity android:name=".UI.event_ques.QuestionManagementFragment"/>

@@ -1,17 +1,24 @@
 package com.example.nguyenhongphuc98.checkmein.Adapter;
 
+import android.app.ActionBar;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
+import com.example.nguyenhongphuc98.checkmein.Utils.Utils;
 
 import java.util.ArrayList;
 
@@ -32,38 +39,74 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        //Lấy danh sách câu trả lời.
+        ArrayList<Answer> answerList = questionArray.get(position).getmAnswers();
+        //Lấy nội dung câu hỏi.
+        String question = questionArray.get(position).getContent();
 
         if (convertView == null)
         {
-//            convertView = LayoutInflater.from(context).inflate(R.layout.custom_question_row_layout,parent,true);
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.custom_question_row_layout, null);
             viewHolder = new ViewHolder();
-            //LayoutInflater mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
             viewHolder.txtQuestion = (TextView)convertView.findViewById(R.id.custom_question_row_question);
-            viewHolder.txtAnswer1 = (TextView)convertView.findViewById(R.id.custom_question_row_answer_1);
-            viewHolder.txtAnswer2 = (TextView)convertView.findViewById(R.id.custom_question_row_answer_2);
-            viewHolder.txtAnswer3 = (TextView)convertView.findViewById(R.id.custom_question_row_answer_3);
-            viewHolder.txtAnswer4 = (TextView)convertView.findViewById(R.id.custom_question_row_answer_4);
+
+            //Thêm câu trả lời vào đây.
+            viewHolder.answerRow = new ArrayList<>();
+            viewHolder.answerKey = new ArrayList<>();
+            viewHolder.answerContent = new ArrayList<>();
+
+            viewHolder.answerListLayout = (LinearLayout)convertView.findViewById(R.id.custom_question_row_layout_answers_layout);
+
+            for (int i=0;i<answerList.size();++i){
+                View answerRow = inflater.inflate(R.layout.custom_answer_row_layout,null);
+                viewHolder.answerRow.add(answerRow);
+                viewHolder.answerKey.add(answerRow.findViewById(R.id.custom_answer_row_layout_answer_key));
+                viewHolder.answerContent.add(answerRow.findViewById(R.id.custom_answer_row_layout_answer_content));
+            }
+
             convertView.setTag(viewHolder);
         }
         else
         {
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        ArrayList<Answer> answerList = questionArray.get(position).getmAnswers();
-        String question = questionArray.get(position).getContent();
 
+        //Gán câu hỏi.
         viewHolder.txtQuestion.setText(question);
-        viewHolder.txtAnswer1.setText(answerList.get(0).getContent());
-        viewHolder.txtAnswer2.setText(answerList.get(1).getContent());
-        viewHolder.txtAnswer3.setText(answerList.get(2).getContent());
-        viewHolder.txtAnswer4.setText(answerList.get(3).getContent());
+
+        for (int i=0;i<answerList.size();++i){
+            Answer answer = answerList.get(i);
+
+            View answerRow = viewHolder.answerRow.get(i);
+            TextView answerKey = viewHolder.answerKey.get(i);
+            TextView answerContent = viewHolder.answerContent.get(i);
+
+            answerKey.setText(answer.getKey() + ".");
+            answerContent.setText(answer.getContent());
+
+            //Nếu như câu trả lời là câu trả lời đúng thì ta tô màu lên cho nó.
+            if (answer.isIs_correct()){
+                answerRow.setBackgroundResource(R.drawable.custom_container_question_row_with_green_background);
+                answerKey.setTextColor(Color.WHITE);
+                answerContent.setTextColor(Color.WHITE);
+            }
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(Utils.fromDPtoPX(8),Utils.fromDPtoPX(8),Utils.fromDPtoPX(8),0);
+            viewHolder.answerListLayout.addView(answerRow, 0, params);
+        }
 
         return convertView;
     }
 
     public class ViewHolder{
-        TextView txtQuestion, txtAnswer1, txtAnswer2, txtAnswer3, txtAnswer4;
+        TextView txtQuestion;
+        LinearLayout answerListLayout;
+        ArrayList<View> answerRow;
+        ArrayList<TextView> answerKey;
+        ArrayList<TextView> answerContent;
     }
 }

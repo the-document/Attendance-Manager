@@ -21,7 +21,6 @@ public class QuestionListPresenter implements QuestionListContract.QuestionListP
     public void loadQuestions() {
         //Đây chỉ là thêm vào để test presenter mà thôi.
         ArrayList<Question> questionsList = new ArrayList<>();
-
         QuestionListCustomAdapter qaCustomAdapter = new QuestionListCustomAdapter(view.getContext(), R.layout.custom_question_row_layout, questionsList);
         view.setQuestionListAdapter(qaCustomAdapter);
         DataManager.Instance().LoadQuestions(qaCustomAdapter, questionsList, eventID);

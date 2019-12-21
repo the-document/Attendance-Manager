@@ -65,8 +65,7 @@ public class OrganFragment extends Fragment implements IOrganView{
         // Required empty public constructor
 
        lsCollaborator=new ArrayList<>();
-        mssvCollaborators=new ArrayList<>();
-
+       mssvCollaborators=new ArrayList<>();
     }
 
 

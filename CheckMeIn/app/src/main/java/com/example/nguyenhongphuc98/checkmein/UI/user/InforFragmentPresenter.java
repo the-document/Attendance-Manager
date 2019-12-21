@@ -6,9 +6,9 @@ import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.UI.user.account.InfoAccountPresenter;
 import com.example.nguyenhongphuc98.checkmein.UI.user.account.InfoFragmentAccount;
 import com.example.nguyenhongphuc98.checkmein.UI.user.activity.InfoFragmentAct;
-
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Person;
+
 
 public class InforFragmentPresenter implements IInforFragmentView{
 
@@ -19,7 +19,6 @@ public class InforFragmentPresenter implements IInforFragmentView{
     InforFragmentPresenter(InfoFragment _view){
         this.view=_view;
     }
-
 
 
     @Override
@@ -112,7 +111,6 @@ public class InforFragmentPresenter implements IInforFragmentView{
             OnUpdatedDisplayName(CODE_SUCCESS);
         else OnUpdatedDisplayName(CODE_FAIL);
     }
-
 
     @Override
     public void OnShowEvent(int code) {

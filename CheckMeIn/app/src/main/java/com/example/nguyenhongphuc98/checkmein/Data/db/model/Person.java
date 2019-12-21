@@ -19,7 +19,6 @@ public class Person {
     private String userClass;
     private DataManager dataManager;
 
-
     private static final String TAG = "PersonInfo";
 
     public Person(String mssv, String phone, String avatar, String displayName, String userClass) {
@@ -37,7 +36,6 @@ public class Person {
     public String getMssv() {
         return mssv;
     }
-
 
     public String getPhone() {
         return phone;
@@ -75,7 +73,6 @@ public class Person {
     public void setUserClass(String userClass) {
         this.userClass = userClass;
     }
-
 
     public void checkNewPerson(int mssv) {
         dataManager.mDatabase = dataManager.database.getReference("Person");

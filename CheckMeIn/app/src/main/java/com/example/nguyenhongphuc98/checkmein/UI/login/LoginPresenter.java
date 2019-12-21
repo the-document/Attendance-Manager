@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 
@@ -14,6 +15,7 @@ public class LoginPresenter implements LoginCallback{
     private DataManager dataManager;
 
     public LoginPresenter(LoginActivity view) {
+
         this.account = new Account();
         this.view = view;
         dataManager = new DataManager();
@@ -23,6 +25,7 @@ public class LoginPresenter implements LoginCallback{
     public String getPassword() {
         return this.account.getPassword();
     }
+
 
     public void LoginProcess(String email, String password) {
         DataManager.Instance(view.getApplication()).setLoginCallback(this);
@@ -87,5 +90,6 @@ public class LoginPresenter implements LoginCallback{
     public void OnLoadPersonToDatacenterComplete() {
         Toast. makeText(view.getApplicationContext(),"onload person complete",Toast. LENGTH_SHORT).show();
         view.OnLoadPersonToDatacenterComplete();
+
     }
 }

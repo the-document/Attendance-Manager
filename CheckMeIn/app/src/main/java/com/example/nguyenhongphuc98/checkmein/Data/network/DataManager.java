@@ -28,6 +28,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
 import com.example.nguyenhongphuc98.checkmein.Adapter.OrganAdaptor;
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
+
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Collaborator;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
@@ -35,6 +36,7 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Person;
 import com.example.nguyenhongphuc98.checkmein.UI.home.IEventCallBack;
 import com.example.nguyenhongphuc98.checkmein.UI.login.LoginCallback;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,6 +49,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 
 import com.google.firebase.storage.StorageReference;
 
@@ -84,7 +87,9 @@ public class DataManager {
     public final FirebaseDatabase database;
 
     IEventCallBack eventCallBack;
+
     private static LoginCallback loginCallback;
+
 
     Context mContext;
 
@@ -150,6 +155,7 @@ public class DataManager {
             this.loginCallback = cb;
         if(this.loginCallback!=null)
         Log.d("DATAMANAGER","seted login");
+
     }
 
     public boolean checkLoginStatus() {
@@ -242,6 +248,7 @@ public class DataManager {
                     else Log.w(TAG, "Send mail rest failed.");
                 });
     }
+
 
 
 
@@ -796,6 +803,7 @@ public class DataManager {
         return true;
     }
 
+
     public Boolean LoadPersonByEmail(String email){
 
         try {
@@ -884,7 +892,6 @@ public class DataManager {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     Log.e("DTM","get url avt user:"+uri.getPath());
-
 
                                     Glide.with(mContext)
                                             .load(uri)

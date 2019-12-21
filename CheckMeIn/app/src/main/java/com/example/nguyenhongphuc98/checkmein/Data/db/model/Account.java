@@ -20,7 +20,6 @@ public class Account {
         this.create_date = create_date;
     }
 
-
     public String getUserName() {
         return username;
     }
@@ -36,6 +35,7 @@ public class Account {
     public String getCreate_date() {
         return create_date;
     }
+
 
     public void setUserName(String username) {
         this.username = username;
@@ -57,5 +57,6 @@ public class Account {
         Account account = new Account(create_date, password, person, username);
 
         dataManager.mDatabase.child("Account").child(userId).setValue(account);
+
     }
 }

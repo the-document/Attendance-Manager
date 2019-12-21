@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.example.nguyenhongphuc98.checkmein.MainActivity;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.UI.reset_password.ResetPasswordActivity;
 import com.example.nguyenhongphuc98.checkmein.UI.sign_up.RegisterActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity implements ILoginView {
@@ -49,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
         loginPresenter = new LoginPresenter(this);
 
+
         Intent intent = new Intent(this, MainActivity.class);
 
 //        if (loginPresenter.CheckLoginStatus()){
@@ -77,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
                 progressBar.setVisibility(View.VISIBLE);
                 loginPresenter.LoginProcess(edtUsername.getText().toString(), edtPassword.getText().toString());
                 //auto callback when process done
+
             }
 
         });

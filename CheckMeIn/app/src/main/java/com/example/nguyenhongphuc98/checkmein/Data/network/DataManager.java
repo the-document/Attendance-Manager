@@ -523,7 +523,7 @@ public class DataManager {
 
     public Boolean SaveEvent(Event event){
         try{
-            //create new node organ
+            //create new node event
             String key=mDatabase.child("Event").push().getKey();
             event.setEvent_id(key);
 
@@ -612,6 +612,21 @@ public class DataManager {
         }
 
         return true;
+    }
+
+    public Boolean SaveAttendance(String userID, String eventID, String nameOfUser){
+        try{
+            //save to firebase
+//            Map<String,String> record=new HashMap<>();
+//            record.put(userID,nameOfUser);
+            mDatabase.child("Attendance").child(eventID).child(userID).setValue(nameOfUser);
+            Log.e("DTM","added attendance: "+eventID);
+            return true;
+        }
+        catch (Exception e){
+            Log.d("DATAMANAGER",e.toString());
+        }
+        return false;
     }
 
 

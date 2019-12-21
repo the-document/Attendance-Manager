@@ -51,7 +51,7 @@ public class HomePresenter implements IHome, IEventCallBack{
     @Override
     public void OnLoadEventComplete(Event event) {
         if(event!=null){
-            if(DataManager.Instance().SaveAttendance(DataCenter.UserID,event.getEvent_id(),"Name user"))
+            if(DataManager.Instance().SaveAttendance(DataCenter.UserID,event.getEvent_id(),DataCenter.UserDisplayName))
                 view.OnJoinEventSucess(event);
             else
                 view.OnJoinEventFail(event);

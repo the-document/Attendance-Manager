@@ -27,12 +27,14 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
 import com.example.nguyenhongphuc98.checkmein.Adapter.OrganAdaptor;
+import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Collaborator;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Person;
 import com.example.nguyenhongphuc98.checkmein.UI.home.IEventCallBack;
+import com.example.nguyenhongphuc98.checkmein.UI.login.LoginCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -82,6 +84,7 @@ public class DataManager {
     public final FirebaseDatabase database;
 
     IEventCallBack eventCallBack;
+    private static LoginCallback loginCallback;
 
     Context mContext;
 
@@ -98,6 +101,7 @@ public class DataManager {
     public static DataManager Instance(){
         if(_instance==null){
             _instance=new DataManager();
+            Log.e("DATAMANAGER","new instance");
         }
 
         return _instance;
@@ -105,6 +109,7 @@ public class DataManager {
     public static DataManager Instance(Context c){
         if(_instance==null){
             _instance=new DataManager(c);
+            Log.e("DATAMANAGER","new instance with context");
         }
 
         return _instance;
@@ -133,6 +138,20 @@ public class DataManager {
             this.eventCallBack = eventCallBack;
     }
 
+    public void setLoginCallback(LoginCallback cb) {
+        if(cb==null)
+        {
+            Log.d("DATAMANAGER","cb null");
+            return;
+        }
+
+
+        if(this.loginCallback==null)
+            this.loginCallback = cb;
+        if(this.loginCallback!=null)
+        Log.d("DATAMANAGER","seted login");
+    }
+
     public boolean checkLoginStatus() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
@@ -150,15 +169,36 @@ public class DataManager {
     }
 
     public void ProcessLogin(String email, String password) {
+        if(this.loginCallback==null)
+            Log.e("DATAMANAGER","login callback is null");
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
+
+                        if(this.loginCallback!=null)
+                        {
+                            loginCallback.OnLoginComplete(LoginCallback.CODE_LOGIN_SUCCESS);
+                            Log.d("DATAMANAGER","callback login");
+                        }
+                        else {
+                            Log.d("DATAMANAGER","errcallback login" );
+                        }
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        if(loginCallback!=null)
+                        {
+                            loginCallback.OnLoginComplete(LoginCallback.CODE_LOGIN_INCORRECT);
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        }
+                       else {
+                            Log.d(TAG, "signInWithEmail:failure");
+                        }
+
+
                     }
                 });
     }
@@ -756,6 +796,71 @@ public class DataManager {
         return true;
     }
 
+    public Boolean LoadPersonByEmail(String email){
+
+        try {
+            final DatabaseReference account_Reference = FirebaseDatabase.getInstance().getReference("Account");
+            Query query=account_Reference.orderByChild("userName").equalTo(email);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.exists()) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Account o = snapshot.getValue(Account.class);
+                            Log.e("DTM","get object: "+o.getUserName());
+
+                            //load person by id
+                            final DatabaseReference person_Reference = FirebaseDatabase.getInstance().getReference("Person");
+                            Query query=person_Reference.orderByKey().equalTo(o.getPerson());
+
+                            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    if (dataSnapshot.exists()) {
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                            Person p = snapshot.getValue(Person.class);
+
+                                            Log.e("DTM","get display name: "+p.getDisplayName());
+
+                                            DataCenter.UserID=p.getMssv();
+                                            DataCenter.UserDisplayName=p.getDisplayName();
+
+                                            loginCallback.OnLoadPersonToDatacenterComplete();
+                                        }
+                                    }
+                                    else
+                                        Log.e("DTM","not found: "+o.getUserName());
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        }
+                    }
+                    else
+                        Log.e("DTM","not found"+email);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get account: "+e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
     public Boolean LoadGenarelInfoPersonByID(String userID, EditText displayName, CircularImageView avatar){
 
         //load person
@@ -779,6 +884,7 @@ public class DataManager {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     Log.e("DTM","get url avt user:"+uri.getPath());
+
 
                                     Glide.with(mContext)
                                             .load(uri)

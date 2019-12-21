@@ -484,7 +484,7 @@ public class DataManager {
         try {
             final DatabaseReference events_Reference = FirebaseDatabase.getInstance().getReference("Event");
             Query query=events_Reference.orderByChild("organ").equalTo(organID);
-
+            Log.e("DTM","loading event of organ: "+organID);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -511,9 +511,8 @@ public class DataManager {
 //                            }
 //                        });
                         }
-
-                        adapter.notifyDataSetChanged();
                     }
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override

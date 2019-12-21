@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Username (MSSV)"
                 android:inputType="textEmailAddress"
-                android:text="hongphuc@gmail.com"/>
+                android:text="nguyenhongphuc98@gmail.com"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

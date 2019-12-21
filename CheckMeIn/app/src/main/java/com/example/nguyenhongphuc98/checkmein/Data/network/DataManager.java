@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
@@ -28,6 +29,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -176,6 +178,54 @@ public class DataManager {
         return name;
     }
 
+    private void pushAnswerToDatabase(Answer answer){
+        String key = mDatabase.child("Answer").push().getKey();
+        Task task = mDatabase.child("Answer").child(key).setValue(answer);
+        task.addOnSuccessListener(new OnSuccessListener() {
+            @Override
+            public void onSuccess(Object o) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+
+    public void SaveAnswersForQuestion(Question question, ArrayList<Answer> answers){
+        //Đầu tiên là ta phải Remove hết tất cả các Answer trùng với Question.
+        String questionID = question.getId();
+        final DatabaseReference answers_Ref = FirebaseDatabase.getInstance().getReference("Answer");
+        Query query = answers_Ref.orderByChild("question").equalTo(question.getId());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            ArrayList<String> keys = new ArrayList<>();
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null && dataSnapshot.getValue() != null){
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        //Xoá tất cả các câu trả lời.
+                        answers_Ref.child("Answer").child(snapshot.getKey()).removeValue();
+                    }
+                }
+                for (Answer answer : answers){
+                    pushAnswerToDatabase(answer);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void SaveAnswer(Question question, Answer answer){
+
+    }
+
     public void LoadAnswersForQuestion(QuestionListCustomAdapter questionAdapter,
                                        List<Question> qsList, Question question){
 
@@ -209,7 +259,41 @@ public class DataManager {
 
             }
         });
+    }
 
+    public boolean SaveQuestion(Question question){
+        try{
+            //Xem thử key có tồn tại chưa.
+            //Nếu có thì là update, nếu chưa thì phải tạo mới.
+            String key = "";
+            if (question.getId() == null){
+                key = mDatabase.child("Question").push().getKey();
+                question.setId(key);
+            }
+
+            else
+                key = question.getId();
+
+            Task task = mDatabase.child("Question").child(key).setValue(question);
+
+            task.addOnSuccessListener(new OnSuccessListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    Log.d("DataMan/SaveQuesSuccess", "Save success");
+                    //Lưu câu hỏi thành công thì tiếp tục lưu cả câu trả lời luôn.
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("DataMan/SaveQuesFail", "Save failed : " + e.toString());
+                }
+            });
+            return true;
+        }catch (Exception e){
+            Log.d("DataMan/SaveQuestion", e.toString());
+        }
+        return false;
     }
 
     public void LoadQuestions(QuestionListCustomAdapter adapter, List<Question> questionList, String eventID){

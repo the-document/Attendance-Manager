@@ -111,7 +111,7 @@ public class CardScannerFragment extends Fragment {
 
                         String tmp = "";
                         if (scannedMSSVNumber == -1){
-                            tmp = "Error. Please check your card placement position";
+                            tmp = "Error : " + scannedText;
                         }
                         else{
                             tmp = scannedMSSVNumber.toString();

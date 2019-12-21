@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 @IgnoreExtraProperties
 public class Question {
-    private String id;
+    private String id = null;
     private String content;
     private ArrayList<Answer> mAnswers;
     private String questionType;

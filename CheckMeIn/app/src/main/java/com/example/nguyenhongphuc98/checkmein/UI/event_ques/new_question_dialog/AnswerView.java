@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -16,6 +17,7 @@ public class AnswerView extends LinearLayout {
     Context mContext;
     EditText edtAnswerText;
     Button btnRemoveAnswer;
+    CheckBox checkBoxCorrectAnswer;
 
     Integer answerIndex;
 
@@ -53,6 +55,7 @@ public class AnswerView extends LinearLayout {
     {
         edtAnswerText = (EditText)findViewById(R.id.view_group_answer_view_edt_answer_text);
         btnRemoveAnswer = (Button)findViewById(R.id.view_group_answer_view_button_remove_answer);
+        checkBoxCorrectAnswer = (CheckBox)findViewById(R.id.view_group_answer_view_checkbox_correct_answer);
     }
 
     public void setOnClickRemoveAnswerListener(OnClickListener listener)
@@ -95,5 +98,12 @@ public class AnswerView extends LinearLayout {
     public Integer getAnswerIndex()
     {
         return answerIndex;
+    }
+
+    public boolean getCorrectAnswerStatus(){
+        return (checkBoxCorrectAnswer.isChecked());
+    }
+    public void setCorrectAnswerStatus(boolean correctStatus){
+        checkBoxCorrectAnswer.setChecked(correctStatus);
     }
 }

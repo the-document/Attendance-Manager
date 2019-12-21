@@ -77,14 +77,24 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
         //Gán câu hỏi.
         viewHolder.txtQuestion.setText(question);
 
-        for (int i=0;i<answerList.size();++i){
+        for (int i=answerList.size()-1;i>=0;--i){
+
+            int charNum = 65 + i;
+            char thisOrder = (char)charNum;
+            String sAnswerKey = String.valueOf(thisOrder);
+
             Answer answer = answerList.get(i);
 
             View answerRow = viewHolder.answerRow.get(i);
             TextView answerKey = viewHolder.answerKey.get(i);
             TextView answerContent = viewHolder.answerContent.get(i);
 
+            //Chỉnh key của câu trả lời từ key.
             answerKey.setText(answer.getKey() + ".");
+
+            //Chỉnh key của câu trả lời từ thứ tự hiển thị.
+//            answerKey.setText(sAnswerKey + ".");
+
             answerContent.setText(answer.getContent());
 
             //Nếu như câu trả lời là câu trả lời đúng thì ta tô màu lên cho nó.

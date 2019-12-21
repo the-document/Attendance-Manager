@@ -47,10 +47,16 @@ public class HomePresenter implements IHome, IEventCallBack{
 
     }
 
+    //callback event
     @Override
     public void OnLoadEventComplete(Event event) {
-        if(event!=null)
-            view.OnJoinEventSucess(event);
+        if(event!=null){
+            if(DataManager.Instance().SaveAttendance(DataCenter.UserID,event.getEvent_id(),"Name user"))
+                view.OnJoinEventSucess(event);
+            else
+                view.OnJoinEventFail(event);
+        }
+
         else
             view.OnJoinEventFail(event);
     }

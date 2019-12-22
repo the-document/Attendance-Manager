@@ -1,13 +1,17 @@
 package com.example.nguyenhongphuc98.checkmein.UI.event_ques.new_question_dialog;
 
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.example.nguyenhongphuc98.checkmein.CheckMeIn;
+import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 
 import java.util.ArrayList;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class NewQuestionDialogPresenter implements NewQuestionDialogContract.NewQuestionDialogPresenter {
     private NewQuestionDialogFragment view;
@@ -44,12 +48,20 @@ public class NewQuestionDialogPresenter implements NewQuestionDialogContract.New
                     answerView.checkBoxCorrectAnswer.isChecked(), answerView.getAnswerText());
             answers.add(answer);
         }
-
+        //Cài đặt danh sách câu trả lời cho câu hỏi luôn.
         question.setmAnswers(answers);
+
+        //Cài đặt eventID cho câu hỏi luôn.
+        question.setEvent(DataCenter.EventID);
 
         DataManager.Instance().SaveQuestion(question);
 
         Toast.makeText(CheckMeIn.getAppContext(), "Thêm câu trả lời", Toast.LENGTH_LONG).show();
+
+        //Xong việc thì ẩn đi.
         view.dismiss();
+        //Rồi gọi cho thằng quản lý Fragment biết, để nó update dữ liệu lại.
+        Intent intent = new Intent("QUESTION_LIST_UPDATED");
+        LocalBroadcastManager.getInstance(view.getContext()).sendBroadcast(intent);
     }
 }

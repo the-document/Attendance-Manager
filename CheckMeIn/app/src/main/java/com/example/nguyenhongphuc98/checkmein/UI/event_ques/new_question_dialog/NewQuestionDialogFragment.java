@@ -97,35 +97,29 @@ public class NewQuestionDialogFragment extends DialogFragment implements NewQues
         presenter = new NewQuestionDialogPresenter();
         presenter.setView(this);
 
-        //Số câu trả lời ban đầu.
-        for (int i=0;i<maxNumOfInitAnswers;++i)
-        {
-            AddOneMoreAnswer();
-        }
+
         //Thêm tất cả listener có thể có.
         AssignListeners();
 
         //Cập nhật nội dung hiện tại và hiển thị trên màn hình.
+        //Nếu câu hỏi đang null, tức là người dùng đang muốn thêm mới câu hỏi.
+        //Số câu trả lời ban đầu.
+        if (question == null){
+            for (int i=0;i<maxNumOfInitAnswers;++i)
+            {
+                AddOneMoreAnswer();
+            }
+        }
+
         //Question khác null tức là đang update một câu hỏi đang tồn tại.
-        if (question != null){
+        else {
             mEdtQuestion.setText(question.getContent());
             ArrayList<Answer> answerList = question.getmAnswers();
 
             int maxAns = (answerList.size() > maxNumOfInitAnswers) ? (maxNumOfInitAnswers) : (answerList.size());
 
-            //Những answer view đã được tạo từ trước đó thì ta không cần tạo lại nữa.
-            //Mà chúng ta chỉ thực hiện gán giá trị thôi.
-            for (int i=0;i<maxAns;++i){
-                AnswerView answerView = answerViewArrayList.get(i);
-                Answer answer = answerList.get(i);
-
-                answerView.setAnswerText(answer.getContent());
-                if (answer.isIs_correct()){
-                    answerView.setCorrectAnswerStatus(true);
-                }
-            }
             //Add thêm view cho mấy câu trả lời còn dư.
-            for (int i=maxAns;i<answerList.size();++i){
+            for (int i=0;i<answerList.size();++i){
                 AddOneMoreAnswer();
                 AnswerView answerView = answerViewArrayList.get(answerViewArrayList.size() - 1);
                 Answer answer = answerList.get(i);

@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
+import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.UI.event_ques.QuestionManagementFragment;
@@ -78,6 +79,7 @@ public class ViewListActivityFragment extends Fragment implements IViewListActiv
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(), String.format("Position : %d", position), Toast.LENGTH_LONG);
+                DataCenter.EventID = lsEvent.get(position).getEvent_id();
                 ReplaceFragment(new QuestionManagementFragment());
             }
         });

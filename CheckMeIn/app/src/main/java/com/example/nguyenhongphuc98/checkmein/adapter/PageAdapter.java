@@ -1,11 +1,11 @@
-package com.example.nguyenhongphuc98.checkmein.adapter;
+package com.example.nguyenhongphuc98.checkmein.Adapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.nguyenhongphuc98.checkmein.UI.user.InfoFragmentAccount;
-import com.example.nguyenhongphuc98.checkmein.UI.user.InfoFragmentAct;
+import com.example.nguyenhongphuc98.checkmein.UI.user.account.InfoFragmentAccount;
+import com.example.nguyenhongphuc98.checkmein.UI.user.activity.InfoFragmentAct;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
@@ -20,9 +20,9 @@ public class PageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return  new InfoFragmentAct();
+                return  InfoFragmentAct.Instance();
             case 1:
-                return  new InfoFragmentAccount();
+                return  InfoFragmentAccount.Instance();
 
                 default:
                     return null;

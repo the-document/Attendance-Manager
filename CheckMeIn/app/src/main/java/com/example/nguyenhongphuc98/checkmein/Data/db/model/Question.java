@@ -1,58 +1,67 @@
 package com.example.nguyenhongphuc98.checkmein.Data.db.model;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.ArrayList;
 
+@IgnoreExtraProperties
 public class Question {
-    private int id;
-    private String mQuestion;
-    private ArrayList<String> mAnswers;
+    private String id = null;
+    private String content;
+    private ArrayList<Answer> mAnswers;
     private String questionType;
-    private int idEvent;
+    private String event;
+    private String public_time;
 
-    public Question(String mQuestion, ArrayList<String>answers)
+    public Question()
     {
-        this.mQuestion = mQuestion;
-        this.mAnswers = new ArrayList<String>();
+
+    }
+
+    public Question(String content, ArrayList<Answer>answers)
+    {
+        this.content = content;
+        this.mAnswers = new ArrayList<Answer>();
         this.mAnswers = answers;
     }
 
-    public Question(String mQuestion, String ...answers) {
-        this.mQuestion = mQuestion;
-        this.mAnswers = new ArrayList<String>();
-        for (String answer : answers)
+    public Question(String content, Answer ...answers) {
+        this.content = content;
+        this.mAnswers = new ArrayList<Answer>();
+        for (Answer answer : answers)
             mAnswers.add(answer);
     }
 
-    public String getmQuestion() {
-        return mQuestion;
+    public String getContent() {
+        return content;
     }
 
-    public void setmQuestion(String mQuestion) {
-        this.mQuestion = mQuestion;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public ArrayList<String> getmAnswers() {
+    public ArrayList<Answer> getmAnswers() {
         return mAnswers;
     }
 
-    public void setmAnswers(ArrayList<String> mAnswers) {
+    public void setmAnswers(ArrayList<Answer> mAnswers) {
         this.mAnswers = mAnswers;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getIdEvent() {
-        return idEvent;
+    public String getEvent() {
+        return event;
     }
 
-    public void setIdEvent(int idEvent) {
-        this.idEvent = idEvent;
+    public void setEvent(String event) {
+        this.event = event;
     }
 
     public String getQuestionType() {

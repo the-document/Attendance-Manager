@@ -2,11 +2,13 @@ package com.example.nguyenhongphuc98.checkmein;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Person;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 import com.example.nguyenhongphuc98.checkmein.UI.home.HomeFragment;
 import com.example.nguyenhongphuc98.checkmein.UI.scan.CardScannerFragment;

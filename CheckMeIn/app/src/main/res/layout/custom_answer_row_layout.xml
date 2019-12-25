@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:id="@+id/custom_answer_row_layout"
+    android:layout_height="wrap_content"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="8dp"
+    android:background="@drawable/custom_container_question_row">
+
+    <TextView
+        android:id="@+id/custom_answer_row_layout_answer_key"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="A."
+        android:textStyle="bold"
+        android:layout_marginLeft="8dp"
+        android:layout_weight="10"/>
+
+    <TextView
+        android:id="@+id/custom_answer_row_layout_answer_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOP"
+        android:textStyle="italic"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:singleLine="false"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"/>
+
+</LinearLayout>

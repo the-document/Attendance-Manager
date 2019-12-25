@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 import com.example.nguyenhongphuc98.checkmein.R;
 
 import java.util.ArrayList;
@@ -41,6 +43,8 @@ public class NewQuestionDialogFragment extends DialogFragment implements NewQues
     private Button mButtonAddAnswer;
     private Button mButtonFinish;
 
+    private Question question;
+
     public NewQuestionDialogFragment()
     {
 
@@ -54,10 +58,23 @@ public class NewQuestionDialogFragment extends DialogFragment implements NewQues
         return fragment;
     }
 
+    public static NewQuestionDialogFragment newInstance(Question question)
+    {
+        NewQuestionDialogFragment fragment = new NewQuestionDialogFragment();
+        fragment.question = question;
+
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add_question_and_answers, container);
+
+        View view = inflater.inflate(R.layout.fragment_add_question_and_answers, container);
+
+        return view;
     }
 
     @Override
@@ -88,6 +105,37 @@ public class NewQuestionDialogFragment extends DialogFragment implements NewQues
         //Thêm tất cả listener có thể có.
         AssignListeners();
 
+        //Cập nhật nội dung hiện tại và hiển thị trên màn hình.
+        //Question khác null tức là đang update một câu hỏi đang tồn tại.
+        if (question != null){
+            mEdtQuestion.setText(question.getContent());
+            ArrayList<Answer> answerList = question.getmAnswers();
+
+            int maxAns = (answerList.size() > maxNumOfInitAnswers) ? (maxNumOfInitAnswers) : (answerList.size());
+
+            //Những answer view đã được tạo từ trước đó thì ta không cần tạo lại nữa.
+            //Mà chúng ta chỉ thực hiện gán giá trị thôi.
+            for (int i=0;i<maxAns;++i){
+                AnswerView answerView = answerViewArrayList.get(i);
+                Answer answer = answerList.get(i);
+
+                answerView.setAnswerText(answer.getContent());
+                if (answer.isIs_correct()){
+                    answerView.setCorrectAnswerStatus(true);
+                }
+            }
+            //Add thêm view cho mấy câu trả lời còn dư.
+            for (int i=maxAns;i<answerList.size();++i){
+                AddOneMoreAnswer();
+                AnswerView answerView = answerViewArrayList.get(answerViewArrayList.size() - 1);
+                Answer answer = answerList.get(i);
+
+                answerView.setAnswerText(answer.getContent());
+                if (answer.isIs_correct()){
+                    answerView.setCorrectAnswerStatus(true);
+                }
+            }
+        }
     }
 
     private void AssignListeners()
@@ -213,5 +261,29 @@ public class NewQuestionDialogFragment extends DialogFragment implements NewQues
         mEdtQuestion = view.findViewById(R.id.fragment_add_question_and_answers_edt_question);
         mButtonAddAnswer = view.findViewById(R.id.fragment_add_question_and_answers_btn_add_answer);
         mButtonFinish = view.findViewById(R.id.fragment_add_question_and_answers_btn_accept);
+    }
+
+    public EditText getmEdtQuestion() {
+        return mEdtQuestion;
+    }
+
+    public void setmEdtQuestion(EditText mEdtQuestion) {
+        this.mEdtQuestion = mEdtQuestion;
+    }
+
+    public ArrayList<AnswerView> getAnswerViewArrayList() {
+        return answerViewArrayList;
+    }
+
+    public void setAnswerViewArrayList(ArrayList<AnswerView> answerViewArrayList) {
+        this.answerViewArrayList = answerViewArrayList;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 }

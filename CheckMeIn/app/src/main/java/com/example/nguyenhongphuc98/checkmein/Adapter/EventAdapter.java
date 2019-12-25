@@ -9,15 +9,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.List;
+
 public class EventAdapter extends ArrayAdapter {
     Context context;
+    List<Event>  lsEvent;
 
-    public EventAdapter(@NonNull Context context,String temp[]) {
-        super(context, R.layout.custom_row_event,temp);
+    public EventAdapter(@NonNull Context context,List<Event> ls) {
+        super(context, R.layout.custom_row_event,ls);
         this.context=context;
+        lsEvent=ls;
     }
 
 
@@ -46,8 +51,10 @@ public class EventAdapter extends ArrayAdapter {
             viewHolder.border.setBackgroundResource(R.drawable.custom_row_event_orange);
 
         viewHolder.imageView.setImageResource(R.drawable.ninja_avt);
-        viewHolder.title.setText("Training CSDL 2019");
-        viewHolder.date.setText("22/11/1998");
+
+        Event e=lsEvent.get(position);
+        viewHolder.title.setText(e.getEvent_name());
+        viewHolder.date.setText(e.getEvent_day());
 
         return viewRow;
     }

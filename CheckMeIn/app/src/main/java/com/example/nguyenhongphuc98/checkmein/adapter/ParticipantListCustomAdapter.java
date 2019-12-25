@@ -5,17 +5,17 @@ import androidx.annotation.NonNull;
 
 import android.widget.ArrayAdapter;
 
-import com.example.nguyenhongphuc98.checkmein.Data.db.model.Participant;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Attendance;
 
 import java.util.List;
 
-public class ParticipantListCustomAdapter extends ArrayAdapter<Participant> {
+public class ParticipantListCustomAdapter extends ArrayAdapter<Attendance> {
     private Context context;
     private int resources;
-    private List<Participant> participantArrayList;
+    private List<Attendance> participantArrayList;
 
 
-    public ParticipantListCustomAdapter(@NonNull Context context, int resource, @NonNull List<Participant> objects) {
+    public ParticipantListCustomAdapter(@NonNull Context context, int resource, @NonNull List<Attendance> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resources = resource;

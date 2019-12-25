@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.R;
 
 import java.text.SimpleDateFormat;
@@ -136,6 +137,11 @@ public class ViewSetTimeFragment extends Fragment {
         btnNextToContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                DataCenter.eventDay=etDate.getText().toString();
+                DataCenter.eventBegin=etTimeBegin.getText().toString();
+                DataCenter.eventEnd=etTimeEnd.getText().toString();
+
                 ViewPager pager = (ViewPager) view.getParent();
                 pager.setCurrentItem(3);
             }

@@ -11,8 +11,11 @@ public interface IOrganView {
     void onChangePhotoClick();
     void onAddCollaboratorClick();
     void onSaveOrganClick();
+    void OnEditOrganClick();
+    void LoadOrganInfo();
 
     void showResult(String message);
     void onChangePhotoResult(int code);
     void onSaveOrganResult(int code);
+    void OnEditOrganResult(int code);
 }

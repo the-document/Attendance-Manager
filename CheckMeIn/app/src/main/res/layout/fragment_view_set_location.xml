@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.event.ViewSetContentFragment">
+    tools:context=".UI.event.ViewSetLocationFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,12 +13,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/noi_dung"
+            android:text="@string/location"
             android:textAlignment="center"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"/>
 
         <EditText
+            android:id="@+id/etLocation"
             android:layout_width="320dp"
             android:layout_height="60dp"
             android:layout_gravity="center"

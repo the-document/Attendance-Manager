@@ -16,33 +16,16 @@
             android:id="@+id/custom_question_row_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingVertical="32dp"
             android:text="Question"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/custom_question_row_layout_answers_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:gravity="top"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id = "@+id/custom_question_row_answer_1"
-            android:text="Answer A"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id = "@+id/custom_question_row_answer_2"
-            android:text="Answer B"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id = "@+id/custom_question_row_answer_3"
-            android:text="Answer C"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id = "@+id/custom_question_row_answer_4"
-            android:text="Answer D"/>
     </LinearLayout>
 </LinearLayout>

@@ -55,6 +55,6 @@ public class Account {
     public void writeNewAccount(String userId, String username, String person, String password, String create_date) {
         Account account = new Account(create_date, password, person, username);
 
-        dataManager.mDatabase.child("Account").child(userId).setValue(account);
+        dataManager .mDatabase.child("Account").child(userId).setValue(account);
     }
 }

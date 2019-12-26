@@ -133,14 +133,15 @@ public class OrganFragment extends Fragment implements IOrganView{
                     if(event.getRawX() >= (etCollaborator.getRight() - etCollaborator.getCompoundDrawables()[2].getBounds().width())) {
 
                         //check empty
-                        if( etCollaborator.getText().equals("")||etCollaborator.getText()==null){
+                        if( etCollaborator.getText().toString().equals("")||etCollaborator.getText()==null){
                             Toast.makeText(view.getContext(),"Please fill ID",Toast.LENGTH_SHORT).show();
                             return false;
                         }
 
                         //get link by ID user
                         //lsCollaborator.add("");
-                        presenter.onAddCollaboratorClick();
+                        if( etCollaborator.getText().toString().length() == 8)
+                            presenter.onAddCollaboratorClick();
 
                         return true;
                     }
@@ -193,6 +194,9 @@ public class OrganFragment extends Fragment implements IOrganView{
         switch (code)
         {
             case CODE_SAVE_ORGAN_SUCCESS:
+                etNameOrgan.setText("");
+                etDescription.setText("");
+                etCollaborator.setText("");
                 Toast.makeText(getContext(),"save success.",Toast.LENGTH_SHORT).show();
 
                 FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();

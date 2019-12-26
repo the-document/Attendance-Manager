@@ -316,4 +316,11 @@ public class InfoFragment extends Fragment implements IInforFragmentView {
         }
 
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mEtMSSV.setText("");
+        //Log.e("USER","stop");
+    }
 }

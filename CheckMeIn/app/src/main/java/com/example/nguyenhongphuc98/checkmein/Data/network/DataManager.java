@@ -1140,7 +1140,8 @@ public class DataManager {
                 }
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Question question = snapshot.getValue(Question.class);
-                    LoadAnswersForQuestion(adapter, questionList, question);
+                    questionList.add(question);
+                    adapter.notifyDataSetChanged();
                 }
             }
 

@@ -71,4 +71,12 @@ public class Question {
     public void setQuestionType(String questionType) {
         this.questionType = questionType;
     }
+
+    public String getPublic_time() {
+        return public_time;
+    }
+
+    public void setPublic_time(String public_time) {
+        this.public_time = public_time;
+    }
 }

@@ -4,14 +4,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
+import com.example.nguyenhongphuc98.checkmein.Loading;
+import com.example.nguyenhongphuc98.checkmein.OthersActivity.LoadingDialog;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.UI.event_ques.new_question_dialog.NewQuestionDialogFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;import android.os.Bundle;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 
@@ -22,6 +32,20 @@ public class QuestionListFragment extends Fragment implements QuestionListContra
     ListView lv_question_list;
     FloatingActionButton fab_add_question;
     QuestionListContract.QuestionListPresenter presenter;
+
+    private BroadcastReceiver mMessageRecv = new BroadcastReceiver() {
+        //Receiver này sẽ nhận thông báo cập nhật lại các câu hỏi khi có thay đổi.
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            presenter.loadQuestions();
+        }
+    };
+
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager.getInstance(this.getContext()).unregisterReceiver(mMessageRecv);
+        super.onDestroy();
+    }
 
     @Nullable
     @Override
@@ -48,6 +72,19 @@ public class QuestionListFragment extends Fragment implements QuestionListContra
                 questionDialogFragment.show(fm, "fragment_add_question_and_answers");
             }
         });
+        lv_question_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                presenter.questionClicked(position);
+            }
+        });
+
+        //Cả LocalBroadcastManager nữa chứ (để nhận biết cần thiết thay đổi khi người dùng thêm/sửa/xoá câu hỏi).
+        LocalBroadcastManager.getInstance(this.getContext()).registerReceiver
+                (mMessageRecv, new IntentFilter("QUESTION_LIST_UPDATED"));
+
+//        LoadingDialog loadingDialog = new LoadingDialog(this.getActivity());
+//        loadingDialog.showDialog();
 
         return view;
     }

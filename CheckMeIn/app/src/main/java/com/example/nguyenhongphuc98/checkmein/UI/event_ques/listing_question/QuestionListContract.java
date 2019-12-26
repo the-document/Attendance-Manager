@@ -9,5 +9,6 @@ public interface QuestionListContract {
     interface QuestionListPresenter{
         void setView(QuestionListFragment view);
         void loadQuestions();
+        void questionClicked(int position);
     }
 }

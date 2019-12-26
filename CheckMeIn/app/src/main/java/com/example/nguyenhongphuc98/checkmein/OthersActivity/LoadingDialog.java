@@ -29,17 +29,6 @@ public class LoadingDialog {
         //Cài đặt loading view.
         dialog.setContentView(R.layout.custom_loading_layout);
 
-        //Ánh xạ lấy ra ImageView để gán GIF.
-        ImageView gif = dialog.findViewById(R.id.custom_loading_imageView);
-
-        DrawableImageViewTarget imageViewTarget = new DrawableImageViewTarget(gif);
-
-        //Load image lên bằng Glide.
-
-        Glide.with(activity)
-                .load(R.drawable.loading)
-                .into(imageViewTarget);
-
         //Hiển thị dialog lên sau khi cấu hình mọi thứ xong.
         dialog.show();
     }

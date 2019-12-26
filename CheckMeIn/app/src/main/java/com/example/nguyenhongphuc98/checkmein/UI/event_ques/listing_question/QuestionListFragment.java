@@ -83,6 +83,9 @@ public class QuestionListFragment extends Fragment implements QuestionListContra
         LocalBroadcastManager.getInstance(this.getContext()).registerReceiver
                 (mMessageRecv, new IntentFilter("QUESTION_LIST_UPDATED"));
 
+//        LoadingDialog loadingDialog = new LoadingDialog(this.getActivity());
+//        loadingDialog.showDialog();
+
         return view;
     }
 

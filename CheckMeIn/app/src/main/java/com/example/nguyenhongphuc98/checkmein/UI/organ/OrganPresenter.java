@@ -14,11 +14,12 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 
-public class OrganPresenter implements IOrganView {
+public class OrganPresenter implements IOrganView,organCallback {
     private OrganFragment view;
 
     OrganPresenter(OrganFragment _view){
         this.view=_view;
+        DataManager.Instance(view.getContext()).set_organCallback(this);
     }
 
     @Override
@@ -37,14 +38,6 @@ public class OrganPresenter implements IOrganView {
 
         view.mssvCollaborators.add(view.etCollaborator.getText().toString());
         view.etCollaborator.setText("");
-    }
-
-    public void SaveCollborator(){
-        for(int i=0;i<view.mssvCollaborators.size();i++){
-            Collaborator cola=new Collaborator(view.mssvCollaborators.get(i),DataCenter.UserID, DataCenter.OrganID);
-
-            cola.Save();
-        }
     }
 
     @Override
@@ -69,9 +62,6 @@ public class OrganPresenter implements IOrganView {
                 return;
             }
 
-
-
-
         Organization organization=new Organization();
         organization.setId("null");
         organization.setAvatar(avatar);
@@ -80,13 +70,13 @@ public class OrganPresenter implements IOrganView {
 
         //setcurrent account login in this app
         organization.setUserId(DataCenter.UserID);
-        SaveCollborator();
 
         if(organization.Save())
             onSaveOrganResult(CODE_SAVE_ORGAN_SUCCESS);
         else
             onSaveOrganResult(CODE_SAVE_ORGAN_FAIL);
 
+        //auto callback save collborator when save finish
 
     }
 
@@ -125,12 +115,13 @@ public class OrganPresenter implements IOrganView {
 
         //setcurrent account login in this app
         organization.setUserId(DataCenter.UserID);
-        //SaveCollborator();
 
         if(DataManager.Instance().EditOrgan(organization)==true)
             OnEditOrganResult(CODE_SAVE_ORGAN_SUCCESS);
         else
             OnEditOrganResult(CODE_SAVE_ORGAN_FAIL);
+
+         SaveCollborator(DataCenter.OrganID);
     }
 
     @Override
@@ -166,5 +157,16 @@ public class OrganPresenter implements IOrganView {
     @Override
     public void OnEditOrganResult(int code) {
         view.OnEditOrganResult(code);
+    }
+
+    @Override
+    public void SaveCollborator(String organID) {
+        for(int i=0;i<view.mssvCollaborators.size();i++){
+            Collaborator cola=new Collaborator(view.mssvCollaborators.get(i),view.mssvCollaborators.get(i),organID);
+            Log.e("INFO","colla - "+ cola.getCollaborator());
+            cola.Save();
+        }
+
+        view.mssvCollaborators.clear();
     }
 }

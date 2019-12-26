@@ -44,6 +44,7 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
+
 import com.example.nguyenhongphuc98.checkmein.UI.organ.organCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -1194,8 +1195,7 @@ public class DataManager {
             }
         });
     }
-
-
+    
     public String SaveImageToDatastore(String folder,Uri uriToImage){
 
         String result="";

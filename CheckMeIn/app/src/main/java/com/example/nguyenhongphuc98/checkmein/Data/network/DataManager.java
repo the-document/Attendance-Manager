@@ -925,6 +925,41 @@ public class DataManager {
         return true;
     }
 
+    public Boolean UpdatePersonAvatarByID(String userID,String newAvatar){
+
+        //load person
+
+        try {
+            final DatabaseReference person_Reference = FirebaseDatabase.getInstance().getReference("Person");
+            Query query=person_Reference.orderByChild("mssv").equalTo(userID);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.exists()) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Person o = snapshot.getValue(Person.class);
+                            o.setAvatar(newAvatar);
+                            person_Reference.child(snapshot.getKey()).setValue(o);
+                            Log.e("DTM","updated avatar");
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {}
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err update phone: "+e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
     public Boolean UpdatePersonDisplayNameByID(String userID,String newName){
 
         //load person
@@ -1006,6 +1041,7 @@ public class DataManager {
         returnCursor.close();
         return name;
     }
+
 
     private void pushAnswerToDatabase(Answer answer){
         String key = mDatabase.child("Answer").push().getKey();
@@ -1152,11 +1188,12 @@ public class DataManager {
         });
     }
 
-    public String SaveImageToDatastore(Uri uriToImage){
+
+    public String SaveImageToDatastore(String folder,Uri uriToImage){
 
         String result="";
         Long localDateTime=System.currentTimeMillis();
-        StorageReference riversRef = mStorageRef.child("organ/"+localDateTime.toString());
+        StorageReference riversRef = mStorageRef.child(folder+localDateTime.toString());
 
         UploadTask uploadTask = riversRef.putFile(uriToImage);
 
@@ -1169,10 +1206,10 @@ public class DataManager {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                Log.e("DTM","save image suscess");
             }
         });
-
+        Log.e("DTM",localDateTime.toString());
         return localDateTime.toString();
     }
 

@@ -61,7 +61,7 @@ public class OrganPresenter implements IOrganView {
             return;
         }
 
-        String avatar= DataManager.Instance(view.getContext()).SaveImageToDatastore(view.avatarRUri);
+        String avatar= DataManager.Instance(view.getContext()).SaveImageToDatastore("organ/",view.avatarRUri);
             Log.e("DTM","uploadurl22:"+avatar);
             if(avatar==null||avatar.isEmpty())
             {
@@ -104,7 +104,7 @@ public class OrganPresenter implements IOrganView {
         String avatar=view.avatarid.getText().toString();
         if(view.isImageChange)
         {
-            avatar=DataManager.Instance(view.getContext()).SaveImageToDatastore(view.avatarRUri);
+            avatar=DataManager.Instance(view.getContext()).SaveImageToDatastore("organ/",view.avatarRUri);
             Log.e("DTM","uploadurl22:"+avatar);
         }
 

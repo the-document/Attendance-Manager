@@ -121,4 +121,12 @@ public class InforFragmentPresenter implements IInforFragmentView{
     public void OnUpdatedDisplayName(int code) {
         view.OnUpdatedDisplayName(code);
     }
+
+    public void onChangePhotoClick(){
+        //save image to firestore
+        String avatar= DataManager.Instance(view.getContext()).SaveImageToDatastore("person/",view.avatarRUri);
+
+        //save link avt to person
+        DataManager.Instance().UpdatePersonAvatarByID(DataCenter.UserID,avatar);
+    }
 }

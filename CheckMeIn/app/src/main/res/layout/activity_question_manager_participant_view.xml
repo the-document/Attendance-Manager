@@ -5,15 +5,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="300dp"
         android:layout_height="200dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/custom_container_organization"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/activity_question_manager_participant_view_txtView_event_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/activity_question_manager_participant_view_txtView_event_code"/>
+
+        <TextView
+            android:id="@+id/activity_question_manager_participant_view_txtView_event_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/activity_question_manager_participant_view_txtView_event_name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
-        android:id="@+id/frameContainer"
+        android:id="@+id/activity_question_manager_participant_view_frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

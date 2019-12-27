@@ -1,23 +1,20 @@
-package com.example.nguyenhongphuc98.checkmein.Adapter;
+package com.example.nguyenhongphuc98.checkmein.adapter;
 
-import android.app.ActionBar;
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
-import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
+import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.Utils.Utils;
 
 import java.util.ArrayList;

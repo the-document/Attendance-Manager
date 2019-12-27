@@ -1,4 +1,4 @@
-package com.example.nguyenhongphuc98.checkmein.Adapter;
+package com.example.nguyenhongphuc98.checkmein.adapter;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

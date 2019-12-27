@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 import com.example.nguyenhongphuc98.checkmein.R;
+import com.example.nguyenhongphuc98.checkmein.adapter.PageAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
@@ -25,7 +26,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.nguyenhongphuc98.checkmein.Adapter.PageAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;

@@ -82,7 +82,6 @@ public class ViewListActivityFragment extends Fragment implements IViewListActiv
             }
         });
 
-
         OnLoadListEvent();
         return view;
     }

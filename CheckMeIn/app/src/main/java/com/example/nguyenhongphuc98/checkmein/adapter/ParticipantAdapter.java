@@ -10,14 +10,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Attendance;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.mikhaellopez.circularimageview.CircularImageView;
+
+import java.util.List;
 
 public class ParticipantAdapter extends ArrayAdapter {
     Context context;
 
-    public ParticipantAdapter(@NonNull Context context, String temp[]) {
-        super(context, R.layout.custom_row_participant,temp);
+    public ParticipantAdapter(@NonNull Context context, List<Attendance> ls) {
+        super(context, R.layout.custom_row_participant, ls);
         this.context=context;
     }
 

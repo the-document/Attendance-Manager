@@ -77,8 +77,10 @@ public class ExtendDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 String mssv = edtMssv.getText().toString();
                 if (!mssv.isEmpty() && mssv.length() == 8){
-                    if (CheckMssv(mssv))
+                    if (CheckMssv(mssv)) {
                         presenter.SaveAttendance(edtMssv.getText().toString());
+                        Toast.makeText(getContext(), "Mssv được thêm thành công", Toast.LENGTH_SHORT).show();
+                    }
                     else
                         Toast.makeText(getContext(), "Mssv đã tồn tại", Toast.LENGTH_SHORT).show();
                 }

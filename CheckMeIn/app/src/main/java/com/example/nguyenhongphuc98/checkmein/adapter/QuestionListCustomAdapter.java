@@ -38,6 +38,15 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
         this.questionArray = objects;
     }
 
+    public void resetAllAnswersCorrectness(){
+        for (Question question : questionArray){
+            for (Answer answer : question.getmAnswers()){
+                answer.setIs_correct(false);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

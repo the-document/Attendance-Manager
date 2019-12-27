@@ -81,6 +81,7 @@ public class ViewListActivityFragment extends Fragment implements IViewListActiv
                 DataCenter.EventID = lsEvent.get(position).getEvent_id();
                 Toast.makeText(getActivity(), String.format("Position : %d", position), Toast.LENGTH_LONG);
                 DataCenter.EventID = lsEvent.get(position).getEvent_id();
+                DataCenter.Event = lsEvent.get(position);
                 ReplaceFragment(new QuestionManagementFragment());
             }
         });

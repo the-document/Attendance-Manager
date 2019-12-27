@@ -1,10 +1,8 @@
 package com.example.nguyenhongphuc98.checkmein.UI.home;
 
 
-import android.media.Image;
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -18,8 +16,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -27,6 +23,8 @@ import android.widget.Toast;
 import com.example.nguyenhongphuc98.checkmein.Adapter.OrganAdaptor;
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
+import com.example.nguyenhongphuc98.checkmein.UI.participant.ParticipantViewFragment;
+import com.example.nguyenhongphuc98.checkmein.UI.participant.question_list_fragment.QuestionListParticipantViewFragment;
 import com.example.nguyenhongphuc98.checkmein.Utils.ResizeWidthAnimation;
 import com.example.nguyenhongphuc98.checkmein.UI.event.ListActivityFragment;
 import com.example.nguyenhongphuc98.checkmein.UI.organ.OrganFragment;
@@ -197,9 +195,6 @@ public class HomeFragment extends Fragment implements IHome {
     }
 
 
-
-
-
     @Override
     public void OnRequestLoadOrgan() {
         presenter.OnRequestLoadOrgan();
@@ -223,8 +218,12 @@ public class HomeFragment extends Fragment implements IHome {
     @Override
     public void OnJoinEventSucess(Event event) {
         Toast.makeText(getContext(),"join to: "+event.getEvent_code(),Toast.LENGTH_SHORT).show();
-
+        DataCenter.EventID = event.getEvent_id();
+        DataCenter.Event = event;
         //replace to view joined event with this event.
+        FragmentTransaction fragmentTransition=getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransition.replace(R.id.fragment_container,new ParticipantViewFragment());
+        fragmentTransition.commit();
     }
 
     @Override

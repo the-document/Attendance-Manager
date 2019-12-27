@@ -1132,6 +1132,34 @@ public class DataManager {
         return false;
     }
 
+    public void LoadQuestionWithoutAnswerHighlight(QuestionListCustomAdapter adapter, List<Question> questionList, String eventID){
+        final DatabaseReference questions_Ref = FirebaseDatabase.getInstance().getReference("MultipleChoiceQuestion");
+        Query query = questions_Ref.orderByChild("event").equalTo(eventID);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Đầu tiên chúng ta cần xoá bỏ đi dữ liệu cũ để không bị trùng lặp.
+                questionList.clear();
+
+                if (!dataSnapshot.exists()){
+                    return;
+                }
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Question question = snapshot.getValue(Question.class);
+                    questionList.add(question);
+                    adapter.notifyDataSetChanged();
+                }
+                adapter.resetAllAnswersCorrectness();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void LoadQuestions(QuestionListCustomAdapter adapter, List<Question> questionList, String eventID){
         final DatabaseReference questions_Ref = FirebaseDatabase.getInstance().getReference("MultipleChoiceQuestion");
         Query query = questions_Ref.orderByChild("event").equalTo(eventID);

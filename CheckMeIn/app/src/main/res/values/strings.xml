@@ -44,4 +44,5 @@
     <string name="location">Địa điểm</string>
     <string name="edit">Sửa</string>
     <string name="delete">Xóa</string>
+    <string name="ma_so_sinh_vien">Mã số sinh viên</string>
 </resources>

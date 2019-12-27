@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords"
-                android:hint="Tên đăng nhập (MSSV)" />
+                android:hint="@string/ma_so_sinh_vien" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password Label -->

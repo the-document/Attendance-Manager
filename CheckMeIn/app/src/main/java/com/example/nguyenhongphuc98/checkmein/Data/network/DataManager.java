@@ -1,36 +1,25 @@
 package com.example.nguyenhongphuc98.checkmein.Data.network;
 
-import android.content.Intent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
-import android.os.AsyncTask;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
 import com.example.nguyenhongphuc98.checkmein.Adapter.OrganAdaptor;
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Attendance;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Collaborator;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
@@ -39,19 +28,20 @@ import com.example.nguyenhongphuc98.checkmein.UI.home.IEventCallBack;
 import com.example.nguyenhongphuc98.checkmein.UI.login.LoginCallback;
 
 import com.bumptech.glide.Glide;
-import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
+import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
+
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
-import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 
 import com.example.nguyenhongphuc98.checkmein.UI.organ.organCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.nguyenhongphuc98.checkmein.adapter.ParticipantAdapter;
+import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -65,34 +55,21 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.storage.StorageReference;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DataManager {
     public FirebaseAuth mAuth;
@@ -169,7 +146,6 @@ public class DataManager {
             return;
         }
 
-
         if(this.loginCallback==null)
             this.loginCallback = cb;
         if(this.loginCallback!=null)
@@ -187,7 +163,6 @@ public class DataManager {
             return false;
         }
     }
-
 
     public boolean checkEmailVerify() {
         return mAuth.getCurrentUser().isEmailVerified();
@@ -267,9 +242,6 @@ public class DataManager {
                     else Log.w(TAG, "Send mail rest failed.");
                 });
     }
-
-
-
 
     //THIS PART MAKE BY NGUYEN HONG PHUC
     //organ
@@ -485,8 +457,6 @@ public class DataManager {
         return false;
     }
 
-
-
     public Boolean LoadActivitys(List<Event> lsEvent, String organID, EventAdapter adapter){
 
         try {
@@ -663,7 +633,6 @@ public class DataManager {
     }
 
     public Boolean LoadEventByCode(String eventCode){
-
         try {
             final DatabaseReference events_Reference = FirebaseDatabase.getInstance().getReference("Event");
             Query query=events_Reference.orderByChild("event_code").equalTo(eventCode);
@@ -727,9 +696,6 @@ public class DataManager {
 
     public Boolean SaveAttendance(String userID, String eventID, String nameOfUser){
         try{
-            //save to firebase
-//            Map<String,String> record=new HashMap<>();
-//            record.put(userID,nameOfUser);
             mDatabase.child("Attendance").child(eventID).child(userID).setValue(nameOfUser);
             Log.e("DTM","added attendance: "+eventID);
             return true;
@@ -739,7 +705,6 @@ public class DataManager {
         }
         return false;
     }
-
 
     public Boolean LoadUserByID(String userID,EditText email, EditText phone, TextView mssv){
 
@@ -821,7 +786,6 @@ public class DataManager {
 
         return true;
     }
-
 
     public Boolean LoadPersonByEmail(String email){
 
@@ -1067,7 +1031,6 @@ public class DataManager {
         });
     }
 
-
     public void SaveAnswersForQuestion(Question question, ArrayList<Answer> answers){
         //Đầu tiên là ta phải Remove hết tất cả các Answer trùng với Question.
         String questionID = question.getId();
@@ -1242,5 +1205,39 @@ public class DataManager {
                 Glide.with(mContext).load(uri).into(imageView);
             }
         });
+    }
+
+    public Boolean LoadAttendanceByEvent(List<Attendance> lsAttendance, ParticipantAdapter adapter, String eventId){
+        try {
+            final DatabaseReference attendance_Ref = FirebaseDatabase.getInstance().getReference("Attendance");
+            attendance_Ref.orderByKey().equalTo(eventId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    lsAttendance.clear();
+                    for (DataSnapshot attendanceSnapshot: dataSnapshot.getChildren()){
+                        Log.e("DTM","got person: "+attendanceSnapshot.getValue().toString());
+                        for (DataSnapshot attendanceDetail: attendanceSnapshot.getChildren()) {
+                            Log.e("DTM","got person: "+ attendanceDetail.getValue().toString());
+                            Attendance attendance = new Attendance();
+                            attendance.setUser_key(attendanceDetail.getKey());
+                            attendance.setUser_name(attendanceDetail.getValue().toString());
+                            lsAttendance.add(attendance);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get list attendance: "+e.getMessage());
+            return false;
+        }
+
+        return true;
     }
 }

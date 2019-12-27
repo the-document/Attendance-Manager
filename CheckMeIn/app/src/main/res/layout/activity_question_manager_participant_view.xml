@@ -9,12 +9,21 @@
         android:layout_width="300dp"
         android:layout_height="200dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/custom_container_organization"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/custom_container_organization">
+
+    </LinearLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/pager_question_manager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:id="@+id/frameContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
 </LinearLayout>

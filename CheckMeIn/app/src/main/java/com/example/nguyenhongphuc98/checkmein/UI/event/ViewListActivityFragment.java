@@ -78,12 +78,12 @@ public class ViewListActivityFragment extends Fragment implements IViewListActiv
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DataCenter.EventID = lsEvent.get(position).getEvent_id();
                 Toast.makeText(getActivity(), String.format("Position : %d", position), Toast.LENGTH_LONG);
                 DataCenter.EventID = lsEvent.get(position).getEvent_id();
                 ReplaceFragment(new QuestionManagementFragment());
             }
         });
-
 
         OnLoadListEvent();
         return view;

@@ -48,7 +48,6 @@ public class HomeFragment extends Fragment implements IHome {
     OrganFragment organFragment;
     OrganAdaptor adaptor;
 
-
     View ctnCheckIn;
     ImageView avtCheckIn;
     EditText etActivityCode;

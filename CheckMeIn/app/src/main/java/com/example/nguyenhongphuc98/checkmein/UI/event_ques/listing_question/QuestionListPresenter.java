@@ -1,12 +1,16 @@
 package com.example.nguyenhongphuc98.checkmein.UI.event_ques.listing_question;
 
-import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
+import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.UI.event_ques.new_question_dialog.NewQuestionDialogContract;
 import com.example.nguyenhongphuc98.checkmein.UI.event_ques.new_question_dialog.NewQuestionDialogFragment;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
+import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
+import com.example.nguyenhongphuc98.checkmein.R;
+import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,7 @@
 package com.example.nguyenhongphuc98.checkmein.UI.user;
 
+import android.util.Log;
+
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 import com.example.nguyenhongphuc98.checkmein.R;
@@ -24,6 +26,7 @@ public class InforFragmentPresenter implements IInforFragmentView{
     @Override
     public void OnInitInfo() {
 
+        Log.e("USER","on init info");
         //get display name and avatart
         DataManager.Instance().LoadGenarelInfoPersonByID(DataCenter.UserID,view.mEtName,view.avatar);
     }
@@ -120,5 +123,13 @@ public class InforFragmentPresenter implements IInforFragmentView{
     @Override
     public void OnUpdatedDisplayName(int code) {
         view.OnUpdatedDisplayName(code);
+    }
+
+    public void onChangePhotoClick(){
+        //save image to firestore
+        String avatar= DataManager.Instance(view.getContext()).SaveImageToDatastore("person/",view.avatarRUri);
+
+        //save link avt to person
+        DataManager.Instance().UpdatePersonAvatarByID(DataCenter.UserID,avatar);
     }
 }

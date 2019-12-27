@@ -1,6 +1,8 @@
 package com.example.nguyenhongphuc98.checkmein.UI.user;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
@@ -31,6 +33,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import static android.app.Activity.RESULT_OK;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 
@@ -38,6 +41,8 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
  * A simple {@link Fragment} subclass.
  */
 public class InfoFragment extends Fragment implements IInforFragmentView {
+    //define constant;
+    final int CODE_OPEN_DOCUMENT = 22;
 
     InforFragmentPresenter presenter;
 
@@ -59,6 +64,10 @@ public class InfoFragment extends Fragment implements IInforFragmentView {
     FirebaseUser user;
     UserProfileChangeRequest profileUpdates;
     Account account;
+
+    Uri avatarRUri;
+
+    public Boolean isImageChange=false;
 
     public InfoFragment() {
         // Required empty public constructor
@@ -221,6 +230,19 @@ public class InfoFragment extends Fragment implements IInforFragmentView {
                 OnQueryData();
             }
         });
+
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //just modify of owne
+                if(mEtMSSV.getText().toString().length() != 0)
+                    return;
+
+                //get image from device
+                Intent intentOpenFile=new Intent().setType("*/*").setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intentOpenFile,"Choose image"),CODE_OPEN_DOCUMENT);
+            }
+        });
     }
 
 
@@ -273,5 +295,32 @@ public class InfoFragment extends Fragment implements IInforFragmentView {
                 Toast.makeText(getContext(),"Fail",Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==CODE_OPEN_DOCUMENT&&resultCode==RESULT_OK){
+
+            //show image on avatar
+            Uri selectedFile=data.getData();
+            Log.d("PhotoURL","photo: "+selectedFile.toString());
+            avatarRUri=selectedFile;
+            //Toast.makeText(getContext(),selectedFile.toString(), Toast.LENGTH_LONG).show();
+            isImageChange=true;
+            avatar.setImageURI(avatarRUri);
+            presenter.onChangePhotoClick();
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mEtMSSV.setText("");
+        //Log.e("USER","stop");
     }
 }

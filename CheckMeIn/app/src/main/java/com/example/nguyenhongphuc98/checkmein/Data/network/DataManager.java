@@ -38,13 +38,14 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Person;
 import com.example.nguyenhongphuc98.checkmein.UI.home.IEventCallBack;
 import com.example.nguyenhongphuc98.checkmein.UI.login.LoginCallback;
 
-
 import com.bumptech.glide.Glide;
 import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
+
+import com.example.nguyenhongphuc98.checkmein.UI.organ.organCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -99,6 +100,7 @@ public class DataManager {
     public final FirebaseDatabase database;
 
     IEventCallBack eventCallBack;
+    organCallback _organCallback;
 
     private static LoginCallback loginCallback;
 
@@ -153,6 +155,11 @@ public class DataManager {
     public void setEventCallBacks(IEventCallBack eventCallBack) {
         if(this.eventCallBack==null)
             this.eventCallBack = eventCallBack;
+    }
+
+    public void set_organCallback(organCallback _organCallback) {
+        if(this._organCallback == null)
+            this._organCallback = _organCallback;
     }
 
     public void setLoginCallback(LoginCallback cb) {
@@ -283,6 +290,7 @@ public class DataManager {
             }).addOnSuccessListener(new OnSuccessListener() {
                 @Override
                 public void onSuccess(Object o) {
+                    _organCallback.SaveCollborator(key);
                     Log.d("DATAMANAGER","save success");
                 }
             });
@@ -438,7 +446,7 @@ public class DataManager {
     public void LoadImageCollorator(String imageName,
                                     List<String> lsColla, com.example.nguyenhongphuc98.checkmein.adapter.CollaborationAdapter adapter){
 
-        mStorageRef.child("organ/"+imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        mStorageRef.child("person/"+imageName).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Log.e("DTM","get url avt collabortor:"+uri.getPath());
@@ -925,6 +933,41 @@ public class DataManager {
         return true;
     }
 
+    public Boolean UpdatePersonAvatarByID(String userID,String newAvatar){
+
+        //load person
+
+        try {
+            final DatabaseReference person_Reference = FirebaseDatabase.getInstance().getReference("Person");
+            Query query=person_Reference.orderByChild("mssv").equalTo(userID);
+
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.exists()) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Person o = snapshot.getValue(Person.class);
+                            o.setAvatar(newAvatar);
+                            person_Reference.child(snapshot.getKey()).setValue(o);
+                            Log.e("DTM","updated avatar");
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {}
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err update phone: "+e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
     public Boolean UpdatePersonDisplayNameByID(String userID,String newName){
 
         //load person
@@ -1006,6 +1049,7 @@ public class DataManager {
         returnCursor.close();
         return name;
     }
+
 
     private void pushAnswerToDatabase(Answer answer){
         String key = mDatabase.child("Answer").push().getKey();
@@ -1151,12 +1195,24 @@ public class DataManager {
             }
         });
     }
-
-    public String SaveImageToDatastore(Uri uriToImage){
+    
+    public String SaveImageToDatastore(String folder,Uri uriToImage){
 
         String result="";
-        Long localDateTime=System.currentTimeMillis();
-        StorageReference riversRef = mStorageRef.child("organ/"+localDateTime.toString());
+        String id;
+        String child;
+        if(folder.equals("organ/"))
+        {
+            Long localDateTime=System.currentTimeMillis();
+            id = localDateTime.toString();
+        }
+        else
+        {
+            id = DataCenter.UserID;
+        }
+
+        child = folder + id;
+        StorageReference riversRef = mStorageRef.child(child);
 
         UploadTask uploadTask = riversRef.putFile(uriToImage);
 
@@ -1169,11 +1225,12 @@ public class DataManager {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                Log.e("DTM","save image suscess");
             }
         });
-
-        return localDateTime.toString();
+       // Log.e("DTM",localDateTime.toString());
+       // return localDateTime.toString();
+        return id;
     }
 
     public void LoadImageFromStorage(String imageName,ImageView imageView){

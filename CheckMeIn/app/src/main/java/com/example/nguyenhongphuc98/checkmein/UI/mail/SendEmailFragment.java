@@ -15,8 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Attendance;
 import com.example.nguyenhongphuc98.checkmein.UI.mail.date_time_dialog.DatetimeDialogFragment;
 import com.example.nguyenhongphuc98.checkmein.R;
+
+import java.util.List;
 
 public class SendEmailFragment extends Fragment {
     View btnClock;
@@ -26,6 +29,13 @@ public class SendEmailFragment extends Fragment {
     SendEmailPresenter presenter;
 
     String listRecipients = "tihtk.98@gmail.com, 16520713@gm.uit.edu.vn";
+
+    public SendEmailFragment(List<Attendance> lsAttendance){
+        listRecipients = "";
+        for (int i=0; i<lsAttendance.size(); i++){
+            listRecipients += lsAttendance.get(i).getUser_key() +"@gm.uit.edu.vn,";
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -9,10 +9,17 @@
     <ListView
         android:id="@+id/lv_participant_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="16dp">
-
-    </ListView>
+        android:layout_height="650dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:nestedScrollingEnabled="true"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarSize="5dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"></ListView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"

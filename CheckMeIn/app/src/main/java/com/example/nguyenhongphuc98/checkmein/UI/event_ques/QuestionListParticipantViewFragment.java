@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 import com.example.nguyenhongphuc98.checkmein.R;
+import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class QuestionListParticipantViewFragment extends Fragment {
 
         ArrayList<Question> dsTest = new ArrayList<>();
 
-        com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter qaCustomAdapter = new com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter(getActivity(), R.layout.custom_question_row_layout, dsTest);
+        QuestionListCustomAdapter qaCustomAdapter = new QuestionListCustomAdapter(getActivity(), R.layout.custom_question_row_layout, dsTest);
 
         lv_question_list.setAdapter(qaCustomAdapter);
 

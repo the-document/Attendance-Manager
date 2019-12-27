@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.nguyenhongphuc98.checkmein.R;
 
+import java.io.File;
+
 import static android.app.Activity.RESULT_OK;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -57,7 +59,7 @@ public class ImportDialogFragment extends DialogFragment {
                     //String path = FileUtils.getPath(this, uri);
                     //Log.d(TAG, "File Path: " + path);
                     // Get the file instance
-                    // File file = new File(path);
+                    //File file = new File(path);
                     // Initiate the upload
                 }
                 break;

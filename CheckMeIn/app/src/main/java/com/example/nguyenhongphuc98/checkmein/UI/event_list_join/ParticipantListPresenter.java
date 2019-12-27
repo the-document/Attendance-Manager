@@ -12,7 +12,7 @@ public class ParticipantListPresenter {
     }
 
     public void OnLoadListAttendance() {
-        Boolean b= DataManager.Instance().LoadAttendanceByEvent(view.lsAttendance);
+        Boolean b= DataManager.Instance().LoadAttendanceByEvent(view.lsAttendance, view.adapter, DataCenter.EventID);
         if(b)
             view.OnLoadListEventSuccess();
         else

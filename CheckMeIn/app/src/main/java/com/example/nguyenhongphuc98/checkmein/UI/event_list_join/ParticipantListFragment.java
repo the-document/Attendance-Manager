@@ -39,7 +39,6 @@ public class ParticipantListFragment extends Fragment implements IViewParticipan
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_of_participant, container, false);
 
-        OnLoadListAttendance();
         lv_participant_list = view.findViewById(R.id.lv_participant_list);
         btnExtend = view.findViewById(R.id.button);
 
@@ -49,11 +48,11 @@ public class ParticipantListFragment extends Fragment implements IViewParticipan
         btnExtend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                ExtendDialogFragment dtDialog = new ExtendDialogFragment();
+                ExtendDialogFragment dtDialog = new ExtendDialogFragment(lsAttendance);
                 dtDialog.show(getFragmentManager(), "dialog");
             }
         });
-
+        OnLoadListAttendance();
         return view;
     }
 

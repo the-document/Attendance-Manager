@@ -30,6 +30,7 @@ import com.example.nguyenhongphuc98.checkmein.UI.login.LoginCallback;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
+import com.example.nguyenhongphuc98.checkmein.adapter.ParticipantAdapter;
 import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -151,7 +152,6 @@ public class DataManager {
         }
     }
 
-
     public boolean checkEmailVerify() {
         return mAuth.getCurrentUser().isEmailVerified();
     }
@@ -230,9 +230,6 @@ public class DataManager {
                     else Log.w(TAG, "Send mail rest failed.");
                 });
     }
-
-
-
 
     //THIS PART MAKE BY NGUYEN HONG PHUC
     //organ
@@ -447,8 +444,6 @@ public class DataManager {
         return false;
     }
 
-
-
     public Boolean LoadActivitys(List<Event> lsEvent, String organID, EventAdapter adapter){
 
         try {
@@ -625,7 +620,6 @@ public class DataManager {
     }
 
     public Boolean LoadEventByCode(String eventCode){
-
         try {
             final DatabaseReference events_Reference = FirebaseDatabase.getInstance().getReference("Event");
             Query query=events_Reference.orderByChild("event_code").equalTo(eventCode);
@@ -689,9 +683,6 @@ public class DataManager {
 
     public Boolean SaveAttendance(String userID, String eventID, String nameOfUser){
         try{
-            //save to firebase
-//            Map<String,String> record=new HashMap<>();
-//            record.put(userID,nameOfUser);
             mDatabase.child("Attendance").child(eventID).child(userID).setValue(nameOfUser);
             Log.e("DTM","added attendance: "+eventID);
             return true;
@@ -701,7 +692,6 @@ public class DataManager {
         }
         return false;
     }
-
 
     public Boolean LoadUserByID(String userID,EditText email, EditText phone, TextView mssv){
 
@@ -783,7 +773,6 @@ public class DataManager {
 
         return true;
     }
-
 
     public Boolean LoadPersonByEmail(String email){
 
@@ -993,7 +982,6 @@ public class DataManager {
         });
     }
 
-
     public void SaveAnswersForQuestion(Question question, ArrayList<Answer> answers){
         //Đầu tiên là ta phải Remove hết tất cả các Answer trùng với Question.
         String questionID = question.getId();
@@ -1156,29 +1144,24 @@ public class DataManager {
         });
     }
 
-    public Boolean LoadAttendanceByEvent(List<Attendance> lsAttendance){
+    public Boolean LoadAttendanceByEvent(List<Attendance> lsAttendance, ParticipantAdapter adapter, String eventId){
         try {
             final DatabaseReference attendance_Ref = FirebaseDatabase.getInstance().getReference("Attendance");
-            attendance_Ref.orderByKey().equalTo("-LvW3pAzlSmdZypSbB2R").addChildEventListener(new ChildEventListener() {
+            attendance_Ref.orderByKey().equalTo(eventId).addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Attendance attendance = dataSnapshot.getValue(Attendance.class);
-                    lsAttendance.add(attendance);
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    lsAttendance.clear();
+                    for (DataSnapshot attendanceSnapshot: dataSnapshot.getChildren()){
+                        Log.e("DTM","got person: "+attendanceSnapshot.getValue().toString());
+                        for (DataSnapshot attendanceDetail: attendanceSnapshot.getChildren()) {
+                            Log.e("DTM","got person: "+ attendanceDetail.getValue().toString());
+                            Attendance attendance = new Attendance();
+                            attendance.setUser_key(attendanceDetail.getKey());
+                            attendance.setUser_name(attendanceDetail.getValue().toString());
+                            lsAttendance.add(attendance);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override

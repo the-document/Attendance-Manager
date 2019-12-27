@@ -1,4 +1,4 @@
-package com.example.nguyenhongphuc98.checkmein.UI.event_ques;
+package com.example.nguyenhongphuc98.checkmein.UI.participant;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;

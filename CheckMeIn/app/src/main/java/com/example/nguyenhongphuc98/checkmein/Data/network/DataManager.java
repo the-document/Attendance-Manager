@@ -358,6 +358,8 @@ public class DataManager {
                     //adaptor.SetOrganAdaptor(lsImage,lsID);
                     //adaptor.notifyDataSetChanged();
                 }
+                else
+                    adaptor.notifyDataSetChanged();
             }
 
             @Override

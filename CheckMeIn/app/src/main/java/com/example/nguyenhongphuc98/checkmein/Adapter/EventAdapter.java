@@ -47,8 +47,8 @@ public class EventAdapter extends ArrayAdapter {
         ViewHolder viewHolder= (ViewHolder) viewRow.getTag();
 
         //change color if this is event just register and not take part in
-        if(position==3)
-            viewHolder.border.setBackgroundResource(R.drawable.custom_row_event_orange);
+//        if(position==3)
+//            viewHolder.border.setBackgroundResource(R.drawable.custom_row_event_orange);
 
         viewHolder.imageView.setImageResource(R.drawable.ninja_avt);
 

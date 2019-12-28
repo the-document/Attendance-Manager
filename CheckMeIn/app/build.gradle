@@ -61,6 +61,10 @@ dependencies {
 
     //to loadimage from firebase
     implementation 'com.github.bumptech.glide:glide:4.7.1'
+
+    //import file
+    //implementation 'com.google.apis:google-api-services-sheets:v4-rev516-1.23.0'
+    //implementation 'com.google.api-client:google-api-client-android:1.23.0'
 }
 
 configurations.all {

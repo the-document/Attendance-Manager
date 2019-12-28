@@ -57,6 +57,9 @@ This app make by document team in first semester of 2019 - 2020.
 * Support lib:
   - Tesseract: a engine about Optical character recognition, dispatch under Apache 2.0 license. This app using Tesseract for recognize student ID from camera of device.
   - Firebase: a realtime database for store application data.
+  
+## Report File:
+<a href="https://drive.google.com/file/d/10kXxnearD7ByeKtb9RlJJbDqRO3eAQta/view?usp=sharing"> File final report</a>
 
 ## License
 

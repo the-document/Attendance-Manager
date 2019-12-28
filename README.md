@@ -44,7 +44,6 @@ This app make by document team in first semester of 2019 - 2020.
 ## Develop team
 
 * Nguyễn Hồng Phúc - 16520951
-* Lưu Biêu Nghị - 17520794
 * Nguyễn Cao Luyện - 16520713
 
 ## Technology
@@ -52,10 +51,10 @@ This app make by document team in first semester of 2019 - 2020.
 * Develop tool: Android studio
 * Language: Java
 * Design Parten:
-  - SignleTone
+  - SingleTone
   - Observer
   - MVP Architecture
-* Suppot lib:
+* Support lib:
   - Tesseract: a engine about Optical character recognition, dispatch under Apache 2.0 license. This app using Tesseract for recognize student ID from camera of device.
   - Firebase: a realtime database for store application data.
 

@@ -1195,6 +1195,34 @@ public class DataManager {
             }
         });
     }
+
+    public boolean SaveUserAnswerResult(ParticipantAnswerDetailsDAL result, String userID, String eventID){
+        try{
+            //Xem thử key có tồn tại chưa.
+            //Nếu có thì là update, nếu chưa thì phải tạo mới.
+            String key = userID;
+
+            Task task = mDatabase.child("AnswerMultipleChoiceQ").child(eventID).child("m_user_results").child(key).setValue(result);
+
+            task.addOnSuccessListener(new OnSuccessListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    Log.d("DataMan/SaveQuesSuccess", "Save success");
+                    //Lưu câu hỏi thành công thì tiếp tục lưu cả câu trả lời luôn.
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("DataMan/SaveQuesFail", "Save failed : " + e.toString());
+                }
+            });
+            return true;
+        }catch (Exception e){
+            Log.d("DataMan/SaveQuestion", e.toString());
+        }
+        return false;
+    }
     
     public String SaveImageToDatastore(String folder,Uri uriToImage){
 
@@ -1296,8 +1324,8 @@ public class DataManager {
                     for (int i=0; i<answersDetail.size();i++) {
                         ParticipantAnswerDetailsDAL e = answersDetail.get(i);
                         answers.add(new ParticipantAnswerDetails(e.getUser_name(),
-                                                                i+1,answersDetail.size(),e.getNum_correct(),
-                                                                    e.getTotal_question(),e.getTime_elapsed()));
+                                                                i+1,answersDetail.size(),(int)e.getNum_correct(),
+                                (int)e.getTotal_question(),(int)e.getTime_elapsed()));
                     }
                     adapter.notifyDataSetChanged();
                 }

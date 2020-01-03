@@ -1,7 +1,8 @@
-package com.example.nguyenhongphuc98.checkmein.adapter;
+package com.example.nguyenhongphuc98.checkmein.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import butterknife.OnClick;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
@@ -27,21 +29,33 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
     final int rowMarginRight = 8;
     final int rowMarginBottom = 0;
 
+    final boolean isAnswerClickable;
+
     private Context context;
     private int resource;
     private ArrayList<Question> questionArray;
 
-    public QuestionListCustomAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Question> objects) {
+    public QuestionListCustomAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Question> objects, boolean isAnswerClickable) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
         this.questionArray = objects;
+        this.isAnswerClickable = isAnswerClickable;
     }
 
     public void resetAllAnswersCorrectness(){
         for (Question question : questionArray){
             for (Answer answer : question.getmAnswers()){
-                answer.setIs_correct(false);
+                answer.setIs_show_answer(false);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void lockAllAnswersSelection(){
+        for (Question question : questionArray){
+            for (Answer answer : question.getmAnswers()){
+                answer.setIs_answer_selection_locked(true);
             }
         }
         notifyDataSetChanged();
@@ -121,14 +135,13 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
         }
 
         //Trong trường hợp bằng thì thôi, không thêm không bớt nữa mà chỉ chỉnh lại nội dung.
-
         for (int i=answerList.size()-1;i>=0;--i){
 
             int charNum = 65 + i;
             char thisOrder = (char)charNum;
             String sAnswerKey = String.valueOf(thisOrder);
 
-            Answer answer = answerList.get(i);
+            final Answer answer = answerList.get(i);
 
             View answerRow = viewHolder.answerRows.get(i);
             TextView answerKey = viewHolder.answerKeys.get(i);
@@ -143,7 +156,7 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
             answerContent.setText(answer.getContent());
 
             //Nếu như câu trả lời là câu trả lời đúng thì ta tô màu lên cho nó.
-            if (answer.isIs_correct()){
+            if (answer.isIs_correct() && answer.isIs_show_answer()){
                 answerRow.setBackgroundResource(R.drawable.custom_container_question_row_with_green_background);
                 answerKey.setTextColor(Color.WHITE);
                 answerContent.setTextColor(Color.WHITE);
@@ -152,6 +165,37 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
                 answerRow.setBackgroundResource(R.drawable.custom_container_question_row);
                 answerKey.setTextColor(Color.BLACK);
                 answerContent.setTextColor(Color.BLACK);
+            }
+
+            //Chưa hết, ta còn phải chỉnh listener để tô màu lên khi người dùng chọn vào nó.
+            //Trong trường hợp người dùng xác định rằng các câu trả lời là bấm được thì mới có listener.
+            if (isAnswerClickable){
+                answerRow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        answer.setIs_choosen(!answer.isIs_choosen());
+                        Log.d("ANSWER_CLICKED", answer.getContent());
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+
+            //Nếu người dùng chọn câu trả lời này thì mới xử lý tiếp.
+            if (answer.isIs_choosen()){
+                //Nếu tuỳ chọn hiển thị câu trả lời được bật.
+                if (answer.isIs_show_answer()){
+                    if (!answer.isIs_correct()){
+                        //Chỉ khi câu trả lời không đúng ta mới tô màu đỏ lên hoy.
+                        //Vì khi câu trả lời đúng rồi thì chỉ tô màu xanh (ở trên đã làm rồi).
+                        answerRow.setBackgroundResource(R.drawable.custom_container_question_row_with_red_background);
+                        answerKey.setTextColor(Color.WHITE);
+                        answerContent.setTextColor(Color.WHITE);
+                    }
+                }else{
+                    answerRow.setBackgroundResource(R.drawable.custom_container_question_row_with_blue_background);
+                    answerKey.setTextColor(Color.WHITE);
+                    answerContent.setTextColor(Color.WHITE);
+                }
             }
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);

@@ -7,6 +7,9 @@ public class Answer {
     private String question;
     private String key;
     private boolean is_correct;
+    private boolean is_choosen;
+    private boolean is_show_answer = true;
+    private boolean is_answer_selection_locked;
     private String content;
 
     public Answer() {
@@ -17,6 +20,31 @@ public class Answer {
         this.key = key;
         this.is_correct = is_correct;
         this.content = content;
+    }
+
+    public boolean isIs_answer_selection_locked() {
+        return is_answer_selection_locked;
+    }
+
+    public void setIs_answer_selection_locked(boolean is_answer_selection_locked) {
+        this.is_answer_selection_locked = is_answer_selection_locked;
+    }
+
+    public boolean isIs_show_answer() {
+        return is_show_answer;
+    }
+
+    public void setIs_show_answer(boolean is_show_answer) {
+        this.is_show_answer = is_show_answer;
+    }
+
+    public boolean isIs_choosen() {
+        return is_choosen;
+    }
+
+    public void setIs_choosen(boolean is_choosen) {
+        if (!is_answer_selection_locked)
+            this.is_choosen = is_choosen;
     }
 
     public String getQuestion() {

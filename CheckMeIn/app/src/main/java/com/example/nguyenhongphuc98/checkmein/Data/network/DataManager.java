@@ -28,7 +28,7 @@ import com.example.nguyenhongphuc98.checkmein.UI.home.IEventCallBack;
 import com.example.nguyenhongphuc98.checkmein.UI.login.LoginCallback;
 
 import com.bumptech.glide.Glide;
-import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
+import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
@@ -37,7 +37,7 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 import com.example.nguyenhongphuc98.checkmein.UI.organ.organCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.example.nguyenhongphuc98.checkmein.adapter.ParticipantAdapter;
-import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
+import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;

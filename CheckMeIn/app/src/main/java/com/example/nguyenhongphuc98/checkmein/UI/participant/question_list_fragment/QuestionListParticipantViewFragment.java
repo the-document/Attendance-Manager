@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 import com.example.nguyenhongphuc98.checkmein.R;
-import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
+import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
 
 import java.util.ArrayList;
 

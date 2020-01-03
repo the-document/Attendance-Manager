@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
+import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
 import com.example.nguyenhongphuc98.checkmein.Loading;
 import com.example.nguyenhongphuc98.checkmein.OthersActivity.LoadingDialog;
 import com.example.nguyenhongphuc98.checkmein.R;
@@ -20,7 +20,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.UI.event_ques.new_question_dialog.NewQuestionDialogFragment;
-import com.example.nguyenhongphuc98.checkmein.adapter.QuestionListCustomAdapter;
+import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

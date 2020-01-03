@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:paddingVertical="8dp"
     android:paddingHorizontal="8dp"
-    android:background="@drawable/custom_container_question_row">
+    android:background="@drawable/rounded_rectangle_grey">
 
     <TextView
         android:id="@+id/custom_answer_row_layout_answer_key"

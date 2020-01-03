@@ -1,5 +1,6 @@
 package com.example.nguyenhongphuc98.checkmein.Data.db.model;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
@@ -7,12 +8,19 @@ public class Answer {
     private String question;
     private String key;
     private boolean is_correct;
-    private boolean is_choosen;
-    private boolean is_show_answer = true;
-    private boolean is_answer_selection_locked;
     private String content;
 
+    @Exclude
+    private boolean is_choosen;
+    @Exclude
+    private boolean is_show_answer = true;
+    @Exclude
+    private boolean is_answer_selection_locked;
+    @Exclude
+    private Question questionObject;
+
     public Answer() {
+
     }
 
     public Answer(String question, String key, boolean is_correct, String content) {
@@ -20,6 +28,14 @@ public class Answer {
         this.key = key;
         this.is_correct = is_correct;
         this.content = content;
+    }
+
+    public Question getQuestionObject() {
+        return questionObject;
+    }
+
+    public void setQuestionObject(Question questionObject) {
+        this.questionObject = questionObject;
     }
 
     public boolean isIs_answer_selection_locked() {

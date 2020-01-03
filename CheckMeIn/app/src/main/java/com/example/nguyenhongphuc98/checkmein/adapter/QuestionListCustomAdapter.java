@@ -2,7 +2,6 @@ package com.example.nguyenhongphuc98.checkmein.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import butterknife.OnClick;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
@@ -29,18 +27,20 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
     final int rowMarginRight = 8;
     final int rowMarginBottom = 0;
 
-    final boolean isAnswerClickable;
+    final boolean participantMode;
+    boolean showUserResult;
 
     private Context context;
     private int resource;
     private ArrayList<Question> questionArray;
 
-    public QuestionListCustomAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Question> objects, boolean isAnswerClickable) {
+    public QuestionListCustomAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Question> objects, boolean participantMode) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
         this.questionArray = objects;
-        this.isAnswerClickable = isAnswerClickable;
+        this.participantMode = participantMode;
+        this.showUserResult = false;
     }
 
     public void resetAllAnswersCorrectness(){
@@ -52,7 +52,12 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
         notifyDataSetChanged();
     }
 
-    public void lockAllAnswersSelection(){
+    public void finishAnswering(){
+        lockAllAnswersSelection();
+        this.showUserResult = true;
+    }
+
+    private void lockAllAnswersSelection(){
         for (Question question : questionArray){
             for (Answer answer : question.getmAnswers()){
                 answer.setIs_answer_selection_locked(true);
@@ -69,8 +74,10 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
 
         //Lấy danh sách câu trả lời.
         ArrayList<Answer> answerList = questionArray.get(position).getmAnswers();
+        //Lấy câu hỏi ra.
+        Question currentQuestion = questionArray.get(position);
         //Lấy nội dung câu hỏi.
-        String question = questionArray.get(position).getContent();
+        String questionContent = currentQuestion.getContent();
 
         if (convertView == null)
         {
@@ -84,6 +91,7 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
             viewHolder.answerKeys = new ArrayList<>();
             viewHolder.answerContents = new ArrayList<>();
 
+            viewHolder.wholeQuestionLayout = (LinearLayout)convertView.findViewById(R.id.custom_question_row_layout);
             viewHolder.answerListLayout = (LinearLayout)convertView.findViewById(R.id.custom_question_row_layout_answers_layout);
 
             if (answerList != null){
@@ -103,7 +111,7 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
         }
 
         //Gán câu hỏi.
-        viewHolder.txtQuestion.setText(question);
+        viewHolder.txtQuestion.setText(questionContent);
 
         //Không có câu trả lời thì thôiii.
         if (answerList == null)
@@ -155,46 +163,82 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
 
             answerContent.setText(answer.getContent());
 
-            //Nếu như câu trả lời là câu trả lời đúng thì ta tô màu lên cho nó.
-            if (answer.isIs_correct() && answer.isIs_show_answer()){
-                answerRow.setBackgroundResource(R.drawable.custom_container_question_row_with_green_background);
-                answerKey.setTextColor(Color.WHITE);
-                answerContent.setTextColor(Color.WHITE);
-            }
-            else{
-                answerRow.setBackgroundResource(R.drawable.custom_container_question_row);
-                answerKey.setTextColor(Color.BLACK);
-                answerContent.setTextColor(Color.BLACK);
-            }
+            if (participantMode){
 
-            //Chưa hết, ta còn phải chỉnh listener để tô màu lên khi người dùng chọn vào nó.
-            //Trong trường hợp người dùng xác định rằng các câu trả lời là bấm được thì mới có listener.
-            if (isAnswerClickable){
+                //Nếu như câu trả lời là câu trả lời đúng thì ta tô màu lên cho nó.
+                if (showUserResult){
+                    if (answer.isIs_choosen()){
+                        if (answer.isIs_correct()){
+                            answerRow.setBackgroundResource(R.drawable.rounded_rectangle_green_blue_solid);
+                            answerKey.setTextColor(Color.WHITE);
+                            answerContent.setTextColor(Color.WHITE);
+                        }
+                        else{
+                            answerRow.setBackgroundResource(R.drawable.rounded_rectangle_red_blue_solid);
+                            answerKey.setTextColor(Color.WHITE);
+                            answerContent.setTextColor(Color.WHITE);
+                        }
+                    }
+                    else {
+                        if (answer.isIs_correct()){
+                            //Chỉ khi câu trả lời không đúng ta mới tô màu đỏ lên hoy.
+                            //Vì khi câu trả lời đúng rồi thì chỉ tô màu xanh (ở trên đã làm rồi).
+                            answerRow.setBackgroundResource(R.drawable.rounded_rectangle_grey_green_solid);
+                            answerKey.setTextColor(Color.WHITE);
+                            answerContent.setTextColor(Color.WHITE);
+                        }
+                        else{
+                            answerRow.setBackgroundResource(R.drawable.rounded_rectangle_grey);
+                            answerKey.setTextColor(Color.BLACK);
+                            answerContent.setTextColor(Color.BLACK);
+                        }
+                    }
+                }
+                else if (answer.isIs_choosen()){
+                    //Nếu tuỳ chọn hiển thị câu trả lời được bật.
+                    answerRow.setBackgroundResource(R.drawable.rounded_rectangle_grey_blue_solid);
+                    answerKey.setTextColor(Color.WHITE);
+                    answerContent.setTextColor(Color.WHITE);
+                }
+                else{
+                    answerRow.setBackgroundResource(R.drawable.rounded_rectangle_grey);
+                    answerKey.setTextColor(Color.BLACK);
+                    answerContent.setTextColor(Color.BLACK);
+                }
+
+                //Chưa hết, ta còn phải chỉnh listener để tô màu lên khi người dùng chọn vào nó.
+                //Trong trường hợp người dùng xác định rằng các câu trả lời là bấm được thì mới có listener.
                 answerRow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         answer.setIs_choosen(!answer.isIs_choosen());
-                        Log.d("ANSWER_CLICKED", answer.getContent());
+                        answer.getQuestionObject().setQuestionAnsweredCorrectly(true);
+                        for (Answer a : answer.getQuestionObject().getmAnswers()){
+                            //Đúng mà không chọn.
+                            if (a.isIs_correct() && !a.isIs_choosen()){
+                                answer.getQuestionObject().setQuestionAnsweredCorrectly(false);
+                                break;
+                            }
+                            //Không đúng mà chọn.
+                            else if (!a.isIs_correct() && a.isIs_choosen()){
+                                answer.getQuestionObject().setQuestionAnsweredCorrectly(false);
+                                break;
+                            }
+                        }
                         notifyDataSetChanged();
                     }
                 });
             }
-
-            //Nếu người dùng chọn câu trả lời này thì mới xử lý tiếp.
-            if (answer.isIs_choosen()){
-                //Nếu tuỳ chọn hiển thị câu trả lời được bật.
-                if (answer.isIs_show_answer()){
-                    if (!answer.isIs_correct()){
-                        //Chỉ khi câu trả lời không đúng ta mới tô màu đỏ lên hoy.
-                        //Vì khi câu trả lời đúng rồi thì chỉ tô màu xanh (ở trên đã làm rồi).
-                        answerRow.setBackgroundResource(R.drawable.custom_container_question_row_with_red_background);
-                        answerKey.setTextColor(Color.WHITE);
-                        answerContent.setTextColor(Color.WHITE);
-                    }
-                }else{
-                    answerRow.setBackgroundResource(R.drawable.custom_container_question_row_with_blue_background);
+            else{
+                if (answer.isIs_correct()){
+                    answerRow.setBackgroundResource(R.drawable.rounded_rectangle_grey_green_solid);
                     answerKey.setTextColor(Color.WHITE);
                     answerContent.setTextColor(Color.WHITE);
+                }
+                else{
+                    answerRow.setBackgroundResource(R.drawable.rounded_rectangle_grey);
+                    answerKey.setTextColor(Color.BLACK);
+                    answerContent.setTextColor(Color.BLACK);
                 }
             }
 
@@ -206,12 +250,26 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
                 viewHolder.answerListLayout.addView(answerRow, 0, params);
         }
 
+        //Xét xem nếu yêu cầu hiển thị câu trả lời và người dùng đã trả lời đúng câu hỏi rồi thì đổi màu.
+
+        if (participantMode && showUserResult){
+            if (currentQuestion.isQuestionAnsweredCorrectly()){
+                viewHolder.wholeQuestionLayout.setBackgroundResource(R.drawable.rounded_rectangle_green);
+            }
+            else{
+                viewHolder.wholeQuestionLayout.setBackgroundResource(R.drawable.rounded_rectangle_red);
+            }
+        }else{
+            viewHolder.wholeQuestionLayout.setBackgroundResource(R.drawable.rounded_rectangle_grey);
+        }
+
         return convertView;
     }
 
     public class ViewHolder{
         TextView txtQuestion;
         LinearLayout answerListLayout;
+        LinearLayout wholeQuestionLayout;
         ArrayList<View> answerRows;
         ArrayList<TextView> answerKeys;
         ArrayList<TextView> answerContents;

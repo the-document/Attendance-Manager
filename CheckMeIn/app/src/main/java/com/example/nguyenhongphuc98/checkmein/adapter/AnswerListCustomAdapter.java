@@ -3,10 +3,8 @@ package com.example.nguyenhongphuc98.checkmein.Adapter;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +49,7 @@ public class AnswerListCustomAdapter extends ArrayAdapter<Answer> {
         Answer answer = answers.get(position);
         //Nếu câu trả lời chính xác thì ta chỉnh lại màu nền thành xanh lá cây, và chữ thành trắng.
         if (answer.isIs_correct()){
-            viewHolder.layout.setBackgroundResource(R.drawable.custom_container_question_row_with_green_background);
+            viewHolder.layout.setBackgroundResource(R.drawable.rounded_rectangle_grey_green_solid);
             viewHolder.txtViewAnswerContent.setTextColor(Color.WHITE);
             viewHolder.txtViewAnswerKey.setTextColor(Color.WHITE);
         }

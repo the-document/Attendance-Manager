@@ -3,6 +3,7 @@ package com.example.nguyenhongphuc98.checkmein.UI.participant.question_list_frag
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 public class QuestionListParticipantViewFragment extends Fragment {
     ListView lv_question_list;
+    AppCompatButton acbFinish;
     QuestionListParticipantViewContract.QuestionListParticipantViewPresenter presenter;
 
 
@@ -27,7 +29,7 @@ public class QuestionListParticipantViewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_of_question_participant_view, container, false);
         lv_question_list = (ListView)view.findViewById(R.id.lv_question_list_participant_view);
-
+        acbFinish = (AppCompatButton)view.findViewById(R.id.fab_finish);
         //Tạo mới presenter luôn.
         presenter = new QuestionListParticipantViewPresenter(this);
 

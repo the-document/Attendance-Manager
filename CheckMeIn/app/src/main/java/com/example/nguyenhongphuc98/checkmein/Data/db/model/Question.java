@@ -1,5 +1,6 @@
 package com.example.nguyenhongphuc98.checkmein.Data.db.model;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
@@ -8,10 +9,14 @@ import java.util.ArrayList;
 public class Question {
     private String id = null;
     private String content;
-    private ArrayList<Answer> mAnswers;
-    private String questionType;
     private String event;
+    private ArrayList<Answer> mAnswers;
+    @Exclude
     private String public_time;
+    @Exclude
+    private String questionType;
+    @Exclude
+    private boolean isQuestionAnsweredCorrectly;
 
     public Question()
     {
@@ -30,6 +35,14 @@ public class Question {
         this.mAnswers = new ArrayList<Answer>();
         for (Answer answer : answers)
             mAnswers.add(answer);
+    }
+
+    public boolean isQuestionAnsweredCorrectly() {
+        return isQuestionAnsweredCorrectly;
+    }
+
+    public void setQuestionAnsweredCorrectly(boolean questionAnsweredCorrectly) {
+        isQuestionAnsweredCorrectly = questionAnsweredCorrectly;
     }
 
     public String getContent() {

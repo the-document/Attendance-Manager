@@ -1,5 +1,7 @@
 package com.example.nguyenhongphuc98.checkmein.UI.participant.question_list_fragment;
 
+import android.view.View;
+
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
@@ -20,5 +22,11 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
         com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter qaCustomAdapter = new com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter(view.getActivity(), R.layout.custom_question_row_layout, questionsList, true);
         view.lv_question_list.setAdapter(qaCustomAdapter);
         DataManager.Instance().LoadQuestionWithoutAnswerHighlight(qaCustomAdapter, questionsList, DataCenter.EventID);
+        view.acbFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                qaCustomAdapter.finishAnswering();
+            }
+        });
     }
 }

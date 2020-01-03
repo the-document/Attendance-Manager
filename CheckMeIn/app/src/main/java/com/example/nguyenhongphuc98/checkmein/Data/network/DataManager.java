@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.example.nguyenhongphuc98.checkmein.Adapter.EventAdapter;
@@ -29,25 +28,18 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Person;
 import com.example.nguyenhongphuc98.checkmein.UI.home.IEventCallBack;
 import com.example.nguyenhongphuc98.checkmein.UI.login.LoginCallback;
 
-import com.bumptech.glide.Glide;
 import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
-import com.example.nguyenhongphuc98.checkmein.Data.db.model.Account;
 
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 
 import com.example.nguyenhongphuc98.checkmein.UI.organ.organCallback;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.example.nguyenhongphuc98.checkmein.adapter.ParticipantAdapter;
-import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import com.google.firebase.database.ChildEventListener;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -69,7 +61,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 
 import java.util.HashMap;
@@ -1160,6 +1151,9 @@ public class DataManager {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Question question = snapshot.getValue(Question.class);
                     questionList.add(question);
+                    for (Answer answer : question.getmAnswers()){
+                        answer.setQuestionObject(question);
+                    }
                     adapter.notifyDataSetChanged();
                 }
                 adapter.resetAllAnswersCorrectness();
@@ -1188,6 +1182,9 @@ public class DataManager {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Question question = snapshot.getValue(Question.class);
                     questionList.add(question);
+                    for (Answer answer : question.getmAnswers()){
+                        answer.setQuestionObject(question);
+                    }
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -1247,7 +1244,7 @@ public class DataManager {
         });
     }
 
-    public Boolean LoadAttendanceByEvent(List<Attendance> lsAttendance, ParticipantAdapter adapter, String eventId){
+    public Boolean LoadAttendanceByEvent(List<Attendance> lsAttendance, com.example.nguyenhongphuc98.checkmein.adapter.ParticipantAdapter adapter, String eventId){
         try {
             final DatabaseReference attendance_Ref = FirebaseDatabase.getInstance().getReference("Attendance");
             attendance_Ref.orderByKey().equalTo(eventId).addValueEventListener(new ValueEventListener() {

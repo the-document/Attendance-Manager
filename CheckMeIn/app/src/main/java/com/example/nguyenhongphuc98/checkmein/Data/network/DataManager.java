@@ -23,6 +23,8 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Attendance;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Collaborator;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerDetails;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerDetailsDAL;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Person;
 import com.example.nguyenhongphuc98.checkmein.UI.home.IEventCallBack;
 import com.example.nguyenhongphuc98.checkmein.UI.login.LoginCallback;
@@ -66,6 +68,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import java.util.HashMap;
@@ -676,10 +680,16 @@ public class DataManager {
                         }
 
                         if(!isSuccess)
+                        {
                             eventCallBack.OnLoadEventComplete(null);
+                            Log.e("DTM","check event err");
+                        }
+
                     }
-                    else
+                    else {
                         eventCallBack.OnLoadEventComplete(null);
+                        Log.d("AAAA","not get snapsot");
+                    }
                 }
 
                 @Override
@@ -1265,6 +1275,44 @@ public class DataManager {
         }
         catch (Exception e){
             Log.e("DTM","err get list attendance: "+e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    public Boolean LoadAnswersOfEvent(List<ParticipantAnswerDetails> answers, com.example.nguyenhongphuc98.checkmein.adapter.ParticipantAnswerDetailsCustomAdapter adapter, String eventId){
+        try {
+            final DatabaseReference attendance_Ref = FirebaseDatabase.getInstance().getReference("AnswerMultipleChoiceQ").child(eventId).child("m_user_results");
+             attendance_Ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    answers.clear();
+                    List<ParticipantAnswerDetailsDAL> answersDetail= new ArrayList<>();
+                    for (DataSnapshot answerSnapshot: dataSnapshot.getChildren()){
+                        ParticipantAnswerDetailsDAL a = answerSnapshot.getValue(ParticipantAnswerDetailsDAL.class);
+                        answersDetail.add(a);
+                    }
+
+                    //sort and setup ranking
+                    Collections.sort(answersDetail);
+                    for (int i=0; i<answersDetail.size();i++) {
+                        ParticipantAnswerDetailsDAL e = answersDetail.get(i);
+                        answers.add(new ParticipantAnswerDetails(e.getUser_name(),
+                                                                i+1,answersDetail.size(),e.getNum_correct(),
+                                                                    e.getTotal_question(),e.getTime_elapsed()));
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get answers list: "+e.getMessage());
             return false;
         }
 

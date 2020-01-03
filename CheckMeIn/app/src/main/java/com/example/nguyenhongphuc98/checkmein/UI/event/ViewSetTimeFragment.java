@@ -154,7 +154,7 @@ public class ViewSetTimeFragment extends Fragment {
 
 
     private void updateLabelDate(){
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "dd/MM/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         etDate.setText(sdf.format(myCalendar.getTime()));

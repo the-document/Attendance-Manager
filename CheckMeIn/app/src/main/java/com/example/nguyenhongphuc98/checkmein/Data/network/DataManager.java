@@ -22,6 +22,7 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Attendance;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Collaborator;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerByQuestion;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerDetails;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerDetailsDAL;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Person;
@@ -34,6 +35,7 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 
 import com.example.nguyenhongphuc98.checkmein.UI.organ.organCallback;
+import com.example.nguyenhongphuc98.checkmein.UI.participant.question_list_fragment.QuestionListParticipantViewPresenter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -1194,6 +1196,68 @@ public class DataManager {
 
             }
         });
+    }
+
+    public boolean LoadUserAnswer(QuestionListParticipantViewPresenter presenter, List<ParticipantAnswerByQuestion> answerList, String userID, String eventID){
+        final DatabaseReference questions_Ref = FirebaseDatabase.getInstance().getReference("AnswerMultipleChoiceQ").child(eventID).child("m_user_answers").child(userID);
+        Query query = questions_Ref;
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Đầu tiên chúng ta cần xoá bỏ đi dữ liệu cũ để không bị trùng lặp.
+                answerList.clear();
+
+                if (!dataSnapshot.exists()){
+                    return;
+                }
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    ParticipantAnswerByQuestion data = snapshot.getValue(ParticipantAnswerByQuestion.class);
+                    answerList.add(data);
+                }
+
+                presenter.OnUserAnswerLoaded();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return false;
+    }
+
+    public boolean SaveUserAnswer(List<ParticipantAnswerByQuestion> answerList, String userID, String eventID){
+        try{
+            //Xem thử key có tồn tại chưa.
+            //Nếu có thì là update, nếu chưa thì phải tạo mới.
+            String key = userID;
+
+            Task task = mDatabase.child("AnswerMultipleChoiceQ").child(eventID).child("m_user_answers").child(key).setValue(answerList);
+
+            task.addOnSuccessListener(new OnSuccessListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    Log.d("DataMan/SaveQuesSuccess", "Save success");
+                    //Lưu câu hỏi thành công thì tiếp tục lưu cả câu trả lời luôn.
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("DataMan/SaveQuesFail", "Save failed : " + e.toString());
+                }
+            });
+            return true;
+        }catch (Exception e){
+            Log.d("DataMan/SaveQuestion", e.toString());
+        }
+        return false;
+    }
+
+    public boolean LoadUserAnswerResult(){
+        return false;
     }
 
     public boolean SaveUserAnswerResult(ParticipantAnswerDetailsDAL result, String userID, String eventID){

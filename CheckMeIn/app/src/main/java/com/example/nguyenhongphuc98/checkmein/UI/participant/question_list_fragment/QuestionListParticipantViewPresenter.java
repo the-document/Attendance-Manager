@@ -4,12 +4,15 @@ import android.os.SystemClock;
 import android.view.View;
 
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerByQuestion;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerDetailsDAL;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 import com.example.nguyenhongphuc98.checkmein.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionListParticipantViewPresenter implements QuestionListParticipantViewContract.QuestionListParticipantViewPresenter {
     QuestionListParticipantViewFragment view;
@@ -20,6 +23,10 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
     public QuestionListParticipantViewPresenter(QuestionListParticipantViewFragment fragmentView){
         this.view = fragmentView;
         startTime = SystemClock.elapsedRealtime();
+    }
+
+    public void OnUserAnswerLoaded(){
+
     }
 
     @Override
@@ -33,6 +40,9 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
             public void onClick(View v) {
                 qaCustomAdapter.finishAnswering();
                 ParticipantAnswerDetailsDAL userScore = calculateUserScore();
+                List<ParticipantAnswerByQuestion> userAnswer = getQuestionAnswerPair();
+
+                DataManager.Instance().SaveUserAnswer(userAnswer, DataCenter.UserID, DataCenter.EventID);
                 DataManager.Instance().SaveUserAnswerResult(userScore, DataCenter.UserID,DataCenter.EventID);
             }
         });
@@ -55,4 +65,24 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
         dal.setUser_name(DataCenter.UserDisplayName);
         return dal;
     }
+
+    private List<ParticipantAnswerByQuestion> getQuestionAnswerPair(){
+        List<ParticipantAnswerByQuestion> result = new ArrayList<>();
+        for (Question question : questionsList){
+            ParticipantAnswerByQuestion data = new ParticipantAnswerByQuestion();
+            //Chỉnh Key của câu hỏi vào.
+            data.setQuestionKey(question.getId());
+            //Chỉnh xem người dùng chọn các câu trả lời nào.
+            List<String> userAnswersKey = new ArrayList<>();
+            for (Answer answer : question.getmAnswers()){
+                if (answer.isIs_choosen()){
+                    userAnswersKey.add(answer.getKey());
+                }
+            }
+            data.setAnswersKey(userAnswersKey);
+            result.add(data);
+        }
+        return result;
+    }
+
 }

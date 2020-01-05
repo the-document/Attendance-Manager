@@ -648,8 +648,8 @@ public class DataManager {
                             if(eventCallBack!=null){
 
                                 try {
-                                    Date day= new SimpleDateFormat("dd/MM/yy").parse(o.getEvent_day());
-                                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+                                    Date day= new SimpleDateFormat("dd/MM/yyyy").parse(o.getEvent_day());
+                                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                                     Date date = new Date();
                                     Log.e("DTM","date: "+date.getDate());
                                     Log.e("DTM","day: "+day.getDate());

@@ -1222,7 +1222,7 @@ public class DataManager {
 
                         ParticipantAnswerDetails result = new ParticipantAnswerDetails(e.getUser_name(),
                                 i+1,answersDetail.size(),(int)e.getNum_correct(),
-                                (int)e.getTotal_question(),(int)e.getTime_elapsed());
+                                (int)e.getTotal_question(),((int)e.getTime_elapsed()) / 1000);
 
                         presenter.OnUserResultLoaded(result);
                         break;
@@ -1272,7 +1272,7 @@ public class DataManager {
         return false;
     }
 
-    public boolean SaveUserAnswer(List<ParticipantAnswerByQuestion> answerList, String userID, String eventID){
+    public boolean SaveUserAnswer(QuestionListParticipantViewPresenter presenter, List<ParticipantAnswerByQuestion> answerList, String userID, String eventID){
         try{
             //Xem thử key có tồn tại chưa.
             //Nếu có thì là update, nếu chưa thì phải tạo mới.
@@ -1285,7 +1285,7 @@ public class DataManager {
                 public void onSuccess(Object o) {
                     Log.d("DataMan/SaveQuesSuccess", "Save success");
                     //Lưu câu hỏi thành công thì tiếp tục lưu cả câu trả lời luôn.
-
+                    presenter.OnUserAnswerSaved();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -1304,7 +1304,7 @@ public class DataManager {
         return false;
     }
 
-    public boolean SaveUserAnswerResult(ParticipantAnswerDetailsDAL result, String userID, String eventID){
+    public boolean SaveUserAnswerResult(QuestionListParticipantViewPresenter presenter, ParticipantAnswerDetailsDAL result, String userID, String eventID){
         try{
             //Xem thử key có tồn tại chưa.
             //Nếu có thì là update, nếu chưa thì phải tạo mới.
@@ -1317,7 +1317,7 @@ public class DataManager {
                 public void onSuccess(Object o) {
                     Log.d("DataMan/SaveQuesSuccess", "Save success");
                     //Lưu câu hỏi thành công thì tiếp tục lưu cả câu trả lời luôn.
-
+                    presenter.OnUserResultSaved();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -1433,7 +1433,7 @@ public class DataManager {
                         ParticipantAnswerDetailsDAL e = answersDetail.get(i);
                         answers.add(new ParticipantAnswerDetails(e.getUser_name(),
                                                                 i+1,answersDetail.size(),(int)e.getNum_correct(),
-                                (int)e.getTotal_question(),(int)e.getTime_elapsed()));
+                                (int)e.getTotal_question(),((int)e.getTime_elapsed()) / 1000));
                     }
                     adapter.notifyDataSetChanged();
                 }

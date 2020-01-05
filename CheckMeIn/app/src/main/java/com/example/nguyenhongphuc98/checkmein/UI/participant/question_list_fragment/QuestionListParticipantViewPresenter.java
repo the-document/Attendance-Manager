@@ -39,6 +39,14 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
         startTime = SystemClock.elapsedRealtime();
     }
 
+    public void OnUserAnswerSaved(){
+        view.loadingDialog.hideDialog();
+    }
+
+    public void OnUserResultSaved(){
+        view.secondLoadingDialog.hideDialog();
+    }
+
     public void OnUserResultLoaded(ParticipantAnswerDetails answerDetails){
         //Load kết quả của người dùng.
         setAnswerSubmitted(true, answerDetails);
@@ -120,7 +128,7 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
         }
 
         endTime = SystemClock.elapsedRealtime();
-        long elapsedTime = endTime - startTime;
+        long elapsedTime = (endTime - startTime);
 
         dal.setNum_correct(numCorrect);
         dal.setTime_elapsed(elapsedTime);
@@ -185,12 +193,15 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
             view.acbFinish.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    view.loadingDialog.showDialog();
+                    view.secondLoadingDialog.showDialog();
+
                     qaCustomAdapter.finishAnsweringAndShowCorrection();
                     ParticipantAnswerDetailsDAL userScore = calculateUserScore();
                     List<ParticipantAnswerByQuestion> userAnswer = getQuestionAnswerPair();
 
-                    DataManager.Instance().SaveUserAnswer(userAnswer, DataCenter.UserID, DataCenter.EventID);
-                    DataManager.Instance().SaveUserAnswerResult(userScore, DataCenter.UserID,DataCenter.EventID);
+                    DataManager.Instance().SaveUserAnswer(QuestionListParticipantViewPresenter.this, userAnswer, DataCenter.UserID, DataCenter.EventID);
+                    DataManager.Instance().SaveUserAnswerResult(QuestionListParticipantViewPresenter.this,userScore, DataCenter.UserID,DataCenter.EventID);
                 }
             });
         }

@@ -24,6 +24,7 @@ public class QuestionListParticipantViewFragment extends Fragment {
     AppCompatButton acbFinish;
     QuestionListParticipantViewContract.QuestionListParticipantViewPresenter presenter;
     LoadingDialog loadingDialog;
+    LoadingDialog secondLoadingDialog;
 
     @Nullable
     @Override
@@ -32,6 +33,7 @@ public class QuestionListParticipantViewFragment extends Fragment {
         lv_question_list = (ListView)view.findViewById(R.id.lv_question_list_participant_view);
         acbFinish = (AppCompatButton)view.findViewById(R.id.fab_finish);
         loadingDialog = new LoadingDialog(this.getActivity());
+        secondLoadingDialog = new LoadingDialog(this.getActivity());
         //Tạo mới presenter luôn.
         presenter = new QuestionListParticipantViewPresenter(this);
 

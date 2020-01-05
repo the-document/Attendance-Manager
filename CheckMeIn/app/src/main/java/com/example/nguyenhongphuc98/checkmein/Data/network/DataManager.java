@@ -1198,6 +1198,50 @@ public class DataManager {
         });
     }
 
+    public boolean LoadUserResult(QuestionListParticipantViewPresenter presenter, String userID, String eventID){
+        try {
+            final DatabaseReference attendance_Ref = FirebaseDatabase.getInstance().getReference("AnswerMultipleChoiceQ").child(eventID).child("m_user_results");
+            attendance_Ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    List<ParticipantAnswerDetailsDAL> answersDetail= new ArrayList<>();
+                    for (DataSnapshot answerSnapshot: dataSnapshot.getChildren()){
+                        ParticipantAnswerDetailsDAL a = answerSnapshot.getValue(ParticipantAnswerDetailsDAL.class);
+                        a.setUserID(answerSnapshot.getKey());
+                        answersDetail.add(a);
+                    }
+
+                    //sort and setup ranking
+                    Collections.sort(answersDetail);
+                    for (int i=0; i<answersDetail.size();i++) {
+                        ParticipantAnswerDetailsDAL e = answersDetail.get(i);
+                        String answerUserID = e.getUserID();
+                        //Chúng ta chỉ cần kết quả của thằng người dùng hiện tại mà thôi.
+                        if (!answerUserID.equals(userID))
+                            continue;
+
+                        ParticipantAnswerDetails result = new ParticipantAnswerDetails(e.getUser_name(),
+                                i+1,answersDetail.size(),(int)e.getNum_correct(),
+                                (int)e.getTotal_question(),(int)e.getTime_elapsed());
+
+                        presenter.OnUserResultLoaded(result);
+                        break;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get answers list: "+e.getMessage());
+            return false;
+        }
+        return false;
+    }
+
     public boolean LoadUserAnswer(QuestionListParticipantViewPresenter presenter, List<ParticipantAnswerByQuestion> answerList, String userID, String eventID){
         final DatabaseReference questions_Ref = FirebaseDatabase.getInstance().getReference("AnswerMultipleChoiceQ").child(eventID).child("m_user_answers").child(userID);
         Query query = questions_Ref;

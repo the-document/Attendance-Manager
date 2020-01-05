@@ -1,15 +1,22 @@
 package com.example.nguyenhongphuc98.checkmein.UI.participant.question_list_fragment;
 
+import android.annotation.SuppressLint;
 import android.os.SystemClock;
 import android.view.View;
 
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerByQuestion;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerDetails;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerDetailsDAL;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 import com.example.nguyenhongphuc98.checkmein.R;
+import com.google.android.material.button.MaterialButton;
+import com.shreyaspatil.MaterialDialog.AbstractDialog;
+import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
+import com.shreyaspatil.MaterialDialog.MaterialDialog;
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,12 +27,22 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
     ArrayList<Question> questionsList;
     List<ParticipantAnswerByQuestion> answerByQuestionList;
     com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter qaCustomAdapter;
+
     long startTime;
     long endTime;
+
+    //Biến này dùng để thể hiện tình trạng trả lời câu hỏi của người dùng.
+    boolean isAnswerSubmitted = false;
 
     public QuestionListParticipantViewPresenter(QuestionListParticipantViewFragment fragmentView){
         this.view = fragmentView;
         startTime = SystemClock.elapsedRealtime();
+    }
+
+    public void OnUserResultLoaded(ParticipantAnswerDetails answerDetails){
+        //Load kết quả của người dùng.
+        setAnswerSubmitted(true, answerDetails);
+        view.loadingDialog.hideDialog();
     }
 
     public void OnUserAnswerLoaded(){
@@ -34,6 +51,7 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
         //Nếu chưa thì ta không xét tiếp bên dưới (tức là bỏ qua công đoạn load câu trả lời của người dùng).
         if (answerByQuestionList == null || answerByQuestionList.size() == 0){
             view.loadingDialog.hideDialog();
+            setAnswerSubmitted(false, null);
             return;
         }
 
@@ -74,11 +92,11 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
             }
         }
         qaCustomAdapter.finishAnsweringAndShowCorrection();
-        view.loadingDialog.hideDialog();
     }
 
     @Override
     public void LoadQuestionList() {
+
         view.loadingDialog.showDialog();
         questionsList = new ArrayList<>();
         qaCustomAdapter = new com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter(view.getActivity(), R.layout.custom_question_row_layout, questionsList, true);
@@ -89,17 +107,8 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
         answerByQuestionList = new ArrayList<>();
         DataManager.Instance().LoadUserAnswer(this, answerByQuestionList, DataCenter.UserID, DataCenter.EventID);
 
-        view.acbFinish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                qaCustomAdapter.finishAnsweringAndShowCorrection();
-                ParticipantAnswerDetailsDAL userScore = calculateUserScore();
-                List<ParticipantAnswerByQuestion> userAnswer = getQuestionAnswerPair();
-
-                DataManager.Instance().SaveUserAnswer(userAnswer, DataCenter.UserID, DataCenter.EventID);
-                DataManager.Instance().SaveUserAnswerResult(userScore, DataCenter.UserID,DataCenter.EventID);
-            }
-        });
+        //Load thành tích đạt được của người dùng.
+        DataManager.Instance().LoadUserResult(this, DataCenter.UserID, DataCenter.EventID);
     }
 
     private ParticipantAnswerDetailsDAL calculateUserScore(){
@@ -139,4 +148,52 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
         return result;
     }
 
+    public boolean isAnswerSubmitted() {
+        return isAnswerSubmitted;
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void setAnswerSubmitted(boolean answerSubmitted, ParticipantAnswerDetails result) {
+        if (answerSubmitted && result != null){
+            StringBuilder builder = new StringBuilder();
+            builder.append("Xếp hạng : ").append(result.getsRanking()).append("\n\n");
+            builder.append(result.getsRatioOfCorrectAnswers()).append("\n\n");
+            builder.append(result.getsTimeElapsed());
+            String message = builder.toString();
+            view.acbFinish.setText("XEM KẾT QUẢ");
+            view.acbFinish.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MaterialDialog mdialog = new MaterialDialog.Builder(view.getActivity())
+                            .setTitle("Kết quả")
+                            .setMessage(message)
+                            .setCancelable(true)
+                            .setAnimation(R.raw.star_success)
+                            .setPositiveButton("Đóng", R.drawable.ic_done_black_24dp, new MaterialDialog.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .build();
+                    mdialog.show();
+                }
+            });
+        }
+        else{
+            view.acbFinish.setText("HOÀN THÀNH");
+            view.acbFinish.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    qaCustomAdapter.finishAnsweringAndShowCorrection();
+                    ParticipantAnswerDetailsDAL userScore = calculateUserScore();
+                    List<ParticipantAnswerByQuestion> userAnswer = getQuestionAnswerPair();
+
+                    DataManager.Instance().SaveUserAnswer(userAnswer, DataCenter.UserID, DataCenter.EventID);
+                    DataManager.Instance().SaveUserAnswerResult(userScore, DataCenter.UserID,DataCenter.EventID);
+                }
+            });
+        }
+        isAnswerSubmitted = answerSubmitted;
+    }
 }

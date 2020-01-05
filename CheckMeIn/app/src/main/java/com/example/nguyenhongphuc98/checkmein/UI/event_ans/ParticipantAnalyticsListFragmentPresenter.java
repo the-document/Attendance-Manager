@@ -42,8 +42,8 @@ public class ParticipantAnalyticsListFragmentPresenter implements ParticipantAna
         //Xong xuôi hết rồi thì phải set adapter cho bên view nữa chứ.
         view.setParticipantAnalyticsAdapter(padCustomAdapter);
 
-        //Boolean r = DataManager.Instance().LoadAnswersOfEvent(data,padCustomAdapter, DataCenter.Event.getEvent_id());
-        Boolean r = DataManager.Instance().LoadAnswersOfEvent(data,padCustomAdapter, "event_id");
+        Boolean r = DataManager.Instance().LoadAnswersOfEvent(data,padCustomAdapter, DataCenter.Event.getEvent_id());
+        //Boolean r = DataManager.Instance().LoadAnswersOfEvent(data,padCustomAdapter, "event_id");
         if(!r)
             Log.e("ERR","err while loading answer of event");
 

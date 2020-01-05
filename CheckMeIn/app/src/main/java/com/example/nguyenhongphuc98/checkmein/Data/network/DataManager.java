@@ -646,19 +646,39 @@ public class DataManager {
                             if(eventCallBack!=null){
 
                                 try {
-                                    Date day= new SimpleDateFormat("dd/MM/yy").parse(o.getEvent_day());
-                                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
-                                    Date date = new Date();
-                                    Log.e("DTM","date: "+date.getDate());
-                                    Log.e("DTM","day: "+day.getDate());
-                                    if(date.getDate()==day.getDate()
-                                        &&date.getMonth()==day.getMonth()
-                                        &&date.getYear()==day.getYear())
+                                    Date eventDay= new SimpleDateFormat("dd/MM/yy").parse(o.getEvent_day());
+                                    Date currentDay = new Date();
+
+                                    if(currentDay.getDate()==eventDay.getDate()
+                                        &&currentDay.getMonth()==eventDay.getMonth()
+                                        &&currentDay.getYear()==eventDay.getYear())
                                     {
-                                        eventCallBack.OnLoadEventComplete(o);
-                                        isSuccess=true;
-                                        Log.e("DTM","got event: "+o.getEvent_code());
-                                        break;
+
+                                        //check time
+                                        int beginh,beginm;
+                                        int endh,endm;
+                                        beginh = Integer.parseInt(o.getBegin_time().split(" ")[0]);
+                                        beginm = Integer.parseInt(o.getBegin_time().split(" ")[2]);
+                                        endh = Integer.parseInt(o.getEnd_time().split(" ")[0]);
+                                        endm = Integer.parseInt(o.getEnd_time().split(" ")[2]);
+
+                                        //auto get current date format 24h
+
+                                        Log.e("DTM","start: "+eventDay.getDate() +"/"+ eventDay.getMonth() +"/"+eventDay.getYear()+"-"+beginh+":"+beginm);
+                                        Log.e("DTM","current: "+currentDay.getDate() +"/"+ currentDay.getMonth() +"/"+currentDay.getYear()+"-"+currentDay.getHours()+":"+currentDay.getMinutes());
+                                        Log.e("DTM","end: "+eventDay.getDate() +"/"+ eventDay.getMonth() +"/"+eventDay.getYear()+"-"+endh+":"+endm);
+
+
+                                        int beginTime = beginh*60 + beginm;
+                                        int curentTime = currentDay.getHours()*60 + currentDay.getMinutes();
+                                        int endTime = endh*60 + endm;
+
+                                        if(beginTime <= curentTime && curentTime <=endTime) {
+                                            eventCallBack.OnLoadEventComplete(o);
+                                            isSuccess = true;
+                                            Log.e("DTM", "got event: " + o.getEvent_code());
+                                            break;
+                                        }
                                     }
 
                                 } catch (ParseException e) {
@@ -676,8 +696,7 @@ public class DataManager {
                             Log.e("DTM","check event err");
                         }
 
-                    }
-                    else {
+                    } else {
                         eventCallBack.OnLoadEventComplete(null);
                         Log.d("AAAA","not get snapsot");
                     }

@@ -5,23 +5,36 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent">
 
-    <fr.castorflex.android.circularprogressbar.CircularProgressBar
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.github.ybq.android.spinkit.SpinKitView
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/spin_kit"
+        style="@style/SpinKitView.Large.Circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:SpinKit_Color="@android:color/holo_blue_bright"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:indeterminate="true"
-        app:cpb_color="#FFee44"
-        app:cpb_rotation_speed="1.0"
-        app:cpb_sweep_speed="1.0"
-        app:cpb_stroke_width="4dp"
-        app:cpb_min_sweep_angle="10"
-        app:cpb_max_sweep_angle="300"
-        android:background="@android:color/transparent"/>
+        app:layout_constraintTop_toTopOf="parent"/>
+
+<!--    <fr.castorflex.android.circularprogressbar.CircularProgressBar-->
+<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:indeterminate="true"-->
+<!--        app:cpb_color="#FFee44"-->
+<!--        app:cpb_rotation_speed="1.0"-->
+<!--        app:cpb_sweep_speed="1.0"-->
+<!--        app:cpb_stroke_width="4dp"-->
+<!--        app:cpb_min_sweep_angle="10"-->
+<!--        app:cpb_max_sweep_angle="300"-->
+<!--        android:background="@android:color/transparent"/>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

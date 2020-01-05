@@ -12,11 +12,14 @@ import com.example.nguyenhongphuc98.checkmein.Data.network.DataManager;
 import com.example.nguyenhongphuc98.checkmein.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class QuestionListParticipantViewPresenter implements QuestionListParticipantViewContract.QuestionListParticipantViewPresenter {
     QuestionListParticipantViewFragment view;
     ArrayList<Question> questionsList;
+    List<ParticipantAnswerByQuestion> answerByQuestionList;
+    com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter qaCustomAdapter;
     long startTime;
     long endTime;
 
@@ -27,18 +30,69 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
 
     public void OnUserAnswerLoaded(){
 
+        //Trước hết phải xem người dùng có từng trả lời câu hỏi này chưa.
+        //Nếu chưa thì ta không xét tiếp bên dưới (tức là bỏ qua công đoạn load câu trả lời của người dùng).
+        if (answerByQuestionList == null || answerByQuestionList.size() == 0){
+            view.loadingDialog.hideDialog();
+            return;
+        }
+
+        //Gán vào những câu hỏi câu trả lời của người dùng.
+
+        //Đầu tiên ta duyệt qua các câu trả lời của người dùng để tạo thành 1 HashMap lấy thông tin cho nhanh.
+        //Mỗi câu hỏi sẽ có câu trả lời của người dùng.
+        //Ta sẽ tạo ra 1 hashmap chứa câu trả lời của người dùng.
+        HashMap<String, HashMap<String, Boolean>> userAnswerHashMap = new HashMap<>();
+
+        for (ParticipantAnswerByQuestion data : answerByQuestionList){
+            String questionKey = data.getQuestionKey();
+
+            List<String> answersKey = data.getAnswersKey();
+
+            //Nếu câu hỏi không có câu trả lời nào cả thì thôi khỏi thêm vào.
+            if (answersKey == null || answersKey.size() == 0)
+                continue;
+
+            HashMap<String, Boolean> answerVerification = new HashMap<>();
+
+            for (String aKey : answersKey){
+                answerVerification.put(aKey, true);
+            }
+            userAnswerHashMap.put(questionKey, answerVerification);
+        }
+
+        for (Question question : questionsList){
+            for (Answer answer : question.getmAnswers()){
+                //ContainsKey tức là người dùng có trả lời câu hỏi này.
+                if (userAnswerHashMap.containsKey(question.getId())){
+                    HashMap<String, Boolean> userAnswers = userAnswerHashMap.get(question.getId());
+                    //Nếu người dùng có chọn câu này thì ta chỉnh choosen = true cho câu trả lời này.
+                    if (userAnswers.containsKey(answer.getKey()) && userAnswers.get(answer.getKey())){
+                        answer.setIs_choosen(true);
+                    }
+                }
+            }
+        }
+        qaCustomAdapter.finishAnsweringAndShowCorrection();
+        view.loadingDialog.hideDialog();
     }
 
     @Override
     public void LoadQuestionList() {
+        view.loadingDialog.showDialog();
         questionsList = new ArrayList<>();
-        com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter qaCustomAdapter = new com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter(view.getActivity(), R.layout.custom_question_row_layout, questionsList, true);
+        qaCustomAdapter = new com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter(view.getActivity(), R.layout.custom_question_row_layout, questionsList, true);
         view.lv_question_list.setAdapter(qaCustomAdapter);
         DataManager.Instance().LoadQuestionWithoutAnswerHighlight(qaCustomAdapter, questionsList, DataCenter.EventID);
+
+        //Load câu trả lời trước đó của người dùng.
+        answerByQuestionList = new ArrayList<>();
+        DataManager.Instance().LoadUserAnswer(this, answerByQuestionList, DataCenter.UserID, DataCenter.EventID);
+
         view.acbFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                qaCustomAdapter.finishAnswering();
+                qaCustomAdapter.finishAnsweringAndShowCorrection();
                 ParticipantAnswerDetailsDAL userScore = calculateUserScore();
                 List<ParticipantAnswerByQuestion> userAnswer = getQuestionAnswerPair();
 

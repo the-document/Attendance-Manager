@@ -1209,9 +1209,9 @@ public class DataManager {
                 answerList.clear();
 
                 if (!dataSnapshot.exists()){
+                    presenter.OnUserAnswerLoaded();
                     return;
                 }
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     ParticipantAnswerByQuestion data = snapshot.getValue(ParticipantAnswerByQuestion.class);
                     answerList.add(data);

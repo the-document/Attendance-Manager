@@ -2,6 +2,8 @@ package com.example.nguyenhongphuc98.checkmein.OthersActivity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Window;
 import android.widget.ImageView;
 
@@ -28,6 +30,9 @@ public class LoadingDialog {
 
         //Cài đặt loading view.
         dialog.setContentView(R.layout.custom_loading_layout);
+
+        //Cài đặt tuỳ chọn transparent.
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         //Hiển thị dialog lên sau khi cấu hình mọi thứ xong.
         dialog.show();

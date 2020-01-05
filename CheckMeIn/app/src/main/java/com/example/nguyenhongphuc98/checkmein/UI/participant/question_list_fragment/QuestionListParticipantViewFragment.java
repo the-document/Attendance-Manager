@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.nguyenhongphuc98.checkmein.Data.DataCenter;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
+import com.example.nguyenhongphuc98.checkmein.OthersActivity.LoadingDialog;
 import com.example.nguyenhongphuc98.checkmein.R;
 import com.example.nguyenhongphuc98.checkmein.Adapter.QuestionListCustomAdapter;
 
@@ -22,7 +23,7 @@ public class QuestionListParticipantViewFragment extends Fragment {
     ListView lv_question_list;
     AppCompatButton acbFinish;
     QuestionListParticipantViewContract.QuestionListParticipantViewPresenter presenter;
-
+    LoadingDialog loadingDialog;
 
     @Nullable
     @Override
@@ -30,6 +31,7 @@ public class QuestionListParticipantViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_of_question_participant_view, container, false);
         lv_question_list = (ListView)view.findViewById(R.id.lv_question_list_participant_view);
         acbFinish = (AppCompatButton)view.findViewById(R.id.fab_finish);
+        loadingDialog = new LoadingDialog(this.getActivity());
         //Tạo mới presenter luôn.
         presenter = new QuestionListParticipantViewPresenter(this);
 

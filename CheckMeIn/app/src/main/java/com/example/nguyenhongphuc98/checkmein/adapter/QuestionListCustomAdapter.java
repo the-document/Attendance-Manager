@@ -52,9 +52,35 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
         notifyDataSetChanged();
     }
 
+    public void finishAnsweringAndShowCorrection(){
+        lockAllAnswersSelection();
+        checkAnswerCorrectness();
+        this.showUserResult = true;
+    }
+
     public void finishAnswering(){
         lockAllAnswersSelection();
-        this.showUserResult = true;
+        checkAnswerCorrectness();
+        this.showUserResult = false;
+    }
+
+    private void checkAnswerCorrectness(){
+        for (Question question : questionArray){
+            question.setQuestionAnsweredCorrectly(true);
+            for (Answer a : question.getmAnswers()){
+                //Đúng mà không chọn.
+                if (a.isIs_correct() && !a.isIs_choosen()){
+                    question.setQuestionAnsweredCorrectly(false);
+                    break;
+                }
+                //Không đúng mà chọn.
+                else if (!a.isIs_correct() && a.isIs_choosen()){
+                    question.setQuestionAnsweredCorrectly(false);
+                    break;
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     private void lockAllAnswersSelection(){
@@ -212,19 +238,6 @@ public class QuestionListCustomAdapter extends ArrayAdapter<Question> {
                     @Override
                     public void onClick(View v) {
                         answer.setIs_choosen(!answer.isIs_choosen());
-                        answer.getQuestionObject().setQuestionAnsweredCorrectly(true);
-                        for (Answer a : answer.getQuestionObject().getmAnswers()){
-                            //Đúng mà không chọn.
-                            if (a.isIs_correct() && !a.isIs_choosen()){
-                                answer.getQuestionObject().setQuestionAnsweredCorrectly(false);
-                                break;
-                            }
-                            //Không đúng mà chọn.
-                            else if (!a.isIs_correct() && a.isIs_choosen()){
-                                answer.getQuestionObject().setQuestionAnsweredCorrectly(false);
-                                break;
-                            }
-                        }
                         notifyDataSetChanged();
                     }
                 });

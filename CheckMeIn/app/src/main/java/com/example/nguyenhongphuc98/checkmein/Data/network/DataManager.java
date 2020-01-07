@@ -22,6 +22,7 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Attendance;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Collaborator;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Event;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Organization;
+import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerByQuestion;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerDetails;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.ParticipantAnswerDetailsDAL;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Person;
@@ -34,6 +35,7 @@ import com.example.nguyenhongphuc98.checkmein.Data.db.model.Answer;
 import com.example.nguyenhongphuc98.checkmein.Data.db.model.Question;
 
 import com.example.nguyenhongphuc98.checkmein.UI.organ.organCallback;
+import com.example.nguyenhongphuc98.checkmein.UI.participant.question_list_fragment.QuestionListParticipantViewPresenter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -646,7 +648,8 @@ public class DataManager {
                             if(eventCallBack!=null){
 
                                 try {
-                                    Date eventDay= new SimpleDateFormat("dd/MM/yy").parse(o.getEvent_day());
+
+                                    Date eventDay= new SimpleDateFormat("dd/MM/yyyy").parse(o.getEvent_day());
                                     Date currentDay = new Date();
 
                                     if(currentDay.getDate()==eventDay.getDate()
@@ -673,7 +676,8 @@ public class DataManager {
                                         int curentTime = currentDay.getHours()*60 + currentDay.getMinutes();
                                         int endTime = endh*60 + endm;
 
-                                        if(beginTime <= curentTime && curentTime <=endTime) {
+//                                        if(beginTime <= curentTime && curentTime <=endTime) {
+                                        if(beginTime <= curentTime) {
                                             eventCallBack.OnLoadEventComplete(o);
                                             isSuccess = true;
                                             Log.e("DTM", "got event: " + o.getEvent_code());
@@ -1215,7 +1219,113 @@ public class DataManager {
         });
     }
 
-    public boolean SaveUserAnswerResult(ParticipantAnswerDetailsDAL result, String userID, String eventID){
+    public boolean LoadUserResult(QuestionListParticipantViewPresenter presenter, String userID, String eventID){
+        try {
+            final DatabaseReference attendance_Ref = FirebaseDatabase.getInstance().getReference("AnswerMultipleChoiceQ").child(eventID).child("m_user_results");
+            attendance_Ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    List<ParticipantAnswerDetailsDAL> answersDetail= new ArrayList<>();
+                    for (DataSnapshot answerSnapshot: dataSnapshot.getChildren()){
+                        ParticipantAnswerDetailsDAL a = answerSnapshot.getValue(ParticipantAnswerDetailsDAL.class);
+                        a.setUserID(answerSnapshot.getKey());
+                        answersDetail.add(a);
+                    }
+
+                    //sort and setup ranking
+                    Collections.sort(answersDetail);
+                    for (int i=0; i<answersDetail.size();i++) {
+                        ParticipantAnswerDetailsDAL e = answersDetail.get(i);
+                        String answerUserID = e.getUserID();
+                        //Chúng ta chỉ cần kết quả của thằng người dùng hiện tại mà thôi.
+                        if (!answerUserID.equals(userID))
+                            continue;
+
+                        ParticipantAnswerDetails result = new ParticipantAnswerDetails(e.getUser_name(),
+                                i+1,answersDetail.size(),(int)e.getNum_correct(),
+                                (int)e.getTotal_question(),((int)e.getTime_elapsed()) / 1000);
+
+                        presenter.OnUserResultLoaded(result);
+                        break;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+        catch (Exception e){
+            Log.e("DTM","err get answers list: "+e.getMessage());
+            return false;
+        }
+        return false;
+    }
+
+    public boolean LoadUserAnswer(QuestionListParticipantViewPresenter presenter, List<ParticipantAnswerByQuestion> answerList, String userID, String eventID){
+        final DatabaseReference questions_Ref = FirebaseDatabase.getInstance().getReference("AnswerMultipleChoiceQ").child(eventID).child("m_user_answers").child(userID);
+        Query query = questions_Ref;
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Đầu tiên chúng ta cần xoá bỏ đi dữ liệu cũ để không bị trùng lặp.
+                answerList.clear();
+
+                if (!dataSnapshot.exists()){
+                    presenter.OnUserAnswerLoaded();
+                    return;
+                }
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    ParticipantAnswerByQuestion data = snapshot.getValue(ParticipantAnswerByQuestion.class);
+                    answerList.add(data);
+                }
+
+                presenter.OnUserAnswerLoaded();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return false;
+    }
+
+    public boolean SaveUserAnswer(QuestionListParticipantViewPresenter presenter, List<ParticipantAnswerByQuestion> answerList, String userID, String eventID){
+        try{
+            //Xem thử key có tồn tại chưa.
+            //Nếu có thì là update, nếu chưa thì phải tạo mới.
+            String key = userID;
+
+            Task task = mDatabase.child("AnswerMultipleChoiceQ").child(eventID).child("m_user_answers").child(key).setValue(answerList);
+
+            task.addOnSuccessListener(new OnSuccessListener() {
+                @Override
+                public void onSuccess(Object o) {
+                    Log.d("DataMan/SaveQuesSuccess", "Save success");
+                    //Lưu câu hỏi thành công thì tiếp tục lưu cả câu trả lời luôn.
+                    presenter.OnUserAnswerSaved();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("DataMan/SaveQuesFail", "Save failed : " + e.toString());
+                }
+            });
+            return true;
+        }catch (Exception e){
+            Log.d("DataMan/SaveQuestion", e.toString());
+        }
+        return false;
+    }
+
+    public boolean LoadUserAnswerResult(){
+        return false;
+    }
+
+    public boolean SaveUserAnswerResult(QuestionListParticipantViewPresenter presenter, ParticipantAnswerDetailsDAL result, String userID, String eventID){
         try{
             //Xem thử key có tồn tại chưa.
             //Nếu có thì là update, nếu chưa thì phải tạo mới.
@@ -1228,7 +1338,7 @@ public class DataManager {
                 public void onSuccess(Object o) {
                     Log.d("DataMan/SaveQuesSuccess", "Save success");
                     //Lưu câu hỏi thành công thì tiếp tục lưu cả câu trả lời luôn.
-
+                    presenter.OnUserResultSaved();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -1344,7 +1454,7 @@ public class DataManager {
                         ParticipantAnswerDetailsDAL e = answersDetail.get(i);
                         answers.add(new ParticipantAnswerDetails(e.getUser_name(),
                                                                 i+1,answersDetail.size(),(int)e.getNum_correct(),
-                                (int)e.getTotal_question(),(int)e.getTime_elapsed()));
+                                (int)e.getTotal_question(),((int)e.getTime_elapsed()) / 1000));
                     }
                     adapter.notifyDataSetChanged();
                 }

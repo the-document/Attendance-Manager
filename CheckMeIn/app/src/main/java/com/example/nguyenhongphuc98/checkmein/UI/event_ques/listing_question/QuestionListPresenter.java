@@ -45,7 +45,7 @@ public class QuestionListPresenter implements QuestionListContract.QuestionListP
     @SuppressLint("RestrictedAPI")
     @Override
     public void onAddNewQuestionClicked(){
-        if (isEventFinished()){
+        if (isEventStarted()){
             final MaterialDialog mdialog = new MaterialDialog.Builder(view.getActivity())
                     .setTitle("Event đã bắt đầu")
                     .setMessage("Không được sửa Event đã bắt đầu !")
@@ -105,6 +105,13 @@ public class QuestionListPresenter implements QuestionListContract.QuestionListP
         return false;
     }
 
+    private boolean isEventStarted(){
+        long currentEpoch = Calendar.getInstance().getTime().getTime();
+        if (currentEpoch - epochEventDate > eventStart)
+            return true;
+        return false;
+    }
+
     @SuppressLint("RestrictedApi")
     public void questionClicked(int position){
         if (questionsList == null)
@@ -112,7 +119,7 @@ public class QuestionListPresenter implements QuestionListContract.QuestionListP
 
         //Kiểm tra xem Event đã bắt đầu chưa.
         //Nếu đã bắt đầu thì không cho chỉnh sửa.
-        if (isEventFinished()){
+        if (isEventStarted()){
             final MaterialDialog mdialog = new MaterialDialog.Builder(view.getActivity())
                     .setTitle("Event đã bắt đầu")
                     .setMessage("Không được sửa Event đã bắt đầu !")

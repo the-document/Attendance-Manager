@@ -29,8 +29,8 @@ public class QuestionManagementFragment extends Fragment {
         TabLayout tabLayout = view.findViewById(R.id.tab_layout_question_manager);
         tabLayout.setupWithViewPager(viewPager);
 
-        TextView txtViewEventName = view.findViewById(R.id.activity_question_manager_txtView_event_name);
-        TextView txtViewEventCode = view.findViewById(R.id.activity_question_manager_txtView_event_code);
+        TextView txtViewEventName = view.findViewById(R.id.activity_question_manager_participant_view_txtView_event_name);
+        TextView txtViewEventCode = view.findViewById(R.id.activity_question_manager_participant_view_txtView_event_code);
 
         txtViewEventName.setText(DataCenter.Event.getEvent_name());
         txtViewEventCode.setText(DataCenter.Event.getEvent_code());

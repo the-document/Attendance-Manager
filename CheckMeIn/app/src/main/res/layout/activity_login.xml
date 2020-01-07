@@ -29,7 +29,7 @@
                 android:id="@+id/login_edtUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Username (MSSV)"
+                android:hint="Username (Email)"
                 android:inputType="textEmailAddress"
                 android:text="nguyenhongphuc98@gmail.com"/>
         </com.google.android.material.textfield.TextInputLayout>

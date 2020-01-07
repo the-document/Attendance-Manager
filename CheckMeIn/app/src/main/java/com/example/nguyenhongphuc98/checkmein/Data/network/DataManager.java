@@ -1162,7 +1162,7 @@ public class DataManager {
         final DatabaseReference questions_Ref = FirebaseDatabase.getInstance().getReference("MultipleChoiceQuestion");
         Query query = questions_Ref.orderByChild("event").equalTo(eventID);
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //Đầu tiên chúng ta cần xoá bỏ đi dữ liệu cũ để không bị trùng lặp.
@@ -1193,7 +1193,7 @@ public class DataManager {
         final DatabaseReference questions_Ref = FirebaseDatabase.getInstance().getReference("MultipleChoiceQuestion");
         Query query = questions_Ref.orderByChild("event").equalTo(eventID);
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //Đầu tiên chúng ta cần xoá bỏ đi dữ liệu cũ để không bị trùng lặp.

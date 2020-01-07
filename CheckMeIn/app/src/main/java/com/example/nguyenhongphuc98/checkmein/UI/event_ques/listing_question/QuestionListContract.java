@@ -10,5 +10,6 @@ public interface QuestionListContract {
         void setView(QuestionListFragment view);
         void loadQuestions();
         void questionClicked(int position);
+        void onAddNewQuestionClicked();
     }
 }

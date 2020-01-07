@@ -68,9 +68,7 @@ public class QuestionListFragment extends Fragment implements QuestionListContra
         fab_add_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getChildFragmentManager();
-                NewQuestionDialogFragment questionDialogFragment = NewQuestionDialogFragment.newInstance();
-                questionDialogFragment.show(fm, "fragment_add_question_and_answers");
+                presenter.onAddNewQuestionClicked();
             }
         });
         lv_question_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

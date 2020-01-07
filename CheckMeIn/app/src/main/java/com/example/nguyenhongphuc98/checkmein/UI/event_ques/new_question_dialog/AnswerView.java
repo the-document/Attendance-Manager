@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.nguyenhongphuc98.checkmein.R;
@@ -16,7 +17,7 @@ public class AnswerView extends LinearLayout {
 
     Context mContext;
     EditText edtAnswerText;
-    Button btnRemoveAnswer;
+    ImageView btnRemoveAnswer;
     CheckBox checkBoxCorrectAnswer;
 
     Integer answerIndex;
@@ -54,7 +55,7 @@ public class AnswerView extends LinearLayout {
     private void AssignValues()
     {
         edtAnswerText = (EditText)findViewById(R.id.view_group_answer_view_edt_answer_text);
-        btnRemoveAnswer = (Button)findViewById(R.id.view_group_answer_view_button_remove_answer);
+        btnRemoveAnswer = (ImageView)findViewById(R.id.view_group_answer_view_button_remove_answer);
         checkBoxCorrectAnswer = (CheckBox)findViewById(R.id.view_group_answer_view_checkbox_correct_answer);
     }
 

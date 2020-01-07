@@ -40,13 +40,13 @@ public class QuestionManagerViewPagerAdapter extends FragmentPagerAdapter {
         switch(position)
         {
             case 0:
-                tabTitle = "Danh sách";
+                tabTitle = " Danh sách ";
                 break;
             case 1:
                 tabTitle = "Trắc nghiệm";
                 break;
             case 2:
-                tabTitle = "Câu trả lời";
+                tabTitle = " Câu trả lời ";
                 break;
         }
         return tabTitle;

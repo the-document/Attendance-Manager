@@ -250,25 +250,49 @@ public class QuestionListParticipantViewPresenter implements QuestionListPartici
         }
         else{
             view.acbFinish.setText("HOÀN THÀNH");
-            view.acbFinish.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    view.loadingDialog.showDialog();
-                    view.secondLoadingDialog.showDialog();
-
-                    if (isEventFinished()){
-                        qaCustomAdapter.finishAnsweringAndShowCorrection();
-                    }else{
-                        qaCustomAdapter.finishAnswering();
+            //Nếu mà người dùng chưa trả lời mà Event đã kết thúc thì không cho trả lời nữa.
+            if (!answerSubmitted && isEventFinished()){
+                final MaterialDialog mdialog = new MaterialDialog.Builder(view.getActivity())
+                        .setTitle("Event đã kết thúc")
+                        .setMessage("Event đã kết thúc rồi ! \n Hẹn gặp lại bạn ở Event tiếp theo nhé !")
+                        .setCancelable(true)
+                        .setAnimation(R.raw.sleeping_rabit)
+                        .setPositiveButton("Đóng", R.drawable.ic_done_black_24dp, new MaterialDialog.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .build();
+                view.acbFinish.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mdialog.show();
                     }
+                });
+                mdialog.show();
+            }
+            else{
+                view.acbFinish.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        view.loadingDialog.showDialog();
+                        view.secondLoadingDialog.showDialog();
 
-                    ParticipantAnswerDetailsDAL userScore = calculateUserScore();
-                    List<ParticipantAnswerByQuestion> userAnswer = getQuestionAnswerPair();
+                        if (isEventFinished()){
+                            qaCustomAdapter.finishAnsweringAndShowCorrection();
+                        }else{
+                            qaCustomAdapter.finishAnswering();
+                        }
 
-                    DataManager.Instance().SaveUserAnswer(QuestionListParticipantViewPresenter.this, userAnswer, DataCenter.UserID, DataCenter.EventID);
-                    DataManager.Instance().SaveUserAnswerResult(QuestionListParticipantViewPresenter.this,userScore, DataCenter.UserID,DataCenter.EventID);
-                }
-            });
+                        ParticipantAnswerDetailsDAL userScore = calculateUserScore();
+                        List<ParticipantAnswerByQuestion> userAnswer = getQuestionAnswerPair();
+
+                        DataManager.Instance().SaveUserAnswer(QuestionListParticipantViewPresenter.this, userAnswer, DataCenter.UserID, DataCenter.EventID);
+                        DataManager.Instance().SaveUserAnswerResult(QuestionListParticipantViewPresenter.this,userScore, DataCenter.UserID,DataCenter.EventID);
+                    }
+                });
+            }
         }
         isAnswerSubmitted = answerSubmitted;
     }

@@ -161,12 +161,13 @@
 
             <Button
                 android:id="@+id/button"
-                android:layout_width="88dp"
+                android:layout_width="100dp"
                 android:layout_height="49dp"
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="7dp"
                 android:background="@drawable/custom_checkin_card"
+                android:lines="1"
                 android:text="Mở rộng"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -51,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
 
         loginPresenter = new LoginPresenter(this);
 
+        getSupportActionBar().hide();
 
         Intent intent = new Intent(this, MainActivity.class);
 

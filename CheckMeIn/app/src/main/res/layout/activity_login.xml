@@ -6,8 +6,9 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+000
         <TextView
             android:id="@+id/textView_Title"
             android:layout_width="match_parent"
@@ -15,8 +16,17 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="CheckMeIn"
+            android:textColor="@color/black"
             android:textAlignment="center"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:layout_marginBottom="16dp"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/bhtcnpm"
+            android:layout_gravity="center_horizontal"
+            android:background="@android:color/transparent"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
